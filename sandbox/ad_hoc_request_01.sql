@@ -473,7 +473,8 @@ SELECT ticket_id,
                     END
            END) as ticket_form_type,
        MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'requester_id' THEN channel END) as ticket_channel,
-       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'subject' THEN events__value END) as ticket_subject
+       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'subject' THEN events__value END) as ticket_subject,
+       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'type' THEN events__value END) as ticket_type,
 FROM data_bronze_zendesk_prod.zendesk_audit
     JOIN tickets USING(ticket_id)
 WHERE 1=1
