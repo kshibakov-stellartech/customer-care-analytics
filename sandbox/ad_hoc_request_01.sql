@@ -472,7 +472,8 @@ SELECT ticket_id,
                     ELSE null
                     END
            END) as ticket_form_type,
-       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'requester_id' THEN channel END) as ticket_channel
+       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'requester_id' THEN channel END) as ticket_channel,
+       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'subject' THEN events__value END) as ticket_subject
 FROM data_bronze_zendesk_prod.zendesk_audit
     JOIN tickets USING(ticket_id)
 WHERE 1=1
@@ -481,17 +482,29 @@ GROUP BY 1
     tickets_msgs AS (
 SELECT ticket_id,
        za.created_at,
-       ta.requester_id,
-       za.events__author_id,
+       ta.user_id,
+       ta.requester_id as zendesk_requester_id,
+       ta.ticket_brand,
+       ta.ticket_channel,
+       ta.ticket_form_type,
+       ticket_subject,
+       CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) as author_id,
        CASE WHEN CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) =  CAST(CAST(ta.requester_id AS DOUBLE) AS BIGINT) THEN 'customer' ELSE 'agent' END AS sender_type,
        CASE WHEN events__public = true THEN 'public message' ELSE 'internal note' END as message_type,
-       events__body as message_text
+       events__body as message_text,
+       row_number() over(partition by ticket_id order by created_at) as message_number
 FROM data_bronze_zendesk_prod.zendesk_audit za
     JOIN tickets_attr ta USING(ticket_id)
 WHERE events__type = 'Comment'
-    )
+),
+    result_data AS (
+SELECT *
+FROM user_ids_list
+    LEFT JOIN tickets_msgs USING(user_id)
+WHERE 1=1
+  --AND ticket_channel <> 'native_messaging'
+ORDER BY ticket_id, created_at
+)
 
 SELECT *
-FROM tickets_msgs
---WHERE ticket_id = 617149
-
+FROM result_data
