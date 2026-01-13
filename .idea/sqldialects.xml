@@ -6,8 +6,10 @@
     <file url="file://$PROJECT_DIR$/sandbox/ad_hoc_request_01.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/data_exploration.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/livechat_events.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/sandbox/ticket_info.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/ticket_log_info.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/ticket_states.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/user_attributes.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/zendesk_agents_info.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_audit.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_events.sql" dialect="GenericSQL" />
     <file url="PROJECT" dialect="GenericSQL" />

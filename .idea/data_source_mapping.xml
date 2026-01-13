@@ -6,8 +6,10 @@
     <file url="file://$PROJECT_DIR$/sandbox/ad_hoc_request_01.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/data_exploration.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/livechat_events.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
-    <file url="file://$PROJECT_DIR$/sandbox/ticket_info.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/ticket_log_info.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/ticket_states.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/user_attributes.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/zendesk_agents_info.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_audit.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_events.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />

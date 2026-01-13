@@ -434,6 +434,41 @@ ROW('b7e699c1-a505-4204-8232-2b0a842fd16f'),
 ROW('689b549b-96f8-484c-8c2a-8d2204228363'),
 ROW('69e435a1-df1b-4851-9575-1630a1467696')
 ),
+    agents_dict AS (
+    SELECT *
+    FROM (
+        VALUES
+            (41972533108625, 'Konstantin Shibakov', 'Admins'),
+            (40215157462161, 'QA', 'Admins'),
+            (39272670052113, 'Sam Bondar', 'Moon Rangers'),
+            (38754864964753, 'Brian Tepliuk', 'Moon Rangers'),
+            (38694917174545, 'Mike Mkrtumyan', 'Moon Rangers'),
+            (38657563018769, 'Alice Sakharova', 'Moon Rangers'),
+            (38022764826129, 'Allie Kostukovich', 'Blanc'),
+            (38022759246737, 'Kate Rumiantseva', 'Moon Rangers'),
+            (37992873903889, 'Ann Dereka', 'Moon Rangers'),
+            (36064560830737, 'Mykyta', 'Admins'),
+            (35310711957393, 'Anette Monaselidze', 'Blanc'),
+            (35219779434897, 'Ilia Tregubov', 'Admins'),
+            (34224285677201, 'Yaroslav Kukharenko', 'Admins'),
+            (33602186941713, 'Jackie Si', 'Blanc'),
+            (33118701264017, 'Daria Saranchova', 'Blanc'),
+            (33118711659921, 'Katrina Novikova', 'Blanc'),
+            (31467436910865, 'Jenny', 'Moon Rangers'),
+            (30786139608081, 'Jade Kasper', 'Blanc'),
+            (30655366698001, 'Catherine Moroz', 'Blanc'),
+            (30648746936465, 'Alexander Petrov', 'Moon Rangers'),
+            (30160506886161, 'Alex Poponin', 'Blanc'),
+            (29737848444689, 'Daniel Vinokurov', 'Blanc'),
+            (26440502459665, 'Nikki', 'Admins'),
+            (26349132549521, 'Mia Petchenko', 'Moon Rangers'),
+            (26222438547857, 'Maksym Zvieriev', 'Blanc')
+    ) AS t (
+        agent_id,
+        agent_name,
+        agent_group
+    )
+),
     tickets AS (
 SELECT DISTINCT ticket_id
 FROM data_bronze_zendesk_prod.zendesk_audit za
@@ -474,7 +509,7 @@ SELECT ticket_id,
            END) as ticket_form_type,
        MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'requester_id' THEN channel END) as ticket_channel,
        MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'subject' THEN events__value END) as ticket_subject,
-       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'type' THEN events__value END) as ticket_type,
+       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'type' THEN events__value END) as ticket_type
 FROM data_bronze_zendesk_prod.zendesk_audit
     JOIN tickets USING(ticket_id)
 WHERE 1=1
@@ -487,15 +522,19 @@ SELECT ticket_id,
        ta.requester_id as zendesk_requester_id,
        ta.ticket_brand,
        ta.ticket_channel,
+       /*ta.ticket_type, - always is null*/
        ta.ticket_form_type,
        ticket_subject,
        CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) as author_id,
+       agents_dict.agent_name,
+       agents_dict.agent_group,
        CASE WHEN CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) =  CAST(CAST(ta.requester_id AS DOUBLE) AS BIGINT) THEN 'customer' ELSE 'agent' END AS sender_type,
        CASE WHEN events__public = true THEN 'public message' ELSE 'internal note' END as message_type,
        events__body as message_text,
        row_number() over(partition by ticket_id order by created_at) as message_number
 FROM data_bronze_zendesk_prod.zendesk_audit za
     JOIN tickets_attr ta USING(ticket_id)
+    LEFT JOIN agents_dict ON CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) = agents_dict.agent_id
 WHERE events__type = 'Comment'
 ),
     result_data AS (

@@ -217,7 +217,7 @@ duplicates as (
     end as duplicate
   from full_union_window
   where 1=1
-    and date(subscription_created_at) between date('2025-12-29') and date('2026-01-04')
+    and date(subscription_created_at) between date('2026-01-05') and date('2026-01-11')
     and active_sub_ends_at is not null
 )
 select
