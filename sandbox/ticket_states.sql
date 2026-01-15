@@ -164,10 +164,14 @@ SELECT
            FILTER (WHERE events__field_name = 'custom_status_id' AND events__value = '26222456206737'), 1
        ) = 26440502459665 THEN 1 ELSE 0 END) auto_resolved,
        MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%tech_team%' THEN 1 ELSE 0 END) as tech_team_involved,
-       MAX(DATE_DIFF('second', ticket_created_at, CASE WHEN events__field_name = 'custom_status_id' AND events__value = '26222456206737' THEN created_at END)) as resolution_time,
+       MAX(DATE_DIFF('second', ticket_created_at, CASE WHEN events__field_name = 'custom_status_id' AND events__value = '26222456206737' THEN created_at
+                                                       WHEN events__type = 'Comment' AND author_id <> requester_id THEN created_at
+                                                  END
+                    )
+       ) as resolution_time,
        --handling_time
        --lost_time
-       --sla_breache
+       --sla_breach
        MAX(CASE WHEN events__type = 'SurveyOffered' THEN 1  ELSE 0 END) as survey_offered,
        MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted,
        --survey_rating left join csat
@@ -178,6 +182,7 @@ SELECT
        --first_reply_time_total
        --second_reply_time_total
        --avg_concecutive_reply_time_total
+       --ticket_assignee_type
 
 -------------------------------------------------
 /* extra details */
