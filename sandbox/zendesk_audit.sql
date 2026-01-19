@@ -1,5 +1,5 @@
 WITH ticket_info AS (
-SELECT */*ticket_id,
+SELECT ticket_id,
        created_at,
        events__id,
        channel,
@@ -13,9 +13,9 @@ SELECT */*ticket_id,
        events__public,
        events__channel,
        events__subject,
-       events__from_title*/
+       events__from_title
 FROM data_bronze_zendesk_prod.zendesk_audit
-WHERE ticket_id = 633212
+WHERE ticket_id = 633221--694785
 /*  AND events__type IN (
                         'Comment'
                       )*/
