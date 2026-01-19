@@ -79,6 +79,10 @@ WHERE 1=1
 SELECT ticket_id,
        created_at,
        log_type,
+       assign_event_id as event_id,
+       msg_author_id as author_id,
+       COALESCE(response_duration_sec, assign_duration_sec) as duration_sec,
+       msg_text,
        MAX(customer_msg_rn) OVER (PARTITION BY ticket_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
        AS replied_to_customer_msg_rn
 FROM
