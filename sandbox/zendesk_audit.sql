@@ -15,7 +15,7 @@ SELECT ticket_id,
        events__subject,
        events__from_title
 FROM data_bronze_zendesk_prod.zendesk_audit
-WHERE ticket_id = 633221--694785
+WHERE ticket_id = 707462--694785
 /*  AND events__type IN (
                         'Comment'
                       )*/

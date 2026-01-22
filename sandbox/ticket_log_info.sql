@@ -106,7 +106,7 @@ FROM all_msg
 WHERE 1=1
   AND log_type = 'requester'
 UNION ALL
-SELECT 'agent' as log_type,
+SELECT CASE WHEN b.msg_author_id is null THEN 'agent_to_check' ELSE 'agent' END as log_type,
        agent_assign.ticket_id,
        COALESCE(b.assign_created_at, agent_assign.created_at) as created_at,
        agent_assign.created_at as assign_created_at,
