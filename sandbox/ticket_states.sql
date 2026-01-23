@@ -1,6 +1,23 @@
-
 --ticket_assignee_type можно считать в репорте
 WITH
+    tickets_to_exclude AS (
+SELECT ticket_id as ticket_to_exclude_id, MIN(CAST(created_at AS DATE)) as created_date
+FROM data_bronze_zendesk_prod.zendesk_audit
+WHERE 1=1
+    AND created_at >= DATE '2026-01-01'
+    AND events__field_name = 'tags'
+    AND (
+       events__value LIKE '%cancellation_notification%'
+    OR events__value LIKE '%closed_by_merge%'
+    OR events__value LIKE '%voice_abandoned_in_voicemail%'
+    OR events__value LIKE '%appfollow%'
+    OR events__value LIKE '%spam%'
+    OR events__value LIKE '%ai_cb_triggered%'
+    OR events__value LIKE '%chargeback_precom%'
+    OR events__value LIKE '%chargeback_postcom%'
+    )
+GROUP BY 1
+),
     base_audit AS (
 SELECT
     ticket_id,
@@ -17,9 +34,11 @@ SELECT
     events__body,
     events__public
 FROM data_bronze_zendesk_prod.zendesk_audit
+    LEFT JOIN tickets_to_exclude ON tickets_to_exclude.ticket_to_exclude_id = data_bronze_zendesk_prod.zendesk_audit.ticket_id
 WHERE 1=1
   --AND ticket_id = 633212
   AND created_at >= DATE '2026-01-01'
+  AND tickets_to_exclude.ticket_to_exclude_id IS NULL
 ),
     tickets AS (
 SELECT
@@ -365,18 +384,56 @@ FROM full_log ta
 GROUP BY 1
 )
 
-SELECT ta.*,
-       csat.rating as survey_rating,
-       tla.*,
-       ad.agent_name as assigned_to_name,
-       ad.agent_group as assigned_to_group,
-       ad2.agent_name as resolved_by_name,
-       ad2.agent_group as resolved_by_group,
-       ad3.agent_name as frt_agent_name,
-       ad3.agent_group as frt_agent_group,
-       ad4.agent_name as srt_agent_name,
-       ad4.agent_group as srt_agent_group,
-       tech_team.tech_team_duration_sec
+SELECT ta.ticket_id,
+ticket_created_at,
+requester_id,
+user_id,
+ticket_brand,
+ticket_form_type,
+ticket_channel,
+ticket_subject,
+status,
+request_type,
+subtype,
+assigned_to,
+ad.agent_name as assigned_to_name,
+ad.agent_group as assigned_to_group,
+resolved_by,
+ad2.agent_name as resolved_by_name,
+ad2.agent_group as resolved_by_group,
+assignees_number,
+replies_number,
+auto_involved,
+auto_resolved,
+tech_team_involved,
+tech_team.tech_team_duration_sec,
+tla.resolution_time,
+survey_offered,
+survey_submitted,
+csat.rating as survey_rating,
+handling_time,
+lost_time,
+avg_reply_time,
+first_reply_time,
+frt_agent,
+ad3.agent_name as frt_agent_name,
+ad3.agent_group as frt_agent_group,
+second_reply_time,
+srt_agent,
+ad4.agent_name as srt_agent_name,
+ad4.agent_group as srt_agent_group,
+concecutive_reply_time,
+sla_total_resolution,
+sla_first_reply,
+sla_second_reply,
+avg_reply_time_auto,
+first_reply_time_auto,
+second_reply_time_auto,
+concecutive_reply_time_auto,
+avg_reply_time_person,
+first_reply_time_person,
+second_reply_time_person,
+concecutive_reply_time_person
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
     LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
@@ -385,10 +442,4 @@ FROM tickets_attr ta
     LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
     LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
     LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
-
-/*
-assigned_to
-resolved_by
-frt_agent
-srt_agent
-*/
+;
