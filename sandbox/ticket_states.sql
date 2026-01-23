@@ -18,8 +18,8 @@ SELECT
     events__public
 FROM data_bronze_zendesk_prod.zendesk_audit
 WHERE 1=1
-  AND ticket_id = 633212
-  --AND created_at >= DATE '2026-01-01'
+  --AND ticket_id = 633212
+  AND created_at >= DATE '2026-01-01'
 ),
     tickets AS (
 SELECT
@@ -62,7 +62,10 @@ GROUP BY ticket_id
             (29737848444689, 'Daniel Vinokurov', 'Blanc'),
             (26440502459665, 'Nikki', 'Automation'),
             (26349132549521, 'Mia Petchenko', 'Moon Rangers'),
-            (26222438547857, 'Maksym Zvieriev', 'Blanc')
+            (26222438547857, 'Maksym Zvieriev', 'Blanc'),
+
+            (42676049623057, 'Sophie Palamarchuk', 'Moon Rangers'),
+            (42676111579153, 'Michael Brodovskyi', 'Moon Rangers')
     ) AS t (
         agent_id,
         agent_name,
@@ -364,9 +367,28 @@ GROUP BY 1
 
 SELECT ta.*,
        csat.rating as survey_rating,
-       tla.*
+       tla.*,
+       ad.agent_name as assigned_to_name,
+       ad.agent_group as assigned_to_group,
+       ad2.agent_name as resolved_by_name,
+       ad2.agent_group as resolved_by_group,
+       ad3.agent_name as frt_agent_name,
+       ad3.agent_group as frt_agent_group,
+       ad4.agent_name as srt_agent_name,
+       ad4.agent_group as srt_agent_group,
+       tech_team.tech_team_duration_sec
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
     LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
+    LEFT JOIN tech_team ON ta.ticket_id = tech_team.ticket_id
+    LEFT JOIN agents_dict ad  ON CAST(ta.assigned_to AS BIGINT) = ad.agent_id
+    LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
+    LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
+    LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
 
-       --survey_rating left join csat,
+/*
+assigned_to
+resolved_by
+frt_agent
+srt_agent
+*/
