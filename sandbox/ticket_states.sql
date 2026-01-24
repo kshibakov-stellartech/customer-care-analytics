@@ -18,40 +18,38 @@ WHERE 1=1
     )
 GROUP BY 1
 ),
-    base_audit AS (
-SELECT
-    ticket_id,
-    channel,
-    date_add('hour', 2, created_at) as created_at,
-    date_trunc('minute', date_add('hour', 2, created_at)) as created_at_truncated,
-    CAST(CAST(author_id AS DOUBLE) AS BIGINT) AS author_id,
-    CAST(CAST(events__author_id AS DOUBLE) AS BIGINT) AS event_author_id,
-    events__id,
-    events__type,
-    events__field_name,
-    events__value,
-    events__previous_value,
-    events__body,
-    events__public
-FROM data_bronze_zendesk_prod.zendesk_audit
-    LEFT JOIN tickets_to_exclude ON tickets_to_exclude.ticket_to_exclude_id = data_bronze_zendesk_prod.zendesk_audit.ticket_id
-WHERE 1=1
-  --AND ticket_id = 633212
-  AND created_at >= DATE '2026-01-01'
-  AND tickets_to_exclude.ticket_to_exclude_id IS NULL
-),
     tickets AS (
 SELECT
     ticket_id,
     MIN(created_at) AS ticket_created_at,
     CAST(MAX(events__value) AS BIGINT) AS requester_id
-/*
-тут считаем сразу все остальные аттрибуты
-*/
-FROM base_audit
+FROM data_bronze_zendesk_prod.zendesk_audit
 WHERE events__type = 'Create'
   AND events__field_name = 'requester_id'
 GROUP BY ticket_id
+HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-12'
+   AND MIN(CAST(created_at AS DATE)) < DATE '2026-01-26'
+),
+    base_audit AS (
+SELECT
+    za.ticket_id,
+    za.channel,
+    date_add('hour', 2, za.created_at) as created_at,
+    date_trunc('minute', date_add('hour', 2, za.created_at)) as created_at_truncated,
+    CAST(CAST(za.author_id AS DOUBLE) AS BIGINT) AS author_id,
+    CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) AS event_author_id,
+    za.events__id,
+    za.events__type,
+    za.events__field_name,
+    za.events__value,
+    za.events__previous_value,
+    za.events__body,
+    za.events__public
+FROM data_bronze_zendesk_prod.zendesk_audit za
+    JOIN tickets ON tickets.ticket_id = za.ticket_id
+    LEFT JOIN tickets_to_exclude ON tickets_to_exclude.ticket_to_exclude_id = za.ticket_id
+WHERE 1=1
+  AND tickets_to_exclude.ticket_to_exclude_id IS NULL
 ),
     agents_dict AS (
     SELECT *
@@ -304,6 +302,7 @@ WHERE 1=1
   AND b.log_type <> 'requester'
 ) raw_log
 ),
+
   tech_team AS (
   --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
@@ -379,67 +378,76 @@ SELECT ticket_id,
            ARRAY_AGG(duration_sec ORDER BY created_at)
            FILTER (WHERE log_type = 'agent' AND msg_rn = 2 AND author_id <> 26440502459665), 1
        ) as second_reply_time_person,
-       AVG(CASE WHEN log_type = 'agent' AND msg_rn > 1  AND author_id <> 26440502459665 THEN duration_sec END) as concecutive_reply_time_person
+       AVG(CASE WHEN log_type = 'agent' AND msg_rn > 1  AND author_id <> 26440502459665 THEN duration_sec END) as concecutive_reply_time_person,
+       MAX(msg_rn) as msg_from_customer_count
 FROM full_log ta
 GROUP BY 1
-)
-
-SELECT ta.ticket_id,
-ticket_created_at,
-requester_id,
-user_id,
-ticket_brand,
-ticket_form_type,
-ticket_channel,
-ticket_subject,
-status,
-request_type,
-subtype,
-assigned_to,
-ad.agent_name as assigned_to_name,
-ad.agent_group as assigned_to_group,
-resolved_by,
-ad2.agent_name as resolved_by_name,
-ad2.agent_group as resolved_by_group,
-assignees_number,
-replies_number,
-auto_involved,
-auto_resolved,
-tech_team_involved,
-tech_team.tech_team_duration_sec,
-tla.resolution_time,
-survey_offered,
-survey_submitted,
-csat.rating as survey_rating,
-handling_time,
-lost_time,
-avg_reply_time,
-first_reply_time,
-frt_agent,
-ad3.agent_name as frt_agent_name,
-ad3.agent_group as frt_agent_group,
-second_reply_time,
-srt_agent,
-ad4.agent_name as srt_agent_name,
-ad4.agent_group as srt_agent_group,
-concecutive_reply_time,
-sla_total_resolution,
-sla_first_reply,
-sla_second_reply,
-avg_reply_time_auto,
-first_reply_time_auto,
-second_reply_time_auto,
-concecutive_reply_time_auto,
-avg_reply_time_person,
-first_reply_time_person,
-second_reply_time_person,
-concecutive_reply_time_person
+),
+    report_data AS (
+SELECT
+    ta.ticket_id,
+    ticket_created_at,
+    requester_id,
+    user_id,
+    ticket_brand,
+    ticket_form_type,
+    ticket_channel,
+    ticket_subject,
+    status,
+    CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
+    request_type,
+    subtype,
+    assigned_to,
+    ad.agent_name as assigned_to_name,
+    ad.agent_group as assigned_to_group,
+    resolved_by,
+    ad2.agent_name as resolved_by_name,
+    ad2.agent_group as resolved_by_group,
+    assignees_number,
+    replies_number,
+    auto_involved,
+    auto_resolved,
+    tech_team_involved,
+    tech_team.tech_team_duration_sec,
+    tla.resolution_time,
+    survey_offered,
+    survey_submitted,
+    csat.rating as survey_rating,
+    handling_time,
+    lost_time,
+    avg_reply_time,
+    first_reply_time,
+    frt_agent,
+    ad3.agent_name as frt_agent_name,
+    ad3.agent_group as frt_agent_group,
+    second_reply_time,
+    srt_agent,
+    ad4.agent_name as srt_agent_name,
+    ad4.agent_group as srt_agent_group,
+    concecutive_reply_time,
+    sla_total_resolution,
+    sla_first_reply,
+    sla_second_reply,
+    avg_reply_time_auto,
+    first_reply_time_auto,
+    second_reply_time_auto,
+    concecutive_reply_time_auto,
+    avg_reply_time_person,
+    first_reply_time_person,
+    second_reply_time_person,
+    concecutive_reply_time_person
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
-    LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
+    LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id˚
     LEFT JOIN tech_team ON ta.ticket_id = tech_team.ticket_id
     LEFT JOIN agents_dict ad  ON CAST(ta.assigned_to AS BIGINT) = ad.agent_id
     LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
     LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
     LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
+)
+
+SELECT *
+FROM report_data
+WHERE assigned_to_name = 'Alexander Petrov'
+ORDER BY first_reply_time DESC
 ;

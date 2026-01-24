@@ -1,3 +1,10 @@
+SELECT CAST(created_at AS DATE) AS ticket_created_date, COUNT(DISTINCT ticket_id) as ticket_count
+FROM data_bronze_zendesk_prod.zendesk_audit
+WHERE created_at >= DATE '2026-01-01'
+GROUP BY 1
+ORDER BY 1
+;
+
 WITH ticket_info AS (
 SELECT ticket_id,
        created_at,
