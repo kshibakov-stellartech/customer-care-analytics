@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/cc_reports/users_scopes.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/ad_hoc_request_01.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/agents_schedule_cte.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/community_new.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/data_exploration.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/livechat_events.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/metrics_check.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
@@ -19,6 +20,5 @@
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console_1.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console_2.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console_3.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
   </component>
 </project>

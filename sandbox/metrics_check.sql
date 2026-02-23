@@ -202,7 +202,11 @@ SELECT
                     )
        ) as resolution_time,
        MAX(CASE WHEN events__type = 'SurveyOffered' THEN 1  ELSE 0 END) as survey_offered,
-       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted
+       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted,
+
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund%'     THEN 1 ELSE 0 END) as refund_tag,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_not_eligible%' THEN 1 ELSE 0 END) as refund_not_eligible,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_eligible%'     THEN 1 ELSE 0 END) as refund_eligible
 FROM tickets
     JOIN base_audit USING(ticket_id)
 WHERE 1=1
@@ -470,7 +474,10 @@ concecutive_reply_time_auto,
 avg_reply_time_person,
 first_reply_time_person,
 second_reply_time_person,
-concecutive_reply_time_person
+concecutive_reply_time_person,
+refund_tag,
+refund_eligible,
+refund_not_eligible
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
     LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
@@ -481,50 +488,14 @@ FROM tickets_attr ta
     LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
 )
 
-SELECT *
-FROM full_log
+SELECT CAST(DATE_TRUNC('week', ticket_created_at) AS DATE) as week_dt,
+       refund_tag,
+       refund_eligible,
+       refund_not_eligible,
+       COUNT(ticket_id) as tickets_cnt,
+       COUNT(CASE WHEN survey_rating ='good' THEN ticket_id END) * 1.0 / COUNT(CASE WHEN survey_rating IN ('good', 'bad') THEN ticket_id END) as csat
+FROM res r
 WHERE 1=1
-  AND ticket_id = 660625
-/*
-659657
-659731
-659785
-660625
-662192
-663776
-664311
-664370
-665395
-*/
-;
-SELECT *
-FROM res
-WHERE 1=1
-  AND first_reply_time is null
-  AND second_reply_time is null
-;
-
-SELECT *
-FROM res
-WHERE 1=1
-  AND ticket_id IN (
-677607,
-674733,
-679792,
-672294,
-682777,
-679222,
-707884,
-705035,
-703284,
-668995,
-668788,
-681013,
-686927
-)
-
-;
-
-/*
-
-*/
+  AND survey_rating is not null
+GROUP BY 1, 2, 3, 4
+ORDER BY 1, 2, 3, 4

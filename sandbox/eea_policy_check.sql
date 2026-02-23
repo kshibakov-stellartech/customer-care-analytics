@@ -91,15 +91,17 @@ SELECT ticket_id,
            ARRAY_AGG(events__value ORDER BY created_at DESC, events__id DESC)
            FILTER (WHERE events__field_name = '31320582354705' AND events__value IS NOT NULL), 1
        ) as subtype,
+
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund%'     THEN 1 ELSE 0 END) as refund_tag,
        MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_not_eligible%' THEN 1 ELSE 0 END) as refund_not_eligible,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_eligible%'     THEN 1 ELSE 0 END) as refund_eligible,
+
        MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%duplicate_charge%' THEN 1 ELSE 0 END) as double_charged,
        MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%purchased_twice%' THEN 1 ELSE 0 END) as purchased_twice,
        MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%local_legislation%' THEN 1 ELSE 0 END) as local_legal,
 
        MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%money_back_guarantee%' THEN 1 ELSE 0 END) as money_back_guarantee,
-       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%terms_of_usage%' THEN 1 ELSE 0 END) as terms_of_usage,
-
-       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_eligible%'     THEN 1 ELSE 0 END) as refund_eligible
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%terms_of_usage%' THEN 1 ELSE 0 END) as terms_of_usage
 --money_back_guarantee
 --terms_of_usage
 FROM base_audit
