@@ -22,7 +22,7 @@ SELECT ticket_id,
        events__subject,
        events__from_title
 FROM data_bronze_zendesk_prod.zendesk_audit
-WHERE ticket_id = 707462--694785
+WHERE ticket_id = 763201 --803068
 /*  AND events__type IN (
                         'Comment'
                       )*/
@@ -35,7 +35,6 @@ ORDER BY created_at, events__id
 
 SELECT *
 FROM ticket_info
-WHERE 1=1
 /*  AND (
       events__type = 'Comment' OR
       events__field_name IN ('status', 'custom_status_id', 'assignee_id')

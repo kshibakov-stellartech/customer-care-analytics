@@ -55,6 +55,12 @@ WHERE
   rn = 1
 )
 
-SELECT *
+SELECT CAST(DATE_TRUNC('WEEK', datetime) AS DATE) AS week_dt,
+       store,
+       category_response3,
+       COUNT(review_id) as review_cnt,
+       COUNT(DISTINCT review_id) as dist_review_cnt
 FROM report_data
-WHERE
+WHERE datetime >= DATE '2026-01-01'
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3

@@ -1,4 +1,3 @@
---ticket_assignee_type можно считать в репорте
 WITH
     tickets_to_exclude AS (
 SELECT ticket_id as ticket_to_exclude_id, MIN(CAST(created_at AS DATE)) as created_date
@@ -27,8 +26,8 @@ FROM data_bronze_zendesk_prod.zendesk_audit
 WHERE events__type = 'Create'
   AND events__field_name = 'requester_id'
 GROUP BY ticket_id
-HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-12'
-   AND MIN(CAST(created_at AS DATE)) < DATE '2026-01-26'
+HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-01'
+   AND MIN(CAST(created_at AS DATE)) < current_date
 ),
     base_audit AS (
 SELECT
@@ -44,7 +43,8 @@ SELECT
     za.events__value,
     za.events__previous_value,
     za.events__body,
-    za.events__public
+    za.events__public,
+    CASE WHEN tickets_to_exclude.ticket_to_exclude_id IS NULL THEN 1 ELSE 0 END as to_exclude
 FROM data_bronze_zendesk_prod.zendesk_audit za
     JOIN tickets ON tickets.ticket_id = za.ticket_id
     LEFT JOIN tickets_to_exclude ON tickets_to_exclude.ticket_to_exclude_id = za.ticket_id
@@ -160,7 +160,7 @@ SELECT
        ) as resolved_by, /* считаем по последней коммуникации с клиентом, кроме паблик комментов есть еще нотификации - учесть здесь */
        COUNT(DISTINCT CASE WHEN events__field_name = 'assignee_id' AND events__value IS NOT NULL THEN events__value END) as assignees_number,
        COUNT(CASE WHEN events__type = 'Comment' THEN events__id END) as replies_number,
-       MAX(CASE WHEN events__type = 'Comment' AND author_id = 26440502459665 THEN 1  ELSE 0 END) as auto_involved,
+       MAX(CASE WHEN events__field_name = 'assignee_id' AND TRY_CAST(events__value AS BIGINT) = 26440502459665 THEN 1  ELSE 0 END) as auto_involved,
        CASE WHEN ELEMENT_AT(
            ARRAY_AGG(author_id ORDER BY created_at DESC, events__id DESC)
            FILTER (WHERE events__type = 'Comment' AND events__public = true), 1
@@ -302,7 +302,6 @@ WHERE 1=1
   AND b.log_type <> 'requester'
 ) raw_log
 ),
-
   tech_team AS (
   --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
@@ -383,59 +382,59 @@ SELECT ticket_id,
 FROM full_log ta
 GROUP BY 1
 ),
-    report_data AS (
-SELECT
-    ta.ticket_id,
-    ticket_created_at,
-    requester_id,
-    user_id,
-    ticket_brand,
-    ticket_form_type,
-    ticket_channel,
-    ticket_subject,
-    status,
-    CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
-    request_type,
-    subtype,
-    assigned_to,
-    ad.agent_name as assigned_to_name,
-    ad.agent_group as assigned_to_group,
-    resolved_by,
-    ad2.agent_name as resolved_by_name,
-    ad2.agent_group as resolved_by_group,
-    assignees_number,
-    replies_number,
-    auto_involved,
-    auto_resolved,
-    tech_team_involved,
-    tech_team.tech_team_duration_sec,
-    tla.resolution_time,
-    survey_offered,
-    survey_submitted,
-    csat.rating as survey_rating,
-    handling_time,
-    lost_time,
-    avg_reply_time,
-    first_reply_time,
-    frt_agent,
-    ad3.agent_name as frt_agent_name,
-    ad3.agent_group as frt_agent_group,
-    second_reply_time,
-    srt_agent,
-    ad4.agent_name as srt_agent_name,
-    ad4.agent_group as srt_agent_group,
-    concecutive_reply_time,
-    sla_total_resolution,
-    sla_first_reply,
-    sla_second_reply,
-    avg_reply_time_auto,
-    first_reply_time_auto,
-    second_reply_time_auto,
-    concecutive_reply_time_auto,
-    avg_reply_time_person,
-    first_reply_time_person,
-    second_reply_time_person,
-    concecutive_reply_time_person
+
+    res AS (
+SELECT ta.ticket_id,
+ticket_created_at,
+requester_id,
+user_id,
+ticket_brand,
+ticket_form_type,
+ticket_channel,
+ticket_subject,
+status,
+CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
+request_type,
+subtype,
+assigned_to,
+ad.agent_name as assigned_to_name,
+ad.agent_group as assigned_to_group,
+resolved_by,
+ad2.agent_name as resolved_by_name,
+ad2.agent_group as resolved_by_group,
+assignees_number,
+replies_number,
+auto_involved,
+auto_resolved,
+tech_team_involved,
+tech_team.tech_team_duration_sec,
+tla.resolution_time,
+survey_offered,
+survey_submitted,
+csat.rating as survey_rating,
+handling_time,
+lost_time,
+avg_reply_time,
+first_reply_time,
+frt_agent,
+ad3.agent_name as frt_agent_name,
+ad3.agent_group as frt_agent_group,
+second_reply_time,
+srt_agent,
+ad4.agent_name as srt_agent_name,
+ad4.agent_group as srt_agent_group,
+concecutive_reply_time,
+sla_total_resolution,
+sla_first_reply,
+sla_second_reply,
+avg_reply_time_auto,
+first_reply_time_auto,
+second_reply_time_auto,
+concecutive_reply_time_auto,
+avg_reply_time_person,
+first_reply_time_person,
+second_reply_time_person,
+concecutive_reply_time_person
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
     LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
@@ -444,9 +443,81 @@ FROM tickets_attr ta
     LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
     LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
     LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
+),
+    assign_by_hour AS (
+SELECT ticket_id,
+       COUNT(ticket_id) as assign_count,
+       COUNT(DISTINCT events__value) as assign_uniq
+FROM tickets
+    JOIN base_audit USING(ticket_id)
+WHERE 1=1
+  AND events__field_name = 'assignee_id'
+  AND TRY_CAST(events__value AS BIGINT) <> 26440502459665
+GROUP BY 1
 )
 
+/*SELECT hour(ticket_created_at) as created_hour,
+      auto_resolved,
+     COUNT(CASE WHEN sla_first_reply=1 THEN ticket_id END) as breached_tickets,
+     SUM(CASE WHEN sla_first_reply=1 THEN 1 ELSE 0 END) as breached_tickets_n,
+     COUNT(ticket_id) as total_tickets,
+     COUNT(CASE WHEN sla_first_reply=1 THEN ticket_id END) * 1.0 / COUNT(ticket_id) as breach_rate
+FROM res
+WHERE 1=1
+AND CAST(ticket_created_at AS DATE) = DATE '2026-02-10'
+--AND hour(ticket_created_at) = 0
+  --AND auto_resolved = 0
+GROUP BY 1, 2
+ORDER BY 2, 1
+
+;*/
 SELECT *
-FROM full_log
-WHERE ticket_id = 686373
+FROM res
+WHERE 1=1
+  AND CAST(ticket_created_at AS DATE) = DATE '2026-02-10'
+  AND hour(ticket_created_at) = 6
+  AND auto_resolved = 0
+  --AND CASE WHEN sla_first_reply=1 OR sla_second_reply=1 OR sla_total_resolution=1 THEN 1 ELSE 0 END = 1
+
 ;
+SELECT CAST(ticket_created_at AS DATE) as created_date,
+       day_of_week(CAST(ticket_created_at AS DATE)) as weekday,
+       hour(ticket_created_at) as created_hour,
+       SUM(sla_first_reply) as sla_breach_1,
+       SUM(sla_second_reply) as sla_breach_2,
+       SUM(sla_total_resolution) as sla_breach_trt,
+       COUNT(ticket_id) as ticket_cnt_agg,
+       SUM(handling_time) as sum_handling_time,
+       SUM(resolution_time) as sum_resolution_time,
+
+       AVG(assign_uniq) as agent_assign_avg,
+       approx_percentile(assign_uniq, 0.5) as agent_assign_perc_50,
+       approx_percentile(assign_uniq, 0.9) as agent_assign_perc_90,
+
+       SUM(assign_count) as assign_total,
+       AVG(assign_count) as assign_avg,
+       approx_percentile(assign_count, 0.5) as assign_perc_50,
+       approx_percentile(assign_count, 0.9) as assign_perc_90,
+
+       AVG(handling_time) as hadling_time_avg,
+       approx_percentile(handling_time, 0.5) as hadling_time_perc_50,
+       approx_percentile(handling_time, 0.9) as hadling_time_perc_90,
+
+       AVG(first_reply_time) as frt_avg,
+       approx_percentile(first_reply_time, 0.5) as frt_perc_50,
+       approx_percentile(first_reply_time, 0.9) as frt_perc_90,
+
+       AVG(second_reply_time) as srt_avg,
+       approx_percentile(second_reply_time, 0.5) as srt_perc_50,
+       approx_percentile(second_reply_time, 0.9) as srt_perc_90,
+
+       AVG(resolution_time) as res_time_avg,
+       approx_percentile(resolution_time, 0.5) as res_time_perc_50,
+       approx_percentile(resolution_time, 0.9) as res_time_perc_90
+FROM res
+    LEFT JOIN assign_by_hour USING(ticket_id)
+WHERE 1=1
+  AND auto_resolved = 0
+GROUP BY 1, 2, 3
+
+

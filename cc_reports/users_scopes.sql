@@ -269,7 +269,7 @@ new_subs as ( -- собираем подписки за нужный перио�
       vendor_subscription_id is not null
       or vendor_product_name like '%ot_lifetime_%' -- включаем недельный триал с продлением
     )
-    and date(purchase_completed_at) between date('2026-01-12') and date('2026-01-18')
+    and date(purchase_completed_at) between date('2026-02-09') and date('2026-02-16')
   union
   select
     lower(user_email) as email,
@@ -298,7 +298,7 @@ new_subs as ( -- собираем подписки за нужный перио�
       vendor_subscription_id is not null
       or vendor_product_name like '%ot_lifetime_%'-- включаем недельный триал с продлением
     )
-    and date(purchase_completed_at) between date('2026-01-12') and date('2026-01-18')
+    and date(purchase_completed_at) between date('2026-02-09') and date('2026-02-16')
 )
 select
   email,

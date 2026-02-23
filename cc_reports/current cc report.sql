@@ -1,4 +1,3 @@
---ticket_assignee_type можно считать в репорте
 WITH
     tickets_to_exclude AS (
 SELECT ticket_id as ticket_to_exclude_id, MIN(CAST(created_at AS DATE)) as created_date
@@ -27,8 +26,8 @@ FROM data_bronze_zendesk_prod.zendesk_audit
 WHERE events__type = 'Create'
   AND events__field_name = 'requester_id'
 GROUP BY ticket_id
-HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-12'
-   AND MIN(CAST(created_at AS DATE)) < DATE '2026-01-26'
+HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-01'
+   AND MIN(CAST(created_at AS DATE)) < current_date
 ),
     base_audit AS (
 SELECT
@@ -160,7 +159,7 @@ SELECT
        ) as resolved_by, /* считаем по последней коммуникации с клиентом, кроме паблик комментов есть еще нотификации - учесть здесь */
        COUNT(DISTINCT CASE WHEN events__field_name = 'assignee_id' AND events__value IS NOT NULL THEN events__value END) as assignees_number,
        COUNT(CASE WHEN events__type = 'Comment' THEN events__id END) as replies_number,
-       MAX(CASE WHEN events__type = 'Comment' AND author_id = 26440502459665 THEN 1  ELSE 0 END) as auto_involved,
+       MAX(CASE WHEN events__field_name = 'assignee_id' AND TRY_CAST(events__value AS BIGINT) = 26440502459665 THEN 1  ELSE 0 END) as auto_involved,
        CASE WHEN ELEMENT_AT(
            ARRAY_AGG(author_id ORDER BY created_at DESC, events__id DESC)
            FILTER (WHERE events__type = 'Comment' AND events__public = true), 1
@@ -302,7 +301,6 @@ WHERE 1=1
   AND b.log_type <> 'requester'
 ) raw_log
 ),
-
   tech_team AS (
   --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
@@ -382,60 +380,59 @@ SELECT ticket_id,
        MAX(msg_rn) as msg_from_customer_count
 FROM full_log ta
 GROUP BY 1
-),
-    report_data AS (
-SELECT
-    ta.ticket_id,
-    ticket_created_at,
-    requester_id,
-    user_id,
-    ticket_brand,
-    ticket_form_type,
-    ticket_channel,
-    ticket_subject,
-    status,
-    CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
-    request_type,
-    subtype,
-    assigned_to,
-    ad.agent_name as assigned_to_name,
-    ad.agent_group as assigned_to_group,
-    resolved_by,
-    ad2.agent_name as resolved_by_name,
-    ad2.agent_group as resolved_by_group,
-    assignees_number,
-    replies_number,
-    auto_involved,
-    auto_resolved,
-    tech_team_involved,
-    tech_team.tech_team_duration_sec,
-    tla.resolution_time,
-    survey_offered,
-    survey_submitted,
-    csat.rating as survey_rating,
-    handling_time,
-    lost_time,
-    avg_reply_time,
-    first_reply_time,
-    frt_agent,
-    ad3.agent_name as frt_agent_name,
-    ad3.agent_group as frt_agent_group,
-    second_reply_time,
-    srt_agent,
-    ad4.agent_name as srt_agent_name,
-    ad4.agent_group as srt_agent_group,
-    concecutive_reply_time,
-    sla_total_resolution,
-    sla_first_reply,
-    sla_second_reply,
-    avg_reply_time_auto,
-    first_reply_time_auto,
-    second_reply_time_auto,
-    concecutive_reply_time_auto,
-    avg_reply_time_person,
-    first_reply_time_person,
-    second_reply_time_person,
-    concecutive_reply_time_person
+)
+
+SELECT ta.ticket_id,
+ticket_created_at,
+requester_id,
+user_id,
+ticket_brand,
+ticket_form_type,
+ticket_channel,
+ticket_subject,
+status,
+CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
+request_type,
+subtype,
+assigned_to,
+ad.agent_name as assigned_to_name,
+ad.agent_group as assigned_to_group,
+resolved_by,
+ad2.agent_name as resolved_by_name,
+ad2.agent_group as resolved_by_group,
+assignees_number,
+replies_number,
+auto_involved,
+auto_resolved,
+tech_team_involved,
+tech_team.tech_team_duration_sec,
+tla.resolution_time,
+survey_offered,
+survey_submitted,
+csat.rating as survey_rating,
+handling_time,
+lost_time,
+avg_reply_time,
+first_reply_time,
+frt_agent,
+ad3.agent_name as frt_agent_name,
+ad3.agent_group as frt_agent_group,
+second_reply_time,
+srt_agent,
+ad4.agent_name as srt_agent_name,
+ad4.agent_group as srt_agent_group,
+concecutive_reply_time,
+sla_total_resolution,
+sla_first_reply,
+sla_second_reply,
+avg_reply_time_auto,
+first_reply_time_auto,
+second_reply_time_auto,
+concecutive_reply_time_auto,
+avg_reply_time_person,
+first_reply_time_person,
+second_reply_time_person,
+concecutive_reply_time_person
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
     LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
@@ -444,9 +441,3 @@ FROM tickets_attr ta
     LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
     LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
     LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
-)
-
-SELECT *
-FROM full_log
-WHERE ticket_id = 686373
-;

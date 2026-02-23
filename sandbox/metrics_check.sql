@@ -1,4 +1,3 @@
---ticket_assignee_type можно считать в репорте
 WITH
     tickets_to_exclude AS (
 SELECT ticket_id as ticket_to_exclude_id, MIN(CAST(created_at AS DATE)) as created_date
@@ -27,8 +26,8 @@ FROM data_bronze_zendesk_prod.zendesk_audit
 WHERE events__type = 'Create'
   AND events__field_name = 'requester_id'
 GROUP BY ticket_id
-HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-12'
-   AND MIN(CAST(created_at AS DATE)) < DATE '2026-01-26'
+HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-01'
+   AND MIN(CAST(created_at AS DATE)) < current_date
 ),
     base_audit AS (
 SELECT
@@ -44,11 +43,32 @@ SELECT
     za.events__value,
     za.events__previous_value,
     za.events__body,
-    za.events__public
+    za.events__public,
+    za.events__from_title,
+    CASE WHEN events__type = 'Notification' AND events__from_title IN (
+                                                                        'Auto_12: Auto-reply to refund requests (Stores)',
+                                                                        'Auto_21: Auto-reply to delete+refund requests (Paddle/PayPal)',
+                                                                        'Auto_91: Auto-reply to delete requests (Stores)',
+                                                                        'Auto_13: Auto-reply to refund requests (Paddle/PayPal)',
+                                                                        'Auto_29: Auto-reply - payment_not_found AI',
+                                                                        'Auto_29: Auto-reply - payment_not_found AI (2nd)',
+                                                                        'Auto_29: Auto-reply - payment_not_found (automation failed)',
+                                                                        'Auto_35: Auto-reply to delete+refund requests (threats/risk)',
+                                                                        'Auto_6: Auto-reply to cancel requests (Web) ',
+                                                                        'Auto_7: Auto-reply to cancel requests (Stores)',
+                                                                        'Auto_28: Freemium only - payment_not_found',
+                                                                        'Auto-reply - something is wrong with my subscription - SmartyMe'
+                                                                      )
+            THEN 1 /* auto notification */
+         WHEN CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) is not null AND events__public = TRUE
+            THEN 2 /* public message */
+            ELSE 0
+    END is_public_communication
 FROM data_bronze_zendesk_prod.zendesk_audit za
     JOIN tickets ON tickets.ticket_id = za.ticket_id
     LEFT JOIN tickets_to_exclude ON tickets_to_exclude.ticket_to_exclude_id = za.ticket_id
 WHERE 1=1
+  --AND za.ticket_id = 660296
   AND tickets_to_exclude.ticket_to_exclude_id IS NULL
 ),
     agents_dict AS (
@@ -159,14 +179,24 @@ SELECT
            FILTER (WHERE events__type = 'Comment' AND events__public = true), 1
        ) as resolved_by, /* считаем по последней коммуникации с клиентом, кроме паблик комментов есть еще нотификации - учесть здесь */
        COUNT(DISTINCT CASE WHEN events__field_name = 'assignee_id' AND events__value IS NOT NULL THEN events__value END) as assignees_number,
-       COUNT(CASE WHEN events__type = 'Comment' THEN events__id END) as replies_number,
-       MAX(CASE WHEN events__type = 'Comment' AND author_id = 26440502459665 THEN 1  ELSE 0 END) as auto_involved,
+       COUNT(CASE WHEN (
+                        events__type = 'Comment' AND
+                        events__public = True AND
+                        event_author_id <> requester_id
+                        )
+                       OR
+                       (
+                        is_public_communication = 1
+                       )
+                       THEN events__id
+       END) as replies_number,
+       MAX(CASE WHEN events__field_name = 'assignee_id' AND TRY_CAST(events__value AS BIGINT) = 26440502459665 THEN 1  ELSE 0 END) as auto_involved,
        CASE WHEN ELEMENT_AT(
            ARRAY_AGG(author_id ORDER BY created_at DESC, events__id DESC)
            FILTER (WHERE events__type = 'Comment' AND events__public = true), 1
        ) = 26440502459665 THEN 1 ELSE 0 END as auto_resolved,
        MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%tech_team%' THEN 1 ELSE 0 END) as tech_team_involved,
-       MAX(DATE_DIFF('second', ticket_created_at, CASE WHEN events__field_name = 'custom_status_id' AND events__value = '26222456206737' THEN created_at
+       MAX(DATE_DIFF('second', ticket_created_at, CASE WHEN events__field_name = 'custom_status_id' AND events__value IN ('26222456206737', '26471115820177') THEN created_at
                                                        WHEN events__type = 'Comment' AND author_id <> requester_id THEN created_at
                                                   END
                     )
@@ -191,8 +221,7 @@ SELECT CASE WHEN b.event_author_id = t.requester_id THEN 'requester' ELSE 'agent
        b.events__body as msg_text
 FROM tickets t
     JOIN base_audit b ON t.ticket_id = b.ticket_id
-                     AND b.event_author_id is not null
-                     AND b.events__public = TRUE
+                     AND b.is_public_communication IN (1, 2)
 ),
     agent_assign AS (
 SELECT
@@ -302,7 +331,6 @@ WHERE 1=1
   AND b.log_type <> 'requester'
 ) raw_log
 ),
-
   tech_team AS (
   --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
@@ -328,11 +356,16 @@ GROUP BY 1
     ticket_log_attr AS (
 SELECT ticket_id,
        DATE_DIFF('second', MIN(created_at), MAX(created_at)) as resolution_time,
+       MIN(created_at) as min_t,
+       ELEMENT_AT(ARRAY_AGG(created_at ORDER BY msg_rn DESC, created_at) FILTER (WHERE log_type = 'agent'), 1) as max_t,
+       DATE_DIFF(
+            'second', MIN(created_at), ELEMENT_AT(ARRAY_AGG(created_at ORDER BY msg_rn DESC, created_at) FILTER (WHERE log_type = 'agent'), 1)
+       ) as resolution_time_by_msg,
        DATE_DIFF('second', MIN(created_at), MAX(created_at)) - SUM(CASE WHEN log_type = 'requester' THEN duration_sec END) as handling_time,
        SUM(CASE WHEN log_type = 'agent_to_check' THEN duration_sec END) as lost_time,
        AVG(CASE WHEN log_type = 'agent' THEN duration_sec END) as avg_reply_time,
        ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
+           ARRAY_AGG(duration_sec ORDER BY msg_rn, created_at)
            FILTER (WHERE log_type = 'agent' AND msg_rn = 1), 1
        ) as first_reply_time,
        ELEMENT_AT(
@@ -383,59 +416,61 @@ SELECT ticket_id,
 FROM full_log ta
 GROUP BY 1
 ),
-    report_data AS (
-SELECT
-    ta.ticket_id,
-    ticket_created_at,
-    requester_id,
-    user_id,
-    ticket_brand,
-    ticket_form_type,
-    ticket_channel,
-    ticket_subject,
-    status,
-    CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
-    request_type,
-    subtype,
-    assigned_to,
-    ad.agent_name as assigned_to_name,
-    ad.agent_group as assigned_to_group,
-    resolved_by,
-    ad2.agent_name as resolved_by_name,
-    ad2.agent_group as resolved_by_group,
-    assignees_number,
-    replies_number,
-    auto_involved,
-    auto_resolved,
-    tech_team_involved,
-    tech_team.tech_team_duration_sec,
-    tla.resolution_time,
-    survey_offered,
-    survey_submitted,
-    csat.rating as survey_rating,
-    handling_time,
-    lost_time,
-    avg_reply_time,
-    first_reply_time,
-    frt_agent,
-    ad3.agent_name as frt_agent_name,
-    ad3.agent_group as frt_agent_group,
-    second_reply_time,
-    srt_agent,
-    ad4.agent_name as srt_agent_name,
-    ad4.agent_group as srt_agent_group,
-    concecutive_reply_time,
-    sla_total_resolution,
-    sla_first_reply,
-    sla_second_reply,
-    avg_reply_time_auto,
-    first_reply_time_auto,
-    second_reply_time_auto,
-    concecutive_reply_time_auto,
-    avg_reply_time_person,
-    first_reply_time_person,
-    second_reply_time_person,
-    concecutive_reply_time_person
+
+    res AS (
+SELECT ta.ticket_id,
+ticket_created_at,
+requester_id,
+user_id,
+ticket_brand,
+ticket_form_type,
+ticket_channel,
+ticket_subject,
+status,
+CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
+request_type,
+subtype,
+assigned_to,
+ad.agent_name as assigned_to_name,
+ad.agent_group as assigned_to_group,
+resolved_by,
+ad2.agent_name as resolved_by_name,
+ad2.agent_group as resolved_by_group,
+assignees_number,
+replies_number,
+auto_involved,
+auto_resolved,
+tech_team_involved,
+tech_team.tech_team_duration_sec,
+ta.resolution_time as res_time_raw,
+tla.resolution_time,
+tla.resolution_time_by_msg,
+survey_offered,
+survey_submitted,
+csat.rating as survey_rating,
+handling_time,
+lost_time,
+avg_reply_time,
+first_reply_time,
+frt_agent,
+ad3.agent_name as frt_agent_name,
+ad3.agent_group as frt_agent_group,
+second_reply_time,
+srt_agent,
+ad4.agent_name as srt_agent_name,
+ad4.agent_group as srt_agent_group,
+concecutive_reply_time,
+sla_total_resolution,
+sla_first_reply,
+sla_second_reply,
+avg_reply_time_auto,
+first_reply_time_auto,
+second_reply_time_auto,
+concecutive_reply_time_auto,
+avg_reply_time_person,
+first_reply_time_person,
+second_reply_time_person,
+concecutive_reply_time_person
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
     LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
@@ -448,5 +483,48 @@ FROM tickets_attr ta
 
 SELECT *
 FROM full_log
-WHERE ticket_id = 686373
+WHERE 1=1
+  AND ticket_id = 660625
+/*
+659657
+659731
+659785
+660625
+662192
+663776
+664311
+664370
+665395
+*/
 ;
+SELECT *
+FROM res
+WHERE 1=1
+  AND first_reply_time is null
+  AND second_reply_time is null
+;
+
+SELECT *
+FROM res
+WHERE 1=1
+  AND ticket_id IN (
+677607,
+674733,
+679792,
+672294,
+682777,
+679222,
+707884,
+705035,
+703284,
+668995,
+668788,
+681013,
+686927
+)
+
+;
+
+/*
+
+*/
