@@ -32,6 +32,7 @@ HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-01'
     base_audit AS (
 SELECT
     za.ticket_id,
+    tickets.requester_id as base_requester_id,
     za.channel,
     date_add('hour', 2, za.created_at) as created_at,
     date_trunc('minute', date_add('hour', 2, za.created_at)) as created_at_truncated,
@@ -335,7 +336,7 @@ WHERE 1=1
   AND b.log_type <> 'requester'
 ) raw_log
 ),
-  tech_team AS (
+    tech_team AS (
   --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
 FROM (
@@ -488,6 +489,12 @@ FROM tickets_attr ta
     LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
 )
 
+SELECT *
+FROM res
+WHERE survey_rating is not null
+
+
+;
 SELECT CAST(DATE_TRUNC('week', ticket_created_at) AS DATE) as week_dt,
        refund_tag,
        refund_eligible,

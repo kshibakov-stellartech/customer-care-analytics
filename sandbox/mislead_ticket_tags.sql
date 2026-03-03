@@ -202,7 +202,23 @@ SELECT
                     )
        ) as resolution_time,
        MAX(CASE WHEN events__type = 'SurveyOffered' THEN 1  ELSE 0 END) as survey_offered,
-       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted
+       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted,
+
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%cancel %'     THEN 1 ELSE 0 END) as cancel_tag,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund%'     THEN 1 ELSE 0 END) as refund_tag,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_not_eligible%' THEN 1 ELSE 0 END) as refund_not_eligible,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_eligible%'     THEN 1 ELSE 0 END) as refund_eligible,
+
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%duplicate_charge%' THEN 1 ELSE 0 END) as double_charged,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%purchased_twice%' THEN 1 ELSE 0 END) as purchased_twice,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%local_legislation%' THEN 1 ELSE 0 END) as local_legal,
+
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%expensive%' THEN 1 ELSE 0 END) as expensive,
+
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%money_back_guarantee%' THEN 1 ELSE 0 END) as money_back_guarantee,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%terms_of_usage%' THEN 1 ELSE 0 END) as terms_of_usage,
+
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%apple_pay%' THEN 1 ELSE 0 END) as apple_pay
 FROM tickets
     JOIN base_audit USING(ticket_id)
 WHERE 1=1
@@ -416,64 +432,71 @@ SELECT ticket_id,
        MAX(msg_rn) as msg_from_customer_count
 FROM full_log ta
 GROUP BY 1
+),
+    user_info AS (
+SELECT *,
+       ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY first_sub_created) as sub_rn
+FROM (
+SELECT --DATE_TRUNC('week', onboarding_started_at) as ondoarding_started,
+       --CASE WHEN subscription_created_at is not null THEN 1 ELSE 0 END as is_subscription_created,
+       user_id,
+       platform,
+       CASE WHEN traffic_source = 'ORGANIC' THEN 'organic'
+            WHEN source = 'ig' THEN 'instagram'
+            WHEN source = 'fb' THEN 'facebook'
+            WHEN source = 'google' THEN 'google'
+            WHEN source = 'tiktok' THEN 'tiktok'
+           ELSE 'other'
+       END as traffic_type,
+       MIN(subscription_created_at) as first_sub_created
+FROM data_silver_product_sessions_prod.sf_purchase_sessions
+WHERE subscription_created_at >= DATE '2025-09-01'
+GROUP BY 1, 2, 3
+) q
+),
+    ampl_info AS (
+SELECT user_id,
+       platform,
+       MIN(event_time) as first_event_time
+FROM data_bronze_amplitude_prod.amplitude_resource AS ar
+WHERE 1=1
+  AND project IN ('mindscape', 'smarty', 'neurolift')
+  AND NOT user_id IS NULL
+  AND user_properties['userPaymentStatus'] = 'premium'
+  AND client_event_time >= DATE '2026-01-01'
+GROUP BY 1, 2
+),
+    platform_comparison AS (
+SELECT user_info.user_id,
+       user_info.platform as session_platform,
+       ampl_info.platform as amplitude_platform,
+       user_info.traffic_type,
+       user_info.first_sub_created,
+       ampl_info.first_event_time
+FROM user_info
+    LEFT JOIN ampl_info ON user_info.user_id = ampl_info.user_id
+WHERE 1=1
+  AND sub_rn = 1
 )
 
-SELECT ta.ticket_id,
-ticket_created_at,
-requester_id,
-user_id,
-ticket_brand,
-ticket_form_type,
-ticket_channel,
-ticket_subject,
-status,
-CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
-request_type,
-subtype,
-assigned_to,
-ad.agent_name as assigned_to_name,
-ad.agent_group as assigned_to_group,
-resolved_by,
-ad2.agent_name as resolved_by_name,
-ad2.agent_group as resolved_by_group,
-assignees_number,
-replies_number,
-auto_involved,
-auto_resolved,
-tech_team_involved,
-tech_team.tech_team_duration_sec,
-tla.resolution_time,
-survey_offered,
-survey_submitted,
-csat.rating as survey_rating,
-handling_time,
-lost_time,
-avg_reply_time,
-first_reply_time,
-frt_agent,
-ad3.agent_name as frt_agent_name,
-ad3.agent_group as frt_agent_group,
-second_reply_time,
-srt_agent,
-ad4.agent_name as srt_agent_name,
-ad4.agent_group as srt_agent_group,
-concecutive_reply_time,
-sla_total_resolution,
-sla_first_reply,
-sla_second_reply,
-avg_reply_time_auto,
-first_reply_time_auto,
-second_reply_time_auto,
-concecutive_reply_time_auto,
-avg_reply_time_person,
-first_reply_time_person,
-second_reply_time_person,
-concecutive_reply_time_person
-FROM tickets_attr ta
-    JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
-    LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
-    LEFT JOIN tech_team ON ta.ticket_id = tech_team.ticket_id
-    LEFT JOIN agents_dict ad  ON CAST(ta.assigned_to AS BIGINT) = ad.agent_id
-    LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
-    LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
-    LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
+SELECT CAST(DATE_TRUNC('week', ticket_created_at) AS DATE) as createed_week,
+       traffic_type,
+       CASE WHEN double_charged = 1 THEN 'double_charged'
+            WHEN expensive = 1 THEN 'expensive'
+            WHEN purchased_twice = 1 THEN 'purchased_twice'
+            ELSE  'refunds_wo_tag'
+       END as ticket_type,
+       COUNT(ticket_id) as tickets
+FROM tickets_attr
+    LEFT JOIN platform_comparison ON tickets_attr.user_id = platform_comparison.user_id
+WHERE 1=1
+  AND platform_comparison.session_platform = 'iOS'
+  AND (
+       refund_tag = 1 OR
+       double_charged = 1 OR
+       purchased_twice = 1 OR
+       expensive = 1
+      )
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3
+;

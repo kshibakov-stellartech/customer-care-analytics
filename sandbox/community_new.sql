@@ -10,10 +10,10 @@ SELECT  created_at AS review_published_datetime,
         text as content,
         null as content_translated,
         rating,
-        CASE WHEN rating >= 4 THEN 'Positive review' ELSE COALESCE(ai_category, 'No details')  END as ai_category
+        CASE WHEN rating >= 4 THEN 'Positive review' ELSE COALESCE(ai_category, 'No details')  END as ai_category,
+        ai_category as ai_category_raw
 FROM data_silver_trustpilot_prod.trustpilot_reviews
 ),
-
     appfollow_data AS (
 SELECT  review_published_datetime,
         appfollow_collected_datetime,
@@ -25,7 +25,8 @@ SELECT  review_published_datetime,
         content,
         content_translated,
         rating,
-        CASE WHEN rating >= 4 THEN 'Positive review' ELSE COALESCE(ai_category, 'No details')  END as ai_category
+        CASE WHEN rating >= 4 THEN 'Positive review' ELSE COALESCE(ai_category, 'No details')  END as ai_category,
+        ai_category as ai_category_raw
 FROM data_silver_appfollow_prod.appfollow_reviews
 ),
     all_sources AS (
@@ -38,8 +39,8 @@ SELECT *,
        CAST(DATE_TRUNC('week', review_published_datetime) AS DATE) as review_week_dt,
        CAST(DATE_TRUNC('week', appfollow_collected_datetime) AS DATE) as load_week_dt
 FROM trustpilot_data
-)
-
+),
+    res AS (
 SELECT *,
        /* ---------- MAIN CATEGORY ---------- */
        CASE
@@ -98,3 +99,8 @@ SELECT *,
 FROM all_sources
 WHERE 1=1
   AND review_published_datetime < current_date
+)
+
+SELECT *
+FROM res
+;

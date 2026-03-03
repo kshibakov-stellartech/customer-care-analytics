@@ -416,8 +416,8 @@ SELECT ticket_id,
        MAX(msg_rn) as msg_from_customer_count
 FROM full_log ta
 GROUP BY 1
-)
-
+),
+    res AS (
 SELECT ta.ticket_id,
 ticket_created_at,
 requester_id,
@@ -477,3 +477,12 @@ FROM tickets_attr ta
     LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
     LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
     LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
+)
+
+SELECT auto_involved,
+       auto_resolved,
+       COUNT(ticket_id) as tickets_cnt
+FROM res
+WHERE 1=1
+  AND CAST(ticket_created_at AS DATE) BETWEEN DATE '2026-01-20' AND DATE '2026-02-20'
+GROUP BY 1, 2

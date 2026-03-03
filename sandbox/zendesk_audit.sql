@@ -22,7 +22,11 @@ SELECT ticket_id,
        events__subject,
        events__from_title
 FROM data_bronze_zendesk_prod.zendesk_audit
-WHERE ticket_id = 763201 --803068
+WHERE 1=1
+
+  AND ticket_id = 381720 --803068
+  AND events__field_name = 'tags'
+  AND regexp_like(events__value, '(^|,)[^,]*(-[^,]*_|_[^,]*-)[^,]*(,|$)')
 /*  AND events__type IN (
                         'Comment'
                       )*/
