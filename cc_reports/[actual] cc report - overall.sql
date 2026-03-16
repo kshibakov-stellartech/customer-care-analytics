@@ -1,3 +1,7 @@
+/*
+CC CUSTOMER POV DATA
+*/
+
 WITH
     tickets_to_exclude AS (
 SELECT ticket_id as ticket_to_exclude_id, MIN(CAST(created_at AS DATE)) as created_date
@@ -75,8 +79,15 @@ WHERE 1=1
     SELECT *
     FROM (
         VALUES
+            (36064560830737, 'Mykyta', 'Admins'),
+            (35219779434897, 'Ilia Tregubov', 'Admins'),
             (41972533108625, 'Konstantin Shibakov', 'Admins'),
             (40215157462161, 'QA', 'Admins'),
+            (34224285677201, 'Yaroslav Kukharenko', 'Admins'),
+
+            (26222438547857, 'Maksym Zvieriev', 'TL'),
+            (30648746936465, 'Alexander Petrov', 'TL'),
+
             (39272670052113, 'Sam Bondar', 'Moon Rangers'),
             (38754864964753, 'Brian Tepliuk', 'Moon Rangers'),
             (38694917174545, 'Mike Mkrtumyan', 'Moon Rangers'),
@@ -84,30 +95,27 @@ WHERE 1=1
             (38022764826129, 'Allie Kostukovich', 'Blanc'),
             (38022759246737, 'Kate Rumiantseva', 'Moon Rangers'),
             (37992873903889, 'Ann Dereka', 'Moon Rangers'),
-            (36064560830737, 'Mykyta', 'Admins'),
             (35310711957393, 'Anette Monaselidze', 'Blanc'),
-            (35219779434897, 'Ilia Tregubov', 'Admins'),
-            (34224285677201, 'Yaroslav Kukharenko', 'Admins'),
             (33602186941713, 'Jackie Si', 'Blanc'),
             (33118701264017, 'Daria Saranchova', 'Blanc'),
             (33118711659921, 'Katrina Novikova', 'Blanc'),
             (31467436910865, 'Jenny', 'Moon Rangers'),
             (30786139608081, 'Jade Kasper', 'Blanc'),
             (30655366698001, 'Catherine Moroz', 'Blanc'),
-            (30648746936465, 'Alexander Petrov', 'Moon Rangers'),
             (30160506886161, 'Alex Poponin', 'Blanc'),
             (29737848444689, 'Daniel Vinokurov', 'Blanc'),
             (26440502459665, 'Nikki', 'Automation'),
             (26349132549521, 'Mia Petchenko', 'Moon Rangers'),
-            (26222438547857, 'Maksym Zvieriev', 'Blanc'),
 
             (42676049623057, 'Sophie Palamarchuk', 'Moon Rangers'),
-            (42676111579153, 'Michael Brodovskyi', 'Moon Rangers')
+            (42676111579153, 'Michael Brodovskyi', 'Moon Rangers'),
+
+            (44010183588497, 'Stella Kishyk', 'Blanc')
     ) AS t (
         agent_id,
         agent_name,
         agent_group
-    )
+            )
 ),
     tickets_attr AS (
 SELECT
@@ -129,6 +137,7 @@ SELECT
                     WHEN events__value = '27810244289553' THEN 'Neurolift'
                     WHEN events__value = '26468032413713' THEN 'SmartyMe'
                     WHEN events__value = '26222456156689' THEN 'StellarTech Limited'
+                    WHEN events__value = '43023476289553' THEN 'Nexera'
                     ELSE 'Unknown'
                     END
            END) as ticket_brand,
@@ -202,7 +211,10 @@ SELECT
                     )
        ) as resolution_time,
        MAX(CASE WHEN events__type = 'SurveyOffered' THEN 1  ELSE 0 END) as survey_offered,
-       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted
+       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund%'     THEN 1 ELSE 0 END) as refund_tag,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_not_eligible%' THEN 1 ELSE 0 END) as refund_not_eligible,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_eligible%'     THEN 1 ELSE 0 END) as refund_eligible
 FROM tickets
     JOIN base_audit USING(ticket_id)
 WHERE 1=1
@@ -250,7 +262,6 @@ FROM base_audit b
 WHERE 1=1
   AND b.events__field_name = 'assignee_id' AND b.events__value IS NOT NULL
 ),
-
     full_log AS (
 SELECT ticket_id,
        created_at,
@@ -331,7 +342,7 @@ WHERE 1=1
   AND b.log_type <> 'requester'
 ) raw_log
 ),
-  tech_team AS (
+    tech_team AS (
   --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
 FROM (
@@ -353,7 +364,6 @@ WHERE 1=1
   AND events__value = '26471128667153'
 GROUP BY 1
 ),
-
     ticket_log_attr AS (
 SELECT ticket_id,
        DATE_DIFF('second', MIN(created_at), MAX(created_at)) as resolution_time,
@@ -468,7 +478,10 @@ concecutive_reply_time_auto,
 avg_reply_time_person,
 first_reply_time_person,
 second_reply_time_person,
-concecutive_reply_time_person
+concecutive_reply_time_person,
+refund_tag,
+refund_eligible,
+refund_not_eligible
 FROM tickets_attr ta
     JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
     LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id

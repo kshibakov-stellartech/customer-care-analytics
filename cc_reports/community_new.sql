@@ -103,4 +103,3 @@ WHERE 1=1
 
 SELECT *
 FROM res
-;

@@ -1867,6 +1867,7 @@ SELECT *,
 FROM all_msg
 WHERE 1=1
   AND log_type = 'agent'
+  AND msg_author_id <> -1
 ORDER BY ticket_id, assign_created_at
 ),
     agent_activity AS (
