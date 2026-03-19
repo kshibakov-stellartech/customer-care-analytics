@@ -9,6 +9,7 @@
     <file url="file://$PROJECT_DIR$/cc_reports/users_scopes.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/cc_reports/workload_modeling.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/ad_hoc_request_01.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/agent_schedule_feb_full.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/agents_schedule_cte.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/data_exploration.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/eea_policy_check.sql" dialect="GenericSQL" />
@@ -21,9 +22,11 @@
     <file url="file://$PROJECT_DIR$/sandbox/user_attributes.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/workload_from_overall.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/workload_research.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/zendesk_agent_states_feb26.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_agents_info.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_audit.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_events.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/zendesk_log_v2.sql" dialect="GenericSQL" />
     <file url="file://$USER_HOME$/Downloads/agent_schedule_feb26.sql" dialect="GenericSQL" />
     <file url="PROJECT" dialect="GenericSQL" />
   </component>

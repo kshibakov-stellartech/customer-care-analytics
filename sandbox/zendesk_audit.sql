@@ -25,18 +25,7 @@ FROM data_bronze_zendesk_prod.zendesk_audit
 WHERE 1=1
 
   AND ticket_id IN (
-884580,
-884563,
-854258,
-824405,
-828527,
-824404,
-824474,
-824403,
-805925,
-812071,
-813388,
-803450
+776933
     ) --803068
   --AND events__field_name = 'tags'
   --AND regexp_like(events__value, '(^|,)[^,]*(-[^,]*_|_[^,]*-)[^,]*(,|$)')
