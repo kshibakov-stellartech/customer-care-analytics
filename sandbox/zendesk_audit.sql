@@ -25,10 +25,10 @@ FROM data_bronze_zendesk_prod.zendesk_audit
 WHERE 1=1
 
   AND ticket_id IN (
-776933
+908150
     ) --803068
-  --AND events__field_name = 'tags'
-  --AND regexp_like(events__value, '(^|,)[^,]*(-[^,]*_|_[^,]*-)[^,]*(,|$)')
+  AND events__field_name = 'tags'
+  AND events__value LIKE '%voc%'
 /*  AND events__type IN (
                         'Comment'
                       )*/

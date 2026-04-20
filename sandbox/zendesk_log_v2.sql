@@ -68,7 +68,7 @@ FROM data_bronze_zendesk_prod.zendesk_audit za
     JOIN tickets ON tickets.ticket_id = za.ticket_id
     LEFT JOIN tickets_to_exclude ON tickets_to_exclude.ticket_to_exclude_id = za.ticket_id
 WHERE 1=1
-  AND za.ticket_id = 816738
+  AND za.ticket_id = 772606
   AND tickets_to_exclude.ticket_to_exclude_id IS NULL
 ),
     agents_dict AS (

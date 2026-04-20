@@ -2,18 +2,25 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/cc_reports/[actual] cc report - overall.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/cc_reports/[actual] charged canceled subs.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/cc_reports/[actual] voc_tags_logic.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/cc_reports/cc report by agents view.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/cc_reports/community_new.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/cc_reports/duplicates.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/cc_reports/users_scopes.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/cc_reports/workload_modeling.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/research/[draft] 2026-02-20_zendesk_ticket_log.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/2026-02-20_zendesk_ticket_log.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/ad_hoc_request_01.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/agent_schedule_feb_full.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/agents_schedule_cte.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/charged canceled subs.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/data_exploration.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/eea_policy_check.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/livechat_events.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/metrics_check.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/mislead_ticket_tags.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$PROJECT_DIR$/sandbox/sla_breach_alerting.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/tableau_report.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/ticket_log_info.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/ticket_states.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
@@ -26,9 +33,10 @@
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_events.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_log_v2.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$USER_HOME$/Downloads/agent_schedule_feb26.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$USER_HOME$/Downloads/refactored_zendesk_ticket_log_fixed_assignment_consumption (1).sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console_1.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console_2.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console_3.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/71552b76-5a4a-445d-9f11-738e6d720cde/console_4.sql" value="71552b76-5a4a-445d-9f11-738e6d720cde" />
   </component>
 </project>

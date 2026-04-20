@@ -2,20 +2,32 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/cc_reports/[actual] cc report - overall.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/cc_reports/[actual] charged canceled subs.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/cc_reports/[actual] main_subs_and_upsell.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/cc_reports/[actual] voc_tags_logic.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/cc_reports/cc report by agents view.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/cc_reports/community_new.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/cc_reports/community_report_data_check.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/cc_reports/duplicates.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/cc_reports/users_scopes.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/cc_reports/workload_modeling.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/research/[actual] cc report - overall.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/research/[actual] cc report by agents view.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/research/[draft] 2026-02-20_zendesk_ticket_log.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/2026-02-20_zendesk_ticket_log.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/[assana task] check % of UAE users contact support all time.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/ad_hoc_request_01.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/agent_schedule_feb_full.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/agents_schedule_cte.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/asana_data.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/charged canceled subs.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/data_exploration.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/eea_policy_check.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/feedback_lake_data_v1.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/free_users_requests.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/livechat_events.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/metrics_check.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/mislead_ticket_tags.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/sla_breach_alerting.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/tableau_report.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/ticket_log_info.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/ticket_states.sql" dialect="GenericSQL" />
@@ -28,6 +40,7 @@
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_events.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/zendesk_log_v2.sql" dialect="GenericSQL" />
     <file url="file://$USER_HOME$/Downloads/agent_schedule_feb26.sql" dialect="GenericSQL" />
+    <file url="file://$USER_HOME$/Downloads/refactored_zendesk_ticket_log_fixed_assignment_consumption (1).sql" dialect="GenericSQL" />
     <file url="PROJECT" dialect="GenericSQL" />
   </component>
 </project>
