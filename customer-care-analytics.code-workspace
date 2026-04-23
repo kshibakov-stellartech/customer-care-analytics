@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "name": "customer-care-analytics (active)",
+      "path": "/Users/kshibakov/Documents/github/customer-care-analytics"
+    },
+    {
+      "name": "data_team_scripts (read-only)",
+      "path": "/Users/kshibakov/Documents/github/data_team_scripts"
+    },
+    {
+      "name": "dp-dags (read-only)",
+      "path": "/Users/kshibakov/Documents/github/dp-dags"
+    }
+  ],
+  "settings": {
+    "files.readonlyInclude": {
+      "/Users/kshibakov/Documents/github/data_team_scripts/**": true,
+      "/Users/kshibakov/Documents/github/dp-dags/**": true,
+      "/Users/kshibakov/Documents/github/customer-care-analytics/**": false
+    }
+  }
+}
