@@ -1,81 +1,40 @@
-/*
-CC CUSTOMER POV DATA
-*/
-
 WITH
-    tickets_to_exclude AS (
-SELECT ticket_id as ticket_to_exclude_id, MIN(CAST(created_at AS DATE)) as created_date
-FROM data_bronze_zendesk_prod.zendesk_audit
-WHERE 1=1
-    AND created_at >= DATE '2026-01-01'
-    AND events__field_name = 'tags'
-    AND (
-       events__value LIKE '%cancellation_notification%'
-    OR events__value LIKE '%closed_by_merge%'
-    OR events__value LIKE '%voice_abandoned_in_voicemail%'
-    OR events__value LIKE '%appfollow%'
-    OR events__value LIKE '%spam%'
-    OR events__value LIKE '%ai_cb_triggered%'
-    OR events__value LIKE '%chargeback_precom%'
-    OR events__value LIKE '%chargeback_postcom%'
-    )
-GROUP BY 1
+/* =========================================================
+0. reference dictionaries
+========================================================= */
+excluded_tag_patterns AS (
+    SELECT *
+    FROM (
+        VALUES
+            ('%cancellation_notification%'),
+            ('%closed_by_merge%'),
+            ('%voice_abandoned_in_voicemail%'),
+            ('%appfollow%'),
+            ('%spam%'),
+            ('%ai_cb_triggered%'),
+            ('%chargeback_precom%'),
+            ('%chargeback_postcom%')
+    ) AS t(pattern)
 ),
-    tickets AS (
-SELECT
-    ticket_id,
-    MIN(created_at) AS ticket_created_at,
-    CAST(MAX(events__value) AS BIGINT) AS requester_id
-FROM data_bronze_zendesk_prod.zendesk_audit
-WHERE events__type = 'Create'
-  AND events__field_name = 'requester_id'
-GROUP BY ticket_id
-HAVING MIN(CAST(created_at AS DATE)) >= DATE '2026-01-01'
-   AND MIN(CAST(created_at AS DATE)) < current_date
+auto_reply_titles AS (
+    SELECT *
+    FROM (
+        VALUES
+            ('Auto_12: Auto-reply to refund requests (Stores)'),
+            ('Auto_21: Auto-reply to delete+refund requests (Paddle/PayPal)'),
+            ('Auto_91: Auto-reply to delete requests (Stores)'),
+            ('Auto_13: Auto-reply to refund requests (Paddle/PayPal)'),
+            ('Auto_29: Auto-reply - payment_not_found AI'),
+            ('Auto_29: Auto-reply - payment_not_found AI (2nd)'),
+            ('Auto_29: Auto-reply - payment_not_found (automation failed)'),
+            ('Auto_35: Auto-reply to delete+refund requests (threats/risk)'),
+            ('Auto_6: Auto-reply to cancel requests (Web) '),
+            ('Auto_7: Auto-reply to cancel requests (Stores)'),
+            ('Auto_28: Freemium only - payment_not_found'),
+            ('Auto-reply - something is wrong with my subscription - SmartyMe')
+    ) AS t(from_title)
 ),
-    base_audit AS (
-SELECT
-    za.ticket_id,
-    za.channel,
-    date_add('hour', 2, za.created_at) as created_at,
-    date_trunc('minute', date_add('hour', 2, za.created_at)) as created_at_truncated,
-    CAST(CAST(za.author_id AS DOUBLE) AS BIGINT) AS author_id,
-    CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) AS event_author_id,
-    za.events__id,
-    za.events__type,
-    za.events__field_name,
-    za.events__value,
-    za.events__previous_value,
-    za.events__body,
-    za.events__public,
-    za.events__from_title,
-    CASE WHEN events__type = 'Notification' AND events__from_title IN (
-                                                                        'Auto_12: Auto-reply to refund requests (Stores)',
-                                                                        'Auto_21: Auto-reply to delete+refund requests (Paddle/PayPal)',
-                                                                        'Auto_91: Auto-reply to delete requests (Stores)',
-                                                                        'Auto_13: Auto-reply to refund requests (Paddle/PayPal)',
-                                                                        'Auto_29: Auto-reply - payment_not_found AI',
-                                                                        'Auto_29: Auto-reply - payment_not_found AI (2nd)',
-                                                                        'Auto_29: Auto-reply - payment_not_found (automation failed)',
-                                                                        'Auto_35: Auto-reply to delete+refund requests (threats/risk)',
-                                                                        'Auto_6: Auto-reply to cancel requests (Web) ',
-                                                                        'Auto_7: Auto-reply to cancel requests (Stores)',
-                                                                        'Auto_28: Freemium only - payment_not_found',
-                                                                        'Auto-reply - something is wrong with my subscription - SmartyMe'
-                                                                      )
-            THEN 1 /* auto notification */
-         WHEN CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) is not null AND events__public = TRUE
-            THEN 2 /* public message */
-            ELSE 0
-    END is_public_communication
-FROM data_bronze_zendesk_prod.zendesk_audit za
-    JOIN tickets ON tickets.ticket_id = za.ticket_id
-    LEFT JOIN tickets_to_exclude ON tickets_to_exclude.ticket_to_exclude_id = za.ticket_id
-WHERE 1=1
-  --AND za.ticket_id = 660296
-  AND tickets_to_exclude.ticket_to_exclude_id IS NULL
-),
-    agents_dict AS (
+agents_dict AS (
     SELECT *
     FROM (
         VALUES
@@ -84,10 +43,8 @@ WHERE 1=1
             (41972533108625, 'Konstantin Shibakov', 'Admins'),
             (40215157462161, 'QA', 'Admins'),
             (34224285677201, 'Yaroslav Kukharenko', 'Admins'),
-
             (26222438547857, 'Maksym Zvieriev', 'TL'),
             (30648746936465, 'Alexander Petrov', 'TL'),
-
             (39272670052113, 'Sam Bondar', 'Moon Rangers'),
             (38754864964753, 'Brian Tepliuk', 'Moon Rangers'),
             (38694917174545, 'Mike Mkrtumyan', 'Moon Rangers'),
@@ -106,99 +63,155 @@ WHERE 1=1
             (29737848444689, 'Daniel Vinokurov', 'Blanc'),
             (26440502459665, 'Nikki', 'Automation'),
             (26349132549521, 'Mia Petchenko', 'Moon Rangers'),
-
             (42676049623057, 'Sophie Palamarchuk', 'Moon Rangers'),
             (42676111579153, 'Michael Brodovskyi', 'Moon Rangers'),
-
             (44010183588497, 'Stella Kishyk', 'Blanc')
-    ) AS t (
-        agent_id,
-        agent_name,
-        agent_group
-            )
+    ) AS t(agent_id, agent_name, agent_group)
 ),
-    tickets_attr AS (
-SELECT
--------------------------------------------------
-/* base details */
--------------------------------------------------
-       ticket_id,
-       tickets.ticket_created_at,
-       CAST(CAST(tickets.requester_id AS DOUBLE) AS BIGINT) as requester_id,
-       MAX(CASE WHEN events__field_name IN (
-                                             '32351109113361', /* backoffice */
-                                             '40831328206865', /* app_user_id */
-                                             '32351085497873' /* supabase */
-                                            )
-                                        THEN events__value END
-       ) as user_id,
-       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'brand_id' THEN
-               CASE WHEN events__value = '26467992035601' THEN 'MindScape'
-                    WHEN events__value = '27810244289553' THEN 'Neurolift'
-                    WHEN events__value = '26468032413713' THEN 'SmartyMe'
-                    WHEN events__value = '26222456156689' THEN 'StellarTech Limited'
-                    WHEN events__value = '43023476289553' THEN 'Nexera'
-                    ELSE 'Unknown'
-                    END
-           END) as ticket_brand,
-       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'ticket_form_id' THEN
-               CASE WHEN events__value = '26472204214801' THEN 'main ticket form'
-                    WHEN events__value = '34833592831505' THEN 'in-app ticket form'
-                    WHEN events__value = '34902185196177' THEN 'test form'
-                    WHEN events__value = '26222488220945' THEN 'default ticket form'
-                    WHEN events__value = '35743604923281' THEN 'registration form'
-                    ELSE null
-                    END
-           END) as ticket_form_type,
-       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'requester_id' THEN channel END) as ticket_channel,
-       MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'subject' THEN events__value END) as ticket_subject,
-       ELEMENT_AT(
-           ARRAY_AGG(CASE WHEN events__value = '26222456191633' THEN 'new'
-                          WHEN events__value = '26222456196881' THEN 'open'
-                          WHEN events__value = '26222488415249' THEN 'in progress'
-                          WHEN events__value = '26471687892881' THEN 'waiting for cs'
-                          WHEN events__value = '26222456200081' THEN 'pending'
-                          WHEN events__value = '26471092160657' THEN 'waiting for customer'
-                          WHEN events__value = '26471128667153' THEN 'waiting for tech team'
-                          WHEN events__value = '26222456206737' THEN 'solved'
-                          WHEN events__value = '26471115820177' THEN 'solved (no reply)'
-                          WHEN events__value = 'closed' THEN 'closed'
-                         ELSE null
-                     END
-               ORDER BY created_at DESC, events__id DESC)
-           FILTER (WHERE (events__field_name = 'custom_status_id' AND events__value IS NOT NULL) OR
-                         (events__field_name = 'status' AND events__value = 'closed')
-                   ), 1
-       ) as status,
-       ELEMENT_AT(
-           ARRAY_AGG(events__value ORDER BY created_at DESC, events__id DESC)
-           FILTER (WHERE events__field_name = '26442658996241' AND events__value IS NOT NULL), 1
-       ) as request_type,
-       ELEMENT_AT(
-           ARRAY_AGG(events__value ORDER BY created_at DESC, events__id DESC)
-           FILTER (WHERE events__field_name = '31320582354705' AND events__value IS NOT NULL), 1
-       ) as subtype,
 
-       ELEMENT_AT(
-           ARRAY_AGG(events__value ORDER BY created_at DESC, events__id DESC)
-           FILTER (WHERE events__field_name = 'assignee_id' AND events__value IS NOT NULL), -1
-       ) as assigned_to,
-       ELEMENT_AT(
-           ARRAY_AGG(author_id ORDER BY created_at DESC, events__id DESC)
-           FILTER (WHERE events__type = 'Comment' AND events__public = true), 1
-       ) as resolved_by, /* считаем по последней коммуникации с клиентом, кроме паблик комментов есть еще нотификации - учесть здесь */
-       COUNT(DISTINCT CASE WHEN events__field_name = 'assignee_id' AND events__value IS NOT NULL THEN events__value END) as assignees_number,
-       COUNT(CASE WHEN (
-                        events__type = 'Comment' AND
-                        events__public = True AND
-                        event_author_id <> requester_id
-                        )
-                       OR
-                       (
-                        is_public_communication = 1
-                       )
-                       THEN events__id
-       END) as replies_number,
+tickets_to_exclude AS (
+    SELECT
+        za.ticket_id AS ticket_to_exclude_id,
+        MIN(CAST(za.created_at AS DATE)) AS created_date
+    FROM data_bronze_zendesk_prod.zendesk_audit za
+    JOIN excluded_tag_patterns etp
+      ON za.events__field_name = 'tags'
+     AND za.events__value LIKE etp.pattern
+    WHERE za.created_at >= DATE '2026-01-01'
+    GROUP BY 1
+),
+
+tickets AS (
+    SELECT
+        za.ticket_id,
+        MIN(za.created_at) AS ticket_created_at,
+        CAST(MAX(za.events__value) AS BIGINT) AS requester_id
+    FROM data_bronze_zendesk_prod.zendesk_audit za
+    WHERE za.events__type = 'Create'
+      AND za.events__field_name = 'requester_id'
+    GROUP BY 1
+    HAVING MIN(CAST(za.created_at AS DATE)) >= DATE '2026-01-01'
+       AND MIN(CAST(za.created_at AS DATE)) < current_date
+),
+
+base_audit AS (
+    SELECT
+        za.ticket_id,
+        t.ticket_created_at,
+        t.requester_id,
+        za.channel,
+        date_add('hour', 2, za.created_at) AS created_at,
+        date_trunc('minute', date_add('hour', 2, za.created_at)) AS created_at_truncated,
+        CAST(CAST(za.author_id AS DOUBLE) AS BIGINT) AS author_id,
+        CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) AS event_author_id,
+        za.events__id,
+        za.events__type,
+        za.events__field_name,
+        za.events__value,
+        TRY_CAST(za.events__value AS BIGINT) AS events__value_bigint,
+        za.events__previous_value,
+        za.events__body,
+        za.events__public,
+        za.events__from_title,
+        CASE
+            WHEN za.events__type = 'Notification'
+             AND EXISTS (
+                SELECT 1
+                FROM auto_reply_titles art
+                WHERE art.from_title = za.events__from_title
+             )
+            THEN 1
+            WHEN CAST(CAST(za.events__author_id AS DOUBLE) AS BIGINT) IS NOT NULL
+             AND za.events__public = TRUE
+            THEN 2
+            ELSE 0
+        END AS is_public_communication
+    FROM data_bronze_zendesk_prod.zendesk_audit za
+    JOIN tickets t
+      ON t.ticket_id = za.ticket_id
+    LEFT JOIN tickets_to_exclude te
+      ON te.ticket_to_exclude_id = za.ticket_id
+    WHERE te.ticket_to_exclude_id IS NULL
+      -- AND za.ticket_id = 762083
+),
+
+tickets_attr AS (
+    SELECT
+        b.ticket_id,
+        b.ticket_created_at,
+        CAST(CAST(b.requester_id AS DOUBLE) AS BIGINT) AS requester_id,
+        MAX(
+            CASE
+                WHEN events__field_name IN ('32351109113361', '40831328206865', '32351085497873')
+                THEN events__value
+            END
+        ) AS user_id,
+        MAX(
+            CASE
+                WHEN events__type = 'Create' AND events__field_name = 'brand_id' THEN
+                    CASE
+                        WHEN events__value = '26467992035601' THEN 'MindScape'
+                        WHEN events__value = '27810244289553' THEN 'Neurolift'
+                        WHEN events__value = '26468032413713' THEN 'SmartyMe'
+                        WHEN events__value = '26222456156689' THEN 'StellarTech Limited'
+                        WHEN events__value = '43023476289553' THEN 'Nexera'
+                        ELSE 'Unknown'
+                    END
+            END
+        ) AS ticket_brand,
+        MAX(
+            CASE
+                WHEN events__type = 'Create' AND events__field_name = 'ticket_form_id' THEN
+                    CASE
+                        WHEN events__value = '26472204214801' THEN 'main ticket form'
+                        WHEN events__value = '34833592831505' THEN 'in-app ticket form'
+                        WHEN events__value = '34902185196177' THEN 'test form'
+                        WHEN events__value = '26222488220945' THEN 'default ticket form'
+                        WHEN events__value = '35743604923281' THEN 'registration form'
+                        ELSE NULL
+                    END
+            END
+        ) AS ticket_form_type,
+        MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'requester_id' THEN channel END) AS ticket_channel,
+        MAX(CASE WHEN events__type = 'Create' AND events__field_name = 'subject' THEN events__value END) AS ticket_subject,
+        ELEMENT_AT(
+            ARRAY_AGG(
+                CASE
+                    WHEN events__value = '26222456191633' THEN 'new'
+                    WHEN events__value = '26222456196881' THEN 'open'
+                    WHEN events__value = '26222488415249' THEN 'in progress'
+                    WHEN events__value = '26471687892881' THEN 'waiting for cs'
+                    WHEN events__value = '26222456200081' THEN 'pending'
+                    WHEN events__value = '26471092160657' THEN 'waiting for customer'
+                    WHEN events__value = '26471128667153' THEN 'waiting for tech team'
+                    WHEN events__value = '26222456206737' THEN 'solved'
+                    WHEN events__value = '26471115820177' THEN 'solved (no reply)'
+                    WHEN events__value = 'closed' THEN 'closed'
+                    ELSE NULL
+                END
+                ORDER BY created_at DESC, events__id DESC
+            ) FILTER (
+                WHERE
+                    (events__field_name = 'custom_status_id' AND events__value IS NOT NULL)
+                    OR (events__field_name = 'status' AND events__value = 'closed')
+            ),
+            1
+        ) AS status,
+        ELEMENT_AT(
+            ARRAY_AGG(events__value ORDER BY created_at DESC, events__id DESC)
+            FILTER (WHERE events__field_name = '26442658996241' AND events__value IS NOT NULL),
+            1
+        ) AS request_type,
+        ELEMENT_AT(
+            ARRAY_AGG(events__value ORDER BY created_at DESC, events__id DESC)
+            FILTER (WHERE events__field_name = '31320582354705' AND events__value IS NOT NULL),
+            1
+        ) AS subtype,
+       MAX(CASE WHEN events__type = 'SurveyOffered' THEN 1  ELSE 0 END) as survey_offered,
+       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund%'     THEN 1 ELSE 0 END) as refund_tag,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_not_eligible%' THEN 1 ELSE 0 END) as refund_not_eligible,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_eligible%'     THEN 1 ELSE 0 END) as refund_eligible,
        MAX(CASE WHEN events__field_name = 'assignee_id' AND TRY_CAST(events__value AS BIGINT) = 26440502459665 THEN 1  ELSE 0 END) as auto_involved,
        CASE WHEN ELEMENT_AT(
            ARRAY_AGG(author_id ORDER BY created_at DESC, events__id DESC)
@@ -209,140 +222,39 @@ SELECT
                                                        WHEN events__type = 'Comment' AND author_id <> requester_id THEN created_at
                                                   END
                     )
-       ) as resolution_time,
-       MAX(CASE WHEN events__type = 'SurveyOffered' THEN 1  ELSE 0 END) as survey_offered,
-       MAX(CASE WHEN events__type = 'SurveyResponseSubmitted' THEN 1  ELSE 0 END) as survey_submitted,
-       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund%'     THEN 1 ELSE 0 END) as refund_tag,
-       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_not_eligible%' THEN 1 ELSE 0 END) as refund_not_eligible,
-       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%refund_eligible%'     THEN 1 ELSE 0 END) as refund_eligible
-FROM tickets
-    JOIN base_audit USING(ticket_id)
-WHERE 1=1
-GROUP BY 1, 2, 3
+       ) as resolution_time
+    FROM base_audit b
+    GROUP BY 1, 2, 3
 ),
-    all_msg AS (
-SELECT CASE WHEN b.event_author_id = t.requester_id THEN 'requester' ELSE 'agent' END as log_type,
-       b.ticket_id,
-       t.requester_id,
-       b.created_at as assign_created_at,
-       b.created_at + INTERVAL '5' SECOND as msg_created_at,
-       COALESCE(LAG(b.created_at + INTERVAL '5' SECOND) OVER (PARTITION BY b.ticket_id ORDER BY b.created_at), b.created_at) AS prev_msg_created_at,
-       COALESCE(DATE_DIFF('second', LAG(b.created_at) OVER (PARTITION BY b.ticket_id ORDER BY b.created_at), b.created_at), 0) AS response_duration_sec,
-       CAST(CAST(b.author_id AS DOUBLE) AS BIGINT) AS msg_author_id,
-       b.events__id msg_event_id,
-       b.events__body as msg_text
-FROM tickets t
-    JOIN base_audit b ON t.ticket_id = b.ticket_id
-                     AND b.is_public_communication IN (1, 2)
-),
-    agent_assign AS (
-SELECT
-    b.ticket_id,
-    t.requester_id,
-    CAST(b.events__value AS BIGINT) AS author_id_value,
-    b.created_at,
-    b.created_at_truncated,
-    COALESCE(LEAST(
-                    LEAD(b.created_at_truncated) OVER(PARTITION BY b.ticket_id, b.events__value ORDER BY b.created_at),
-                    LEAD(b.created_at_truncated) OVER (PARTITION BY b.ticket_id ORDER BY b.created_at)
-             ), b.created_at_truncated + INTERVAL '14' DAY
-    ) AS next_assign_by_agent,
 
-    LEAD(b.created_at_truncated) OVER(PARTITION BY b.ticket_id, b.events__value ORDER BY b.created_at) as next_1,
-    LEAD(b.created_at_truncated) OVER (PARTITION BY b.ticket_id ORDER BY b.created_at) as next_2,
-    b.created_at_truncated + INTERVAL '14' DAY as next_3,
-
-
-    COALESCE(LEAD(b.created_at) OVER (PARTITION BY b.ticket_id ORDER BY b.created_at), b.created_at) AS next_assign,
-    COALESCE(DATE_DIFF('second', b.created_at, LEAD(b.created_at) OVER (PARTITION BY b.ticket_id ORDER BY b.created_at)), 0) AS assign_duration_sec,
-    CAST(CAST(b.author_id AS DOUBLE) AS BIGINT) AS author_id,
-    b.events__id
-FROM base_audit b
-    JOIN tickets t ON t.ticket_id = b.ticket_id
-WHERE 1=1
-  AND b.events__field_name = 'assignee_id' AND b.events__value IS NOT NULL
+csat_attr AS (
+    SELECT
+        ticket_id,
+        created_at,
+        events__id,
+        author_id AS csat_author_id,
+        csat_val,
+        ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY created_at DESC) AS csat_rn
+    FROM (
+        SELECT
+            ticket_id,
+            created_at,
+            author_id,
+            events__id,
+            events__type,
+            events__field_name,
+            events__value,
+            LEAD(events__field_name) OVER (PARTITION BY ticket_id ORDER BY created_at) AS csat_flag,
+            LEAD(events__value) OVER (PARTITION BY ticket_id ORDER BY created_at) AS csat_val
+        FROM base_audit
+        WHERE
+            (events__type = 'Comment' AND author_id <> requester_id)
+            OR (events__type = 'Change' AND events__field_name = 'satisfaction_score' AND events__value IN ('good', 'bad'))
+    ) raw_csat
+    WHERE events__type = 'Comment'
+      AND csat_flag = 'satisfaction_score'
 ),
-    full_log AS (
-SELECT ticket_id,
-       created_at,
-       log_type,
-       assign_event_id as event_id,
-       msg_author_id as author_id,
-       COALESCE(response_duration_sec, assign_duration_sec) as duration_sec,
-       msg_text,
-       MAX(customer_msg_rn) OVER (PARTITION BY ticket_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)
-       AS msg_rn
-FROM
-(
-SELECT log_type,
-       ticket_id,
-       assign_created_at as created_at,
-       assign_created_at,
-       msg_event_id as assign_event_id,
-       requester_id as assign_author_id,
-       null as assign_duration_sec,
-       response_duration_sec,
-       null as next_assign,
-       msg_created_at,
-       prev_msg_created_at,
-       msg_author_id,
-       msg_event_id,
-       msg_text,
-       ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY msg_created_at) as customer_msg_rn
-FROM all_msg
-WHERE 1=1
-  AND log_type = 'requester'
-UNION ALL
-SELECT CASE WHEN b.msg_author_id is null THEN 'agent_to_check' ELSE 'agent' END as log_type,
-       agent_assign.ticket_id,
-       COALESCE(b.assign_created_at, agent_assign.created_at) as created_at,
-       agent_assign.created_at as assign_created_at,
-       agent_assign.events__id as assign_event_id,
-       author_id_value as assign_author_id,
-       agent_assign.assign_duration_sec,
-       response_duration_sec,
-       next_assign,
-       COALESCE(b.msg_created_at, agent_assign.created_at) as msg_created_at,
-       prev_msg_created_at,
-       COALESCE(CAST(CAST(b.msg_author_id AS DOUBLE) AS BIGINT), agent_assign.author_id_value) AS msg_author_id,
-       b.msg_event_id,
-       b.msg_text,
-       null as customer_msg_rn
-FROM agent_assign
-  JOIN tickets t ON t.ticket_id = agent_assign.ticket_id
-  LEFT JOIN all_msg b ON b.ticket_id = agent_assign.ticket_id
-                        AND b.msg_author_id = agent_assign.author_id_value
-                        AND t.requester_id <> b.msg_author_id
-                        AND b.msg_created_at >= agent_assign.created_at_truncated
-                        AND b.msg_created_at < agent_assign.next_assign_by_agent
-WHERE 1=1
-UNION ALL
-SELECT 'agent_wo_assign' as log_type,
-       b.ticket_id,
-       b.assign_created_at as created_at,
-       b.assign_created_at,
-       null as assign_event_id,
-       null as assign_author_id,
-       null assign_duration_sec,
-       response_duration_sec,
-       null as next_assign,
-       b.msg_created_at as msg_created_at,
-       b.prev_msg_created_at,
-       CAST(CAST(b.msg_author_id AS DOUBLE) AS BIGINT) AS msg_author_id,
-       b.msg_event_id,
-       b.msg_text,
-       null as customer_msg_rn
-FROM all_msg b
-    LEFT JOIN agent_assign ON b.ticket_id = agent_assign.ticket_id
-                          AND b.msg_author_id = agent_assign.author_id_value
-                          AND b.msg_created_at >= agent_assign.created_at_truncated
-                          AND b.msg_created_at < agent_assign.next_assign_by_agent
-WHERE 1=1
-  AND agent_assign.ticket_id is null
-  AND b.log_type <> 'requester'
-) raw_log
-),
-    tech_team AS (
+tech_team AS (
   --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
 FROM (
@@ -364,129 +276,777 @@ WHERE 1=1
   AND events__value = '26471128667153'
 GROUP BY 1
 ),
-    ticket_log_attr AS (
-SELECT ticket_id,
-       DATE_DIFF('second', MIN(created_at), MAX(created_at)) as resolution_time,
-       MIN(created_at) as min_t,
-       ELEMENT_AT(ARRAY_AGG(created_at ORDER BY msg_rn DESC, created_at) FILTER (WHERE log_type = 'agent'), 1) as max_t,
-       DATE_DIFF(
-            'second', MIN(created_at), ELEMENT_AT(ARRAY_AGG(created_at ORDER BY msg_rn DESC, created_at) FILTER (WHERE log_type = 'agent'), 1)
-       ) as resolution_time_by_msg,
-       DATE_DIFF('second', MIN(created_at), MAX(created_at)) - SUM(CASE WHEN log_type = 'requester' THEN duration_sec END) as handling_time,
-       SUM(CASE WHEN log_type = 'agent_to_check' THEN duration_sec END) as lost_time,
-       AVG(CASE WHEN log_type = 'agent' THEN duration_sec END) as avg_reply_time,
-       ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY msg_rn, created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 1), 1
-       ) as first_reply_time,
-       ELEMENT_AT(
-           ARRAY_AGG(author_id ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 1), 1
-       ) as frt_agent,
-       ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 2), 1
-       ) as second_reply_time,
-       ELEMENT_AT(
-           ARRAY_AGG(author_id ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 2), 1
-       ) as srt_agent,
-       AVG(CASE WHEN log_type = 'agent' AND msg_rn > 1 THEN duration_sec END) as concecutive_reply_time,
-       CASE WHEN DATE_DIFF('second', MIN(created_at), MAX(created_at)) > 86400 THEN 1 ELSE 0 END as sla_total_resolution, /* 86400 sec = 24 hours */
-       CASE WHEN ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 1), 1) > 600 THEN 1 ELSE 0
-       END as sla_first_reply, /* 600 sec = 10 min */
-       CASE WHEN ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 2), 1) > 1200 THEN 1 ELSE 0
-       END as sla_second_reply, /* 1200 sec = 20 min */
 
-       AVG(CASE WHEN log_type = 'agent' AND author_id = 26440502459665 THEN duration_sec END) as avg_reply_time_auto,
-       ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 1 AND author_id = 26440502459665), 1
-       ) as first_reply_time_auto,
-       ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 2 AND author_id = 26440502459665), 1
-       ) as second_reply_time_auto,
-       AVG(CASE WHEN log_type = 'agent' AND msg_rn > 1  AND author_id = 26440502459665 THEN duration_sec END) as concecutive_reply_time_auto,
+message_events AS (
+    SELECT
+        b.ticket_id,
+        b.created_at,
+        b.events__id AS event_id,
+        CASE
+            WHEN b.events__type = 'Notification' THEN 26440502459665
+            ELSE b.author_id
+        END AS author_id,
+        b.requester_id,
+        CASE
+            WHEN b.events__type = 'Comment'
+             AND b.events__public = TRUE
+             AND ad.agent_id IS NULL
+            THEN 'customer_message'
+            WHEN b.events__type = 'Comment'
+             AND b.events__public = TRUE
+             AND ad.agent_id IS NOT NULL
+            THEN 'agent_message'
+            WHEN b.events__type = 'Notification'
+             AND b.is_public_communication IN (1, 2)
+            THEN 'agent_message'
+            ELSE 'unknown'
+        END AS event_type,
+        b.events__body AS msg_text,
+        b.events__type,
+        b.events__public,
+        b.events__from_title
+    FROM base_audit b
+    LEFT JOIN agents_dict ad
+      ON ad.agent_id = b.author_id
+    WHERE
+        (
+            b.events__type = 'Comment'
+            AND b.events__public = TRUE
+        )
+        OR
+        (
+            b.events__type = 'Notification'
+            AND b.is_public_communication IN (1, 2)
+        )
+),
 
-       AVG(CASE WHEN log_type = 'agent' AND author_id <> 26440502459665 THEN duration_sec END) as avg_reply_time_person,
-       ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 1 AND author_id <> 26440502459665), 1
-       ) as first_reply_time_person,
-       ELEMENT_AT(
-           ARRAY_AGG(duration_sec ORDER BY created_at)
-           FILTER (WHERE log_type = 'agent' AND msg_rn = 2 AND author_id <> 26440502459665), 1
-       ) as second_reply_time_person,
-       AVG(CASE WHEN log_type = 'agent' AND msg_rn > 1  AND author_id <> 26440502459665 THEN duration_sec END) as concecutive_reply_time_person,
-       MAX(msg_rn) as msg_from_customer_count
-FROM full_log ta
-GROUP BY 1
+valid_message_events AS (
+    SELECT *
+    FROM message_events
+    WHERE event_type IN ('customer_message', 'agent_message')
+),
+
+solved_events AS (
+    SELECT
+        b.ticket_id,
+        b.created_at,
+        b.events__id AS event_id,
+        b.author_id,
+        CASE
+            WHEN b.events__field_name = 'custom_status_id'
+             AND b.events__value = '26222456206737'
+            THEN 'solved'
+            WHEN b.events__field_name = 'custom_status_id'
+             AND b.events__value = '26471115820177'
+            THEN 'solved_no_reply'
+        END AS solved_type
+    FROM base_audit b
+    WHERE b.events__field_name = 'custom_status_id'
+      AND b.events__value IN ('26222456206737', '26471115820177')
+),
+
+segmentation_events AS (
+    SELECT
+        me.ticket_id,
+        me.created_at,
+        me.event_id,
+        me.author_id,
+        me.requester_id,
+        me.event_type,
+        me.msg_text
+    FROM valid_message_events me
+    UNION ALL
+    SELECT
+        se.ticket_id,
+        se.created_at,
+        se.event_id,
+        se.author_id,
+        CAST(NULL AS BIGINT) AS requester_id,
+        'solved_event' AS event_type,
+        CAST(NULL AS VARCHAR) AS msg_text
+    FROM solved_events se
+),
+
+segmentation_ordered AS (
+    SELECT
+        se.*,
+        CASE
+            WHEN se.event_type = 'customer_message' THEN 1
+            WHEN se.event_type = 'solved_event' THEN 2
+            WHEN se.event_type = 'agent_message' THEN 3
+        END AS seg_priority,
+        LAG(se.event_type) OVER (
+            PARTITION BY se.ticket_id
+            ORDER BY se.created_at,
+                     CASE
+                         WHEN se.event_type = 'customer_message' THEN 1
+                         WHEN se.event_type = 'solved_event' THEN 2
+                         WHEN se.event_type = 'agent_message' THEN 3
+                     END,
+                     se.event_id
+        ) AS prev_seg_event_type
+    FROM segmentation_events se
+),
+
+segmentation_blocked AS (
+    SELECT
+        so.*,
+        CASE
+            WHEN so.event_type = 'customer_message'
+             AND COALESCE(so.prev_seg_event_type, 'closure') IN ('agent_message', 'solved_event', 'closure')
+            THEN 1
+            ELSE 0
+        END AS is_new_customer_block
+    FROM segmentation_ordered so
+),
+
+segmentation_numbered AS (
+    SELECT
+        sb.*,
+        SUM(sb.is_new_customer_block) OVER (
+            PARTITION BY sb.ticket_id
+            ORDER BY sb.created_at, sb.seg_priority, sb.event_id
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) AS customer_msg_num
+    FROM segmentation_blocked sb
+),
+
+customer_blocks AS (
+    SELECT
+        ticket_id,
+        customer_msg_num,
+        MIN(created_at) AS customer_block_start_at
+    FROM segmentation_numbered
+    WHERE event_type = 'customer_message'
+    GROUP BY 1,2
+),
+
+message_enriched AS (
+    SELECT
+        me.*,
+        sn.customer_msg_num,
+        cb.customer_block_start_at,
+        LAG(me.event_type) OVER (
+            PARTITION BY me.ticket_id
+            ORDER BY me.created_at, me.event_id
+        ) AS prev_public_message_type
+    FROM valid_message_events me
+    LEFT JOIN segmentation_numbered sn
+      ON sn.ticket_id = me.ticket_id
+     AND sn.event_id = me.event_id
+     AND sn.event_type = me.event_type
+    LEFT JOIN customer_blocks cb
+      ON cb.ticket_id = sn.ticket_id
+     AND cb.customer_msg_num = sn.customer_msg_num
+),
+
+reply_candidates AS (
+    SELECT
+        me.*,
+        CASE
+            WHEN me.event_type = 'agent_message'
+             AND me.customer_msg_num > 0
+             AND COALESCE(me.prev_public_message_type, 'none') = 'customer_message'
+            THEN 1
+            ELSE 0
+        END AS is_first_agent_reply
+    FROM message_enriched me
+),
+
+reply_numbered AS (
+    SELECT
+        rc.*,
+        CASE
+            WHEN rc.is_first_agent_reply = 1 THEN
+                SUM(rc.is_first_agent_reply) OVER (
+                    PARTITION BY rc.ticket_id
+                    ORDER BY rc.created_at, rc.event_id
+                    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                )
+        END AS agent_reply_num
+    FROM reply_candidates rc
+),
+
+first_reply_per_block AS (
+    SELECT
+        ticket_id,
+        customer_msg_num,
+        MIN(created_at) AS first_reply_at
+    FROM reply_numbered
+    WHERE is_first_agent_reply = 1
+    GROUP BY 1, 2
+),
+
+first_solved_per_block AS (
+    SELECT
+        sn.ticket_id,
+        sn.customer_msg_num,
+        MIN(sn.created_at) AS first_solved_at
+    FROM segmentation_numbered sn
+    WHERE sn.event_type = 'solved_event'
+    GROUP BY 1,2
+),
+
+block_closure AS (
+    SELECT
+        cb.ticket_id,
+        cb.customer_msg_num,
+        cb.customer_block_start_at,
+        fr.first_reply_at,
+        fs.first_solved_at,
+        CASE
+            WHEN fr.first_reply_at IS NOT NULL
+             AND (fs.first_solved_at IS NULL OR fr.first_reply_at <= fs.first_solved_at)
+            THEN fr.first_reply_at
+            WHEN fs.first_solved_at IS NOT NULL
+            THEN fs.first_solved_at
+            ELSE NULL
+        END AS block_closed_at,
+        CASE
+            WHEN fr.first_reply_at IS NOT NULL
+             AND (fs.first_solved_at IS NULL OR fr.first_reply_at <= fs.first_solved_at)
+            THEN 'reply'
+            WHEN fs.first_solved_at IS NOT NULL
+            THEN 'solved_without_reply'
+            ELSE NULL
+        END AS block_closure_type
+    FROM customer_blocks cb
+    LEFT JOIN first_reply_per_block fr
+      ON fr.ticket_id = cb.ticket_id
+     AND fr.customer_msg_num = cb.customer_msg_num
+    LEFT JOIN first_solved_per_block fs
+      ON fs.ticket_id = cb.ticket_id
+     AND fs.customer_msg_num = cb.customer_msg_num
+),
+
+customer_messages_ranked AS (
+    SELECT
+        rn.ticket_id,
+        rn.event_id,
+        rn.author_id,
+        rn.created_at,
+        rn.msg_text,
+        rn.customer_msg_num,
+        rn.customer_block_start_at,
+        ROW_NUMBER() OVER (
+            PARTITION BY rn.ticket_id, rn.customer_msg_num
+            ORDER BY rn.created_at, rn.event_id
+        ) AS rn_in_block,
+        LAG(rn.created_at) OVER (
+            PARTITION BY rn.ticket_id, rn.customer_msg_num
+            ORDER BY rn.created_at, rn.event_id
+        ) AS prev_customer_msg_at
+    FROM reply_numbered rn
+    WHERE rn.event_type = 'customer_message'
+),
+
+customer_block_prev_reply AS (
+    SELECT
+        cb.ticket_id,
+        cb.customer_msg_num,
+        MAX(r.created_at) AS previous_agent_reply_at
+    FROM customer_blocks cb
+    LEFT JOIN reply_numbered r
+      ON r.ticket_id = cb.ticket_id
+     AND r.is_first_agent_reply = 1
+     AND r.created_at < cb.customer_block_start_at
+    GROUP BY 1, 2
+),
+
+customer_message_log AS (
+    SELECT
+        cmr.created_at AS created_at,
+        cmr.ticket_id,
+        'customer_message' AS log_type,
+        cmr.author_id,
+        cmr.created_at AS msg_created_at,
+        CAST(NULL AS TIMESTAMP) AS assign_created_at,
+        CASE
+            WHEN cmr.rn_in_block = 1
+                THEN COALESCE(cbpr.previous_agent_reply_at, cmr.created_at)
+            ELSE cmr.prev_customer_msg_at
+        END AS previous_event_at,
+        bc.block_closed_at AS next_event_at,
+        CASE
+            WHEN cmr.rn_in_block = 1 THEN
+                CASE
+                    WHEN COALESCE(cbpr.previous_agent_reply_at, cmr.created_at) = cmr.created_at THEN 0
+                    ELSE DATE_DIFF('second', COALESCE(cbpr.previous_agent_reply_at, cmr.created_at), cmr.created_at)
+                END
+            ELSE DATE_DIFF('second', cmr.prev_customer_msg_at, cmr.created_at)
+        END AS duration_sec_overall,
+        CAST(NULL AS BIGINT) AS duration_sec_agent,
+        cmr.customer_msg_num,
+        CAST(NULL AS BIGINT) AS agent_reply_num,
+        cmr.msg_text,
+        CASE WHEN bc.block_closure_type = 'solved_without_reply' THEN 1 ELSE 0 END AS closed_without_reply_flag
+    FROM customer_messages_ranked cmr
+    LEFT JOIN customer_block_prev_reply cbpr
+      ON cbpr.ticket_id = cmr.ticket_id
+     AND cbpr.customer_msg_num = cmr.customer_msg_num
+    LEFT JOIN block_closure bc
+      ON bc.ticket_id = cmr.ticket_id
+     AND bc.customer_msg_num = cmr.customer_msg_num
+),
+
+assignment_events AS (
+    SELECT
+        b.ticket_id,
+        b.created_at,
+        b.events__id AS event_id,
+        b.author_id AS assignment_author_id,
+        b.requester_id,
+        b.events__value_bigint AS assigned_agent_id
+    FROM base_audit b
+    WHERE b.events__field_name = 'assignee_id'
+      AND b.events__value_bigint IS NOT NULL
+),
+
+assignment_next_assignment AS (
+    SELECT
+        ae.*,
+        LEAD(ae.created_at) OVER (
+            PARTITION BY ae.ticket_id
+            ORDER BY ae.created_at, ae.event_id
+        ) AS next_assignment_at
+    FROM assignment_events ae
+),
+
+assignment_first_public_event AS (
+    SELECT
+        ana.ticket_id,
+        ana.event_id,
+        ana.assignment_author_id,
+        ana.assigned_agent_id,
+        ana.created_at AS assign_created_at,
+        ana.next_assignment_at,
+        MIN(me.created_at) AS first_public_after_assign_at
+    FROM assignment_next_assignment ana
+    LEFT JOIN valid_message_events me
+      ON me.ticket_id = ana.ticket_id
+     AND (
+            me.created_at > ana.created_at
+            OR (me.created_at = ana.created_at AND me.event_type = 'agent_message')
+         )
+     AND (
+            ana.next_assignment_at IS NULL
+            OR me.created_at < ana.next_assignment_at
+         )
+    GROUP BY 1,2,3,4,5,6
+),
+
+assignment_first_public_candidates AS (
+    SELECT
+        afpe.ticket_id,
+        afpe.event_id,
+        afpe.assignment_author_id,
+        afpe.assigned_agent_id,
+        afpe.assign_created_at,
+        afpe.next_assignment_at,
+        afpe.first_public_after_assign_at,
+        me.event_type AS first_public_event_type,
+        me.author_id AS first_public_author_id,
+        ROW_NUMBER() OVER (
+            PARTITION BY afpe.ticket_id, afpe.event_id
+            ORDER BY me.created_at, me.event_id
+        ) AS rn
+    FROM assignment_first_public_event afpe
+    LEFT JOIN valid_message_events me
+      ON me.ticket_id = afpe.ticket_id
+     AND me.created_at = afpe.first_public_after_assign_at
+),
+
+assignment_intervals AS (
+    SELECT
+        afpc.ticket_id,
+        afpc.event_id,
+        afpc.assignment_author_id,
+        afpc.assigned_agent_id,
+        afpc.assign_created_at,
+        afpc.next_assignment_at,
+        afpc.first_public_after_assign_at,
+        afpc.first_public_event_type,
+        afpc.first_public_author_id,
+        CASE
+            WHEN afpc.first_public_event_type = 'agent_message'
+             AND afpc.first_public_author_id = afpc.assigned_agent_id
+            THEN 1
+            ELSE 0
+        END AS assignment_consumed_by_reply,
+        COALESCE(afpc.first_public_after_assign_at, afpc.next_assignment_at) AS assignment_end_at
+    FROM assignment_first_public_candidates afpc
+    WHERE afpc.rn = 1
+),
+
+all_events AS (
+    SELECT
+        rn.ticket_id,
+        rn.created_at,
+        rn.event_id,
+        rn.author_id AS actor_id,
+        rn.requester_id,
+        CAST(NULL AS BIGINT) AS assigned_agent_id,
+        CAST(NULL AS BIGINT) AS assignment_author_id,
+        rn.event_type,
+        rn.msg_text,
+        CASE
+            WHEN rn.event_type = 'customer_message' THEN 1
+            WHEN rn.event_type = 'agent_message' THEN 3
+        END AS event_priority
+    FROM reply_numbered rn
+    UNION ALL
+    SELECT
+        ae.ticket_id,
+        ae.created_at,
+        ae.event_id,
+        ae.assignment_author_id AS actor_id,
+        ae.requester_id,
+        ae.assigned_agent_id,
+        ae.assignment_author_id,
+        'assignment' AS event_type,
+        CAST(NULL AS VARCHAR) AS msg_text,
+        2 AS event_priority
+    FROM assignment_events ae
+    UNION ALL
+    SELECT
+        se.ticket_id,
+        se.created_at,
+        se.event_id,
+        se.author_id AS actor_id,
+        CAST(NULL AS BIGINT) AS requester_id,
+        CAST(NULL AS BIGINT) AS assigned_agent_id,
+        CAST(NULL AS BIGINT) AS assignment_author_id,
+        'solved_event' AS event_type,
+        CAST(NULL AS VARCHAR) AS msg_text,
+        2 AS event_priority
+    FROM solved_events se
+),
+
+ordered_all_events AS (
+    SELECT
+        ae.*,
+        LEAD(ae.created_at) OVER (
+            PARTITION BY ae.ticket_id
+            ORDER BY ae.created_at, ae.event_priority, ae.event_id
+        ) AS next_event_at_any
+    FROM all_events ae
+),
+
+first_replies AS (
+    SELECT
+        rn.ticket_id,
+        rn.event_id,
+        rn.author_id,
+        rn.created_at AS reply_created_at,
+        rn.msg_text,
+        rn.customer_msg_num,
+        rn.agent_reply_num,
+        rn.customer_block_start_at,
+        oae.next_event_at_any AS next_event_at
+    FROM reply_numbered rn
+    JOIN ordered_all_events oae
+      ON oae.ticket_id = rn.ticket_id
+     AND oae.event_id = rn.event_id
+     AND oae.event_type = rn.event_type
+    WHERE rn.is_first_agent_reply = 1
+),
+
+reply_assignment_match AS (
+    SELECT
+        fr.ticket_id,
+        fr.event_id,
+        fr.author_id,
+        fr.reply_created_at,
+        fr.msg_text,
+        fr.customer_msg_num,
+        fr.agent_reply_num,
+        fr.customer_block_start_at,
+        fr.next_event_at,
+        ai.assign_created_at,
+        ROW_NUMBER() OVER (
+            PARTITION BY fr.ticket_id, fr.event_id
+            ORDER BY ai.assign_created_at DESC, ai.event_id DESC
+        ) AS rn_desc
+    FROM first_replies fr
+    LEFT JOIN assignment_intervals ai
+      ON ai.ticket_id = fr.ticket_id
+     AND ai.assigned_agent_id = fr.author_id
+     AND ai.assignment_consumed_by_reply = 1
+     AND ai.first_public_after_assign_at = fr.reply_created_at
+),
+
+reply_with_assignment_status AS (
+    SELECT
+        ram.ticket_id,
+        ram.event_id,
+        ram.author_id,
+        ram.reply_created_at,
+        ram.msg_text,
+        ram.customer_msg_num,
+        ram.agent_reply_num,
+        ram.customer_block_start_at,
+        ram.next_event_at,
+        ram.assign_created_at,
+        CASE WHEN ram.assign_created_at IS NOT NULL THEN 1 ELSE 0 END AS has_valid_assignment
+    FROM reply_assignment_match ram
+    WHERE ram.rn_desc = 1
+),
+
+last_any_assignment_before_reply AS (
+    SELECT
+        fr.ticket_id,
+        fr.event_id,
+        MAX(ae.created_at) AS last_any_assign_at
+    FROM first_replies fr
+    LEFT JOIN assignment_events ae
+      ON ae.ticket_id = fr.ticket_id
+     AND ae.created_at <= fr.reply_created_at
+    GROUP BY 1,2
+),
+
+reply_by_assignment_log AS (
+    SELECT
+        rwas.reply_created_at AS created_at,
+        rwas.ticket_id,
+        'reply_by_assignment_after_customer_msg' AS log_type,
+        rwas.author_id,
+        rwas.reply_created_at AS msg_created_at,
+        rwas.assign_created_at,
+        rwas.customer_block_start_at AS previous_event_at,
+        rwas.next_event_at,
+        DATE_DIFF('second', rwas.customer_block_start_at, rwas.reply_created_at) AS duration_sec_overall,
+        DATE_DIFF('second', rwas.assign_created_at, rwas.reply_created_at) AS duration_sec_agent,
+        rwas.customer_msg_num,
+        rwas.agent_reply_num,
+        rwas.msg_text,
+        0 AS closed_without_reply_flag
+    FROM reply_with_assignment_status rwas
+    WHERE rwas.has_valid_assignment = 1
+),
+
+reply_without_assignment_log AS (
+    SELECT
+        rwas.reply_created_at AS created_at,
+        rwas.ticket_id,
+        'reply_without_assignment' AS log_type,
+        rwas.author_id,
+        rwas.reply_created_at AS msg_created_at,
+        CAST(NULL AS TIMESTAMP) AS assign_created_at,
+        CASE
+            WHEN rwas.customer_block_start_at IS NOT NULL THEN rwas.customer_block_start_at
+            ELSE laabr.last_any_assign_at
+        END AS previous_event_at,
+        rwas.next_event_at,
+        DATE_DIFF('second', rwas.customer_block_start_at, rwas.reply_created_at) AS duration_sec_overall,
+        0 AS duration_sec_agent,
+        rwas.customer_msg_num,
+        rwas.agent_reply_num,
+        rwas.msg_text,
+        0 AS closed_without_reply_flag
+    FROM reply_with_assignment_status rwas
+    LEFT JOIN last_any_assignment_before_reply laabr
+      ON laabr.ticket_id = rwas.ticket_id
+     AND laabr.event_id = rwas.event_id
+    WHERE rwas.has_valid_assignment = 0
+),
+
+solved_without_reply_log AS (
+    SELECT
+        bc.first_solved_at AS created_at,
+        bc.ticket_id,
+        'solved_without_reply' AS log_type,
+        CAST(NULL AS BIGINT) AS author_id,
+        CAST(NULL AS TIMESTAMP) AS msg_created_at,
+        CAST(NULL AS TIMESTAMP) AS assign_created_at,
+        bc.customer_block_start_at AS previous_event_at,
+        oae.next_event_at_any AS next_event_at,
+        CAST(NULL AS BIGINT) AS duration_sec_overall,
+        CAST(NULL AS BIGINT) AS duration_sec_agent,
+        bc.customer_msg_num,
+        CAST(NULL AS BIGINT) AS agent_reply_num,
+        CAST(NULL AS VARCHAR) AS msg_text,
+        1 AS closed_without_reply_flag
+    FROM block_closure bc
+    LEFT JOIN ordered_all_events oae
+      ON oae.ticket_id = bc.ticket_id
+     AND oae.created_at = bc.first_solved_at
+     AND oae.event_type = 'solved_event'
+    WHERE bc.block_closure_type = 'solved_without_reply'
+),
+
+agent_message_log AS (
+    SELECT
+        rn.created_at AS created_at,
+        rn.ticket_id,
+        'agent_message' AS log_type,
+        rn.author_id,
+        rn.created_at AS msg_created_at,
+        CAST(NULL AS TIMESTAMP) AS assign_created_at,
+        CAST(NULL AS TIMESTAMP) AS previous_event_at,
+        oae.next_event_at_any AS next_event_at,
+        CAST(NULL AS BIGINT) AS duration_sec_overall,
+        CAST(NULL AS BIGINT) AS duration_sec_agent,
+        rn.customer_msg_num,
+        CAST(NULL AS BIGINT) AS agent_reply_num,
+        rn.msg_text,
+        0 AS closed_without_reply_flag
+    FROM reply_numbered rn
+    JOIN ordered_all_events oae
+      ON oae.ticket_id = rn.ticket_id
+     AND oae.event_id = rn.event_id
+     AND oae.event_type = rn.event_type
+    WHERE rn.event_type = 'agent_message'
+      AND COALESCE(rn.is_first_agent_reply, 0) = 0
+),
+
+assignment_without_reply_raw AS (
+    SELECT
+        ai.ticket_id,
+        ai.event_id,
+        ai.assigned_agent_id AS author_id,
+        ai.assign_created_at,
+        ai.assignment_end_at AS next_event_at
+    FROM assignment_intervals ai
+    WHERE ai.assignment_consumed_by_reply = 0
+      AND ai.assignment_end_at IS NOT NULL
+),
+
+last_any_assignment_before_assignment AS (
+    SELECT
+        cur.ticket_id,
+        cur.event_id,
+        MAX(prev.assign_created_at) AS last_prev_assign_at
+    FROM assignment_without_reply_raw cur
+    LEFT JOIN assignment_without_reply_raw prev
+      ON prev.ticket_id = cur.ticket_id
+     AND prev.assign_created_at < cur.assign_created_at
+    GROUP BY 1,2
+),
+
+customer_anchor_for_assignment AS (
+    SELECT
+        awr.ticket_id,
+        awr.event_id,
+        MAX_BY(cb.customer_block_start_at, cb.customer_block_start_at) AS customer_block_start_at,
+        MAX_BY(cb.customer_msg_num, cb.customer_block_start_at) AS customer_msg_num
+    FROM assignment_without_reply_raw awr
+    LEFT JOIN customer_blocks cb
+      ON cb.ticket_id = awr.ticket_id
+     AND cb.customer_block_start_at <= awr.assign_created_at
+    GROUP BY 1,2
+),
+
+assignment_without_reply_log AS (
+    SELECT
+        awr.assign_created_at AS created_at,
+        awr.ticket_id,
+        'assignment_without_reply' AS log_type,
+        awr.author_id,
+        CAST(NULL AS TIMESTAMP) AS msg_created_at,
+        awr.assign_created_at,
+        CASE
+            WHEN ca.customer_block_start_at IS NOT NULL THEN ca.customer_block_start_at
+            ELSE laba.last_prev_assign_at
+        END AS previous_event_at,
+        awr.next_event_at,
+        DATE_DIFF('second', awr.assign_created_at, awr.next_event_at) AS duration_sec_overall,
+        CAST(NULL AS BIGINT) AS duration_sec_agent,
+        ca.customer_msg_num,
+        CAST(NULL AS BIGINT) AS agent_reply_num,
+        CAST(NULL AS VARCHAR) AS msg_text,
+        0 AS closed_without_reply_flag
+    FROM assignment_without_reply_raw awr
+    LEFT JOIN last_any_assignment_before_assignment laba
+      ON laba.ticket_id = awr.ticket_id
+     AND laba.event_id = awr.event_id
+    LEFT JOIN customer_anchor_for_assignment ca
+      ON ca.ticket_id = awr.ticket_id
+     AND ca.event_id = awr.event_id
+),
+
+final_log AS (
+    SELECT
+        created_at,
+        ticket_id,
+        log_type,
+        author_id,
+        msg_created_at,
+        assign_created_at,
+        previous_event_at,
+        next_event_at,
+        duration_sec_overall,
+        duration_sec_agent,
+        customer_msg_num,
+        agent_reply_num,
+        msg_text,
+        closed_without_reply_flag
+    FROM customer_message_log
+    UNION ALL
+    SELECT
+        created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
+        previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
+        customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
+    FROM reply_by_assignment_log
+    UNION ALL
+    SELECT
+        created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
+        previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
+        customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
+    FROM reply_without_assignment_log
+    UNION ALL
+    SELECT
+        created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
+        previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
+        customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
+    FROM solved_without_reply_log
+    UNION ALL
+    SELECT
+        created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
+        previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
+        customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
+    FROM assignment_without_reply_log
+    UNION ALL
+    SELECT
+        created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
+        previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
+        customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
+    FROM agent_message_log
 )
 
-SELECT ta.ticket_id,
-ticket_created_at,
-requester_id,
-user_id,
-ticket_brand,
-ticket_form_type,
-ticket_channel,
-ticket_subject,
-status,
-CASE WHEN status IN ('solved', 'closed', 'solved (no reply)') AND msg_from_customer_count = 1 THEN 1 ELSE 0 END as is_fcr,
-request_type,
-subtype,
-assigned_to,
-ad.agent_name as assigned_to_name,
-ad.agent_group as assigned_to_group,
-resolved_by,
-ad2.agent_name as resolved_by_name,
-ad2.agent_group as resolved_by_group,
-assignees_number,
-replies_number,
-auto_involved,
-auto_resolved,
-tech_team_involved,
-tech_team.tech_team_duration_sec,
-tla.resolution_time,
-survey_offered,
-survey_submitted,
-csat.rating as survey_rating,
-handling_time,
-lost_time,
-avg_reply_time,
-first_reply_time,
-frt_agent,
-ad3.agent_name as frt_agent_name,
-ad3.agent_group as frt_agent_group,
-second_reply_time,
-srt_agent,
-ad4.agent_name as srt_agent_name,
-ad4.agent_group as srt_agent_group,
-concecutive_reply_time,
-sla_total_resolution,
-sla_first_reply,
-sla_second_reply,
-avg_reply_time_auto,
-first_reply_time_auto,
-second_reply_time_auto,
-concecutive_reply_time_auto,
-avg_reply_time_person,
-first_reply_time_person,
-second_reply_time_person,
-concecutive_reply_time_person,
-refund_tag,
-refund_eligible,
-refund_not_eligible
-FROM tickets_attr ta
-    JOIN ticket_log_attr tla ON ta.ticket_id = tla.ticket_id
-    LEFT JOIN data_bronze_zendesk_prod.zendesk_csat csat ON ta.ticket_id = csat.ticket_id
-    LEFT JOIN tech_team ON ta.ticket_id = tech_team.ticket_id
-    LEFT JOIN agents_dict ad  ON CAST(ta.assigned_to AS BIGINT) = ad.agent_id
-    LEFT JOIN agents_dict ad2 ON CAST(ta.resolved_by AS BIGINT) = ad2.agent_id
-    LEFT JOIN agents_dict ad3 ON CAST(tla.frt_agent AS BIGINT) = ad3.agent_id
-    LEFT JOIN agents_dict ad4 ON CAST(tla.srt_agent AS BIGINT) = ad4.agent_id
+SELECT
+    fl.*,
+    ta.ticket_created_at,
+    ta.requester_id,
+    ta.user_id,
+    ta.ticket_brand,
+    ta.ticket_form_type,
+    ta.ticket_channel,
+    ta.ticket_subject,
+    ta.status,
+    ta.request_type,
+    ta.subtype,
+    ta.survey_offered,
+    ta.survey_submitted,
+    ta.refund_tag,
+    ta.refund_eligible,
+    ta.refund_not_eligible,
+    ta.auto_involved,
+    ta.auto_resolved,
+    ta.tech_team_involved,
+    tech_team.tech_team_duration_sec,
+    ta.resolution_time,
+    ca.csat_val,
+    ad.agent_group,
+    ad.agent_name,
+    CASE
+        WHEN MAX(fl.agent_reply_num) OVER (PARTITION BY fl.ticket_id) = 1 THEN 1
+        ELSE 0
+    END AS is_fcr
+FROM final_log fl
+    LEFT JOIN tickets_attr ta ON ta.ticket_id = fl.ticket_id
+    LEFT JOIN csat_attr ca ON ca.ticket_id = fl.ticket_id
+                         AND ca.csat_rn = 1
+                         AND fl.created_at = ca.created_at
+    LEFT JOIN agents_dict ad ON ad.agent_id = fl.author_id
+    LEFT JOIN tech_team ON fl.ticket_id = tech_team.ticket_id
+ORDER BY ticket_id, created_at, COALESCE(msg_created_at, assign_created_at)

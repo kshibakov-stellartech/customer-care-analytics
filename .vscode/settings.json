@@ -1,0 +1,15 @@
+{
+  "sqltools.results.limit": 500,
+  "sqltools.connections": [
+    {
+      "name": "Athena (cc-analytics)",
+      "driver": "driver.athena",
+      "connectionMethod": "SSO Profile",
+      "profile": "cc-analytics",
+      "region": "us-east-1",
+      "workgroup": "primary",
+      "outputLocation": "s3://data-stellar-athena-query-results/tmp/",
+      "previewLimit": 500
+    }
+  ]
+}

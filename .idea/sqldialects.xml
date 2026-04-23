@@ -19,7 +19,9 @@
     <file url="file://$PROJECT_DIR$/sandbox/agent_schedule_feb_full.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/agents_schedule_cte.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/asana_data.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/asana_research/tech_support_tasks_dataset.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/charged canceled subs.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/sandbox/codex_trustpilot_appfollow_checks.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/data_exploration.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/eea_policy_check.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/sandbox/feedback_lake_data_v1.sql" dialect="GenericSQL" />

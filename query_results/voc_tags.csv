@@ -1,0 +1,65 @@
+general_login_issue,users asking for a refund because they can't login,general_login_issue - users asking for a refund because they can't login
+mistyped_email,users asking for a refund because of email typo,mistyped_email - users asking for a refund because of email typo
+magic_link_issue,users asking for a refund because they had an issue with a magic link,magic_link_issue - users asking for a refund because they had an issue with a magic link
+email_not_received,users asking for a refund because they didn't receive some email,email_not_received - users asking for a refund because they didn't receive some email
+bug,users asking for a refund because they experienced a bug (different from the ones we know),bug - users asking for a refund because they experienced a bug (different from the ones we know)
+audio_issues,users asking for a refund because the audio doesn't work,audio_issues - users asking for a refund because the audio doesn't work
+video_issues,users asking for a refund because the video doesn't work,video_issues - users asking for a refund because the video doesn't work
+green_screen_freeze,users asking for a refund because they have a frozen green screen when openning an app,green_screen_freeze - users asking for a refund because they have a frozen green screen when openning an app
+daily_streaks,users asking for a refund because the daily streaks functionality is broken,daily_streaks - users asking for a refund because the daily streaks functionality is broken
+broken_content,users asking for a refund because the content is broken,broken_content - users asking for a refund because the content is broken
+smth_went_wrong_screen,"users asking for a refund because they see a ""Something went wrong screen""","smth_went_wrong_screen - users asking for a refund because they see a ""Something went wrong screen"""
+font_size,users asking for a refund because they have issues with font size in app,font_size - users asking for a refund because they have issues with font size in app
+paid_but_no_access,users asking for a refund because they paid but then are asked to pay again in app (they have locked content),paid_but_no_access - users asking for a refund because they paid but then are asked to pay again in app (they have locked content)
+unaware_of_subscription,users asking for a refund while being completely unaware of subscription,unaware_of_subscription - users asking for a refund while being completely unaware of subscription
+upset_with_autorenewal,users asking for a refund because didn't expect an autorenewal,upset_with_autorenewal - users asking for a refund because didn't expect an autorenewal
+unauthorized_claims,"users asking for a refund and claiming the charges are unauthorized, cancelled but charged","unauthorized_claims - users asking for a refund and claiming the charges are unauthorized, cancelled but charged"
+unexpected_charges,"users asking for a refund because they had an unexpected pricing/charges, extra charges","unexpected_charges - users asking for a refund because they had an unexpected pricing/charges, extra charges"
+unexpected_charges_upsells,users asking for a refund because they didn't want an upsell (infographics),unexpected_charges_upsells - users asking for a refund because they didn't want an upsell (infographics)
+expected_a_trial,users asking for a refund because they expected a trial to be not auto-renewing into a full subscription,expected_a_trial - users asking for a refund because they expected a trial to be not auto-renewing into a full subscription
+no_longer_interested,users asking for a refund because they are no longer interested in a product,no_longer_interested - users asking for a refund because they are no longer interested in a product
+content_too_easy,users asking for a refund because the content is too easy,content_too_easy - users asking for a refund because the content is too easy
+too_boring,users asking for a refund because the app is too boring,too_boring - users asking for a refund because the app is too boring
+not_interactive,users asking for a refund because the app lacks interactivity,not_interactive - users asking for a refund because the app lacks interactivity
+legal_threat,users asking for a refund and are threatening legally ,legal_threat - users asking for a refund and are threatening legally 
+bank_threat,"users asking for a refund and threatening with bank (chagebacks, disputes)","bank_threat - users asking for a refund and threatening with bank (chagebacks, disputes)"
+money_back_guarantee,users asking for a refund mentioning a money back guarantee ,money_back_guarantee - users asking for a refund mentioning a money back guarantee 
+,, - 
+false_ad,users asking for a refund because they feel the ad was misleading,false_ad - users asking for a refund because they feel the ad was misleading
+feature_request,users asking for a refund and share a feature they wish the app had,feature_request - users asking for a refund and share a feature they wish the app had
+general_dissatisfaction,"users asking for a refund but don't share what exactly was wrong - like ""it didn't meet my expectations, not useful, not interested, i don't want it""","general_dissatisfaction - users asking for a refund but don't share what exactly was wrong - like ""it didn't meet my expectations, not useful, not interested, i don't want it"""
+ai_dissatisfaction,users realize that it's AI generated and are not happy with it (too robotic / AI slop / etc),ai_dissatisfaction - users realize that it's AI generated and are not happy with it (too robotic / AI slop / etc)
+missing_content,user doesn't see the content they were looking for or not enough content,missing_content - user doesn't see the content they were looking for or not enough content
+content_dissatisfaction,"users asking for a refund while sharing feedback regarding content - like ""i thought it's going to be videos""","content_dissatisfaction - users asking for a refund while sharing feedback regarding content - like ""i thought it's going to be videos"""
+no_reason,"users asking for a refund ""refund me"" and no more details","no_reason - users asking for a refund ""refund me"" and no more details"
+,, - 
+course_request,users asking if we have a specific course,course_request - users asking if we have a specific course
+language_support,users asking if we have content in a specific language,language_support - users asking if we have content in a specific language
+font_size,users asking how to manage font size,font_size - users asking how to manage font size
+discount_request,users asking if they can get a discount ,discount_request - users asking if they can get a discount 
+,, - 
+general_login_issue,users claim they can't login,general_login_issue - users claim they can't login
+mistyped_email,users claim they had an email typo,mistyped_email - users claim they had an email typo
+magic_link_issue,users claim they had an issue with a magic link,magic_link_issue - users claim they had an issue with a magic link
+email_not_received,users claim they didn't receive some email,email_not_received - users claim they didn't receive some email
+bug,users claim they experienced a bug,bug - users claim they experienced a bug
+audio_issues,users claim the audio doesn't work,audio_issues - users claim the audio doesn't work
+video_issues,users claim the video doesn't work,video_issues - users claim the video doesn't work
+green_screen_freeze,users claim they have a frozen green screen when openning an app,green_screen_freeze - users claim they have a frozen green screen when openning an app
+daily_streaks,users claim daily streaks functionality is broken,daily_streaks - users claim daily streaks functionality is broken
+broken_content,users claim the content is broken,broken_content - users claim the content is broken
+smth_went_wrong_screen,"users claim they see a ""Something went wrong screen""","smth_went_wrong_screen - users claim they see a ""Something went wrong screen"""
+font_size,users claim they have issues with font size in app,font_size - users claim they have issues with font size in app
+paid_but_no_access,users claim they paid but then are asked to pay again in app (they have locked content),paid_but_no_access - users claim they paid but then are asked to pay again in app (they have locked content)
+other,users claim they have technical issues that aren't described in other tags,other - users claim they have technical issues that aren't described in other tags
+content_mistakes,users sharing what they noticed mistakes in content,content_mistakes - users sharing what they noticed mistakes in content
+,, - 
+audio_feedback,users sharing what they would like to see with audio functionality,audio_feedback - users sharing what they would like to see with audio functionality
+video_feedback,users sharing what they would like to see with video functionality,video_feedback - users sharing what they would like to see with video functionality
+not_interactive,users sharing what they would like to see more interactiviness,not_interactive - users sharing what they would like to see more interactiviness
+offline_availability ,users sharing what they like to download content and use it while being offline,offline_availability  - users sharing what they like to download content and use it while being offline
+content_too_easy,users sharing what they would like to see more complicated content,content_too_easy - users sharing what they would like to see more complicated content
+missing_content,user doesn't see the content they were looking for or not enough content,missing_content - user doesn't see the content they were looking for or not enough content
+ai_dissatisfaction,users realize that it's AI generated and are not happy with it (too robotic / AI slop / etc),ai_dissatisfaction - users realize that it's AI generated and are not happy with it (too robotic / AI slop / etc)
+ux_feedback,"users don't like the navigation, repetitive feedback requests, can't find how to change topic, etc","ux_feedback - users don't like the navigation, repetitive feedback requests, can't find how to change topic, etc"
+other,,other - 
