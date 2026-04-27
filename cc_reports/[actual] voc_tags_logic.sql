@@ -83,7 +83,7 @@ zendesk_enriched AS (
     LEFT JOIN ticket_users u ON t.ticket_id = u.ticket_id
 ),
 
-zendesk_source AS (
+zendesk_source_from_audit AS (
     SELECT
         dt AS date,
         'zendesk' AS source,
@@ -92,6 +92,43 @@ zendesk_source AS (
         CAST(ticket_id AS VARCHAR) AS source_id,
         user_id
     FROM zendesk_enriched
+),
+
+zendesk_tickets_voc_tag AS (
+    SELECT
+        z.ticket_id,
+        MIN(CAST(z.created_at AS DATE)) AS dt,
+        MIN(REGEXP_REPLACE(LOWER(TRIM(z.voc_category)), '^voc_', '')) AS review,
+        MAX(z.description) AS description
+    FROM data_bronze_zendesk_prod.zendesk_tickets z
+    WHERE 1=1
+      AND CAST(z.created_at AS DATE) >= DATE '2025-11-01'
+      AND CAST(z.created_at AS DATE) <= COALESCE((SELECT MAX(dt) FROM tag_rows), CURRENT_DATE)
+      AND z.voc_category IS NOT NULL
+      AND TRIM(z.voc_category) <> ''
+    GROUP BY 1
+),
+
+zendesk_source_from_tickets AS (
+    SELECT
+        t.dt AS date,
+        'zendesk' AS source,
+        t.description AS text,
+        t.review,
+        CAST(t.ticket_id AS VARCHAR) AS source_id,
+        u.user_id
+    FROM zendesk_tickets_voc_tag t
+    LEFT JOIN ticket_users u
+        ON t.ticket_id = u.ticket_id
+    LEFT JOIN ticket_voc_tag a
+        ON t.ticket_id = a.ticket_id
+    WHERE a.ticket_id IS NULL
+),
+
+zendesk_source AS (
+    SELECT * FROM zendesk_source_from_audit
+    UNION ALL
+    SELECT * FROM zendesk_source_from_tickets
 ),
 
 -- =========================
@@ -424,5 +461,6 @@ SELECT tcc.*,
        subscription_type
 FROM tags_categorized_complete tcc
     LEFT JOIN user_meta um ON tcc.user_id = um.user_id
+WHERE 1=1
+  AND date <= DATE '2025-11-01'
 ;
-

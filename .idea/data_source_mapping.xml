@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/cc_reports/[actual] voc_tags_logic.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
     <file url="file://$PROJECT_DIR$/sandbox/asana_research/tech_support_tasks_dataset.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
     <file url="file://$PROJECT_DIR$/sandbox/codex_trustpilot_appfollow_checks.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/ed651681-5b2e-4fdd-a1b3-d64c680965aa/console.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
