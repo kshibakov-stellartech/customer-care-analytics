@@ -1,3 +1,4 @@
+WITH final_result AS (
 WITH
 excluded_tag_patterns AS (
     SELECT *
@@ -505,4 +506,10 @@ FROM tags_categorized_complete tcc
     LEFT JOIN user_meta um ON tcc.user_id = um.user_id
 WHERE 1=1
   AND date >= DATE '2025-11-01'
-;
+)
+SELECT
+  date_trunc('month', CAST(date AS timestamp)) AS month_start,
+  COUNT(*) AS rows_cnt
+FROM final_result
+GROUP BY 1
+ORDER BY 1;

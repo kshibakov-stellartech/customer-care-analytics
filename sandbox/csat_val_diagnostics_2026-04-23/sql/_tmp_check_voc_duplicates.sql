@@ -1,31 +1,5 @@
+WITH final_result AS (
 WITH
-excluded_tag_patterns AS (
-    SELECT *
-    FROM (
-        VALUES
-            ('%cancellation_notification%'),
-            ('%closed_by_merge%'),
-            ('%voice_abandoned_in_voicemail%'),
-            ('%appfollow%'),
-            ('%spam%'),
-            ('%ai_cb_triggered%'),
-            ('%chargeback_precom%'),
-            ('%chargeback_postcom%')
-    ) AS t(pattern)
-),
-
-tickets_to_exclude AS (
-    SELECT
-        za.ticket_id AS ticket_to_exclude_id
-    FROM data_bronze_zendesk_prod.zendesk_audit za
-    JOIN excluded_tag_patterns etp
-      ON za.events__field_name = 'tags'
-     AND za.events__value LIKE etp.pattern
-    WHERE 1=1
-      AND za.created_at >= DATE '2025-11-01'
-    GROUP BY 1
-),
-
 -- =========================
 -- 1) Zendesk: вытаскиваем VOC tag на тикет
 -- =========================
@@ -37,12 +11,7 @@ tag_rows AS (
     FROM data_bronze_zendesk_prod.zendesk_audit
     CROSS JOIN UNNEST(SPLIT(events__value, ',')) AS u(tag)
     WHERE 1=1
-      AND NOT EXISTS (
-          SELECT 1
-          FROM tickets_to_exclude te
-          WHERE te.ticket_to_exclude_id = ticket_id
-      )
-      AND created_at >= DATE '2026-04-01'
+      AND created_at >= DATE '2025-11-01'
       AND events__field_name = 'tags'
 ),
 
@@ -52,12 +21,7 @@ ticket_users AS (
         MAX(events__value) as user_id
     FROM data_bronze_zendesk_prod.zendesk_audit
     WHERE 1=1
-      AND NOT EXISTS (
-          SELECT 1
-          FROM tickets_to_exclude te
-          WHERE te.ticket_to_exclude_id = ticket_id
-      )
-      AND created_at >= DATE '2026-04-01'
+      AND created_at >= DATE '2025-11-01'
       AND events__field_name IN (
                                  '32351109113361', /* backoffice */
                                  '40831328206865', /* app_user_id */
@@ -139,13 +103,8 @@ zendesk_tickets_voc_tag AS (
         MAX(z.description) AS description
     FROM data_bronze_zendesk_prod.zendesk_tickets z
     WHERE 1=1
-      AND NOT EXISTS (
-          SELECT 1
-          FROM tickets_to_exclude te
-          WHERE te.ticket_to_exclude_id = z.ticket_id
-      )
       AND CAST(z.created_at AS DATE) >= DATE '2025-11-01'
-      AND CAST(z.created_at AS DATE) < DATE '2026-04-01'
+      AND CAST(z.created_at AS DATE) <= COALESCE((SELECT MAX(dt) FROM tag_rows), CURRENT_DATE)
       AND z.voc_category IS NOT NULL
       AND TRIM(z.voc_category) <> ''
     GROUP BY 1
@@ -504,5 +463,27 @@ SELECT tcc.*,
 FROM tags_categorized_complete tcc
     LEFT JOIN user_meta um ON tcc.user_id = um.user_id
 WHERE 1=1
-  AND date >= DATE '2025-11-01'
-;
+  AND date <= DATE '2025-11-01'
+)
+SELECT
+  'zendesk_by_source_id' AS check_type,
+  COUNT(*) AS duplicate_keys,
+  COALESCE(SUM(cnt), 0) AS duplicate_rows
+FROM (
+  SELECT source_id, COUNT(*) AS cnt
+  FROM final_result
+  WHERE source = 'zendesk'
+  GROUP BY 1
+  HAVING COUNT(*) > 1
+)
+UNION ALL
+SELECT
+  'all_sources_by_source_plus_id' AS check_type,
+  COUNT(*) AS duplicate_keys,
+  COALESCE(SUM(cnt), 0) AS duplicate_rows
+FROM (
+  SELECT source, source_id, COUNT(*) AS cnt
+  FROM final_result
+  GROUP BY 1,2
+  HAVING COUNT(*) > 1
+);
