@@ -1,4 +1,9 @@
 with
+date_range as (
+  select
+    date_add('day', -7, date_trunc('week', current_date)) as last_week_start_at,
+    date_trunc('week', current_date) as this_week_start_at
+),
 scopes as ( -- собираем scopes по подпискам
   select *
   from (
@@ -259,6 +264,7 @@ new_subs as ( -- собираем подписки за нужный перио�
     subscription_canceled_at,
     charge_refunded_at
   from data_silver_product_sessions_prod.ff_purchase_sessions
+  cross join date_range dr
   where 1=1
     and not is_recurrent
     and not is_upsell
@@ -267,10 +273,13 @@ new_subs as ( -- собираем подписки за нужный перио�
     and vendor_product_name is not null
     and (
       vendor_subscription_id is not null
-      or vendor_product_name like '%ot_lifetime_%' -- включаем недельный триал с продлением
+      or vendor_product_name like '%ot_lifetime_%'
     )
-    and date(purchase_completed_at) between date('2026-04-06') and date('2026-04-12')
+    and purchase_completed_at >= dr.last_week_start_at
+    and purchase_completed_at <  dr.this_week_start_at
+
   union
+
   select
     lower(user_email) as email,
     case
@@ -288,6 +297,7 @@ new_subs as ( -- собираем подписки за нужный перио�
     subscription_canceled_at,
     charge_refunded_at
   from data_silver_product_sessions_prod.sf_purchase_sessions
+  cross join date_range dr
   where 1=1
     and not is_recurrent
     and not is_upsell
@@ -296,10 +306,12 @@ new_subs as ( -- собираем подписки за нужный перио�
     and vendor_product_name is not null
     and (
       vendor_subscription_id is not null
-      or vendor_product_name like '%ot_lifetime_%'-- включаем недельный триал с продлением
+      or vendor_product_name like '%ot_lifetime_%'
     )
-    and date(purchase_completed_at) between date('2026-04-06') and date('2026-04-12')
-)
+    and purchase_completed_at >= dr.last_week_start_at
+    and purchase_completed_at <  dr.this_week_start_at
+),
+    res AS (
 select
   email,
   ff_sf,
@@ -324,3 +336,8 @@ left join cs_agg_regfalse
 left join cs_agg_adapty
   using (project_name, email)
 order by purchase_completed_at desc
+)
+
+SELECT *
+FROM res
+;

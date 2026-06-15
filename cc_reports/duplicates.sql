@@ -1,4 +1,18 @@
-with
+WITH
+date_range AS (
+    SELECT
+        date_add(
+            'day',
+            -7,
+            date_trunc('week', current_date)
+        ) AS last_week_start_date,
+
+        date_add(
+            'day',
+            -1,
+            date_trunc('week', current_date)
+        ) AS last_week_end_date
+),
 adapty_subs as ( -- собираем подписки, сделанные напрямую через приложение -- adapty
   select *
   from (
@@ -215,11 +229,14 @@ duplicates as (
       when 1 then 'Web duplicate'
       else null
     end as duplicate
-  from full_union_window
+  from full_union_window fuw
+  cross join date_range dr
   where 1=1
-    and date(subscription_created_at) between date('2026-04-06') and date('2026-04-12')
-    and active_sub_ends_at is not null
-)
+    and date(fuw.subscription_created_at) between dr.last_week_start_date
+                                             and dr.last_week_end_date
+    and fuw.active_sub_ends_at is not null
+),
+    res AS (
 select
   project_name,
   email,
@@ -243,3 +260,7 @@ select
 from duplicates
 group by 1,2,3,4,5,6,7,8,9
 order by subscription_created_at desc
+)
+
+SELECT *
+FROM res

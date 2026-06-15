@@ -16,6 +16,7 @@ excluded_tag_patterns AS (
             ('%chargeback_postcom%')
     ) AS t(pattern)
 ),
+
 auto_reply_titles AS (
     SELECT *
     FROM (
@@ -34,39 +35,18 @@ auto_reply_titles AS (
             ('Auto-reply - something is wrong with my subscription - SmartyMe')
     ) AS t(from_title)
 ),
+
 agents_dict AS (
-    SELECT *
-    FROM (
-        VALUES
-            (36064560830737, 'Mykyta', 'Admins'),
-            (35219779434897, 'Ilia Tregubov', 'Admins'),
-            (41972533108625, 'Konstantin Shibakov', 'Admins'),
-            (40215157462161, 'QA', 'Admins'),
-            (34224285677201, 'Yaroslav Kukharenko', 'Admins'),
-            (26222438547857, 'Maksym Zvieriev', 'TL'),
-            (30648746936465, 'Alexander Petrov', 'TL'),
-            (39272670052113, 'Sam Bondar', 'Moon Rangers'),
-            (38754864964753, 'Brian Tepliuk', 'Moon Rangers'),
-            (38694917174545, 'Mike Mkrtumyan', 'Moon Rangers'),
-            (38657563018769, 'Alice Sakharova', 'Moon Rangers'),
-            (38022764826129, 'Allie Kostukovich', 'Blanc'),
-            (38022759246737, 'Kate Rumiantseva', 'Moon Rangers'),
-            (37992873903889, 'Ann Dereka', 'Moon Rangers'),
-            (35310711957393, 'Anette Monaselidze', 'Blanc'),
-            (33602186941713, 'Jackie Si', 'Blanc'),
-            (33118701264017, 'Daria Saranchova', 'Blanc'),
-            (33118711659921, 'Katrina Novikova', 'Blanc'),
-            (31467436910865, 'Jenny', 'Moon Rangers'),
-            (30786139608081, 'Jade Kasper', 'Blanc'),
-            (30655366698001, 'Catherine Moroz', 'Blanc'),
-            (30160506886161, 'Alex Poponin', 'Blanc'),
-            (29737848444689, 'Daniel Vinokurov', 'Blanc'),
-            (26440502459665, 'Nikki', 'Automation'),
-            (26349132549521, 'Mia Petchenko', 'Moon Rangers'),
-            (42676049623057, 'Sophie Palamarchuk', 'Moon Rangers'),
-            (42676111579153, 'Michael Brodovskyi', 'Moon Rangers'),
-            (44010183588497, 'Stella Kishyk', 'Blanc')
-    ) AS t(agent_id, agent_name, agent_group)
+SELECT za.agent_id,
+       za.name as agent_name,
+       CASE WHEN zg.group_id IN (39601781732369, 39601932203409) THEN zg.name
+            WHEN za.agent_id = 26440502459665 THEN 'Automation'
+            ELSE 'Admins'
+       END as agent_group
+FROM data_bronze_zendesk_prod.zendesk_agents za
+    LEFT JOIN data_bronze_zendesk_prod.zendesk_group_memberships zgm ON zgm.user_id = za.agent_id
+                                                                    AND zgm.group_id IN (39601781732369, 39601932203409)
+    LEFT JOIN data_bronze_zendesk_prod.zendesk_groups zg ON zg.group_id = zgm.group_id
 ),
 
 tickets_to_exclude AS (
@@ -222,7 +202,9 @@ tickets_attr AS (
                                                        WHEN events__type = 'Comment' AND author_id <> requester_id THEN created_at
                                                   END
                     )
-       ) as resolution_time
+       ) as resolution_time,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%directive_adopted%' THEN 1 ELSE 0 END) as directive_adopted,
+       MAX(CASE WHEN events__field_name = 'tags' AND events__value LIKE '%directive_neglected%' THEN 1 ELSE 0 END) as directive_neglected
     FROM base_audit b
     GROUP BY 1, 2, 3
 ),
@@ -254,8 +236,8 @@ csat_attr AS (
     WHERE events__type = 'Comment'
       AND csat_flag = 'satisfaction_score'
 ),
+
 tech_team AS (
-  --tech_team_time, подзапрос для расчетов
 SELECT ticket_id, SUM(tech_team_time) as tech_team_duration_sec
 FROM (
   SELECT ticket_id,
@@ -266,9 +248,9 @@ FROM (
   WHERE 1=1
     AND events__field_name = 'custom_status_id'
     AND events__value IN (
-        '26471128667153', /* waiting for tech team */
-        '26222456206737', /* solved */
-        '26471115820177'  /* (no reply) */
+        '26471128667153',
+        '26222456206737',
+        '26471115820177'
                          )
 ORDER BY ticket_id, created_at
 ) raw_tech
@@ -981,36 +963,107 @@ final_log AS (
         msg_text,
         closed_without_reply_flag
     FROM customer_message_log
+
     UNION ALL
+
     SELECT
         created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
         previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
         customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
     FROM reply_by_assignment_log
+
     UNION ALL
+
     SELECT
         created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
         previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
         customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
     FROM reply_without_assignment_log
+
     UNION ALL
+
     SELECT
         created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
         previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
         customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
     FROM solved_without_reply_log
+
     UNION ALL
+
     SELECT
         created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
         previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
         customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
     FROM assignment_without_reply_log
+
     UNION ALL
+
     SELECT
         created_at, ticket_id, log_type, author_id, msg_created_at, assign_created_at,
         previous_event_at, next_event_at, duration_sec_overall, duration_sec_agent,
         customer_msg_num, agent_reply_num, msg_text, closed_without_reply_flag
     FROM agent_message_log
+),
+
+/* =========================================================
+VOC bucket / leaf from second script
+========================================================= */
+tag_rows AS (
+    SELECT
+        ticket_id,
+        CAST(created_at AS DATE) AS dt,
+        LOWER(TRIM(tag)) AS tag_raw
+    FROM data_bronze_zendesk_prod.zendesk_audit
+    CROSS JOIN UNNEST(SPLIT(events__value, ',')) AS u(tag)
+    WHERE 1=1
+      AND created_at >= DATE '2025-11-01'
+      AND events__field_name = 'tags'
+),
+
+normalized AS (
+    SELECT
+        ticket_id,
+        dt,
+        tag_raw,
+        REGEXP_REPLACE(tag_raw, '^voc_', '') AS base_tag,
+        CASE
+            WHEN REGEXP_LIKE(tag_raw, '^voc_') THEN 1
+            ELSE 0
+        END AS voc_flag
+    FROM tag_rows
+),
+
+voc_dict_auto AS (
+    SELECT DISTINCT base_tag
+    FROM normalized
+    WHERE voc_flag = 1
+),
+
+ticket_voc_candidates AS (
+    SELECT
+        n.ticket_id,
+        n.dt,
+        n.base_tag
+    FROM normalized n
+    JOIN voc_dict_auto d
+      ON n.base_tag = d.base_tag
+),
+
+ticket_voc_tag AS (
+    SELECT
+        ticket_id,
+        MIN(dt) AS dt,
+        MIN(base_tag) AS review
+    FROM ticket_voc_candidates
+    GROUP BY 1
+),
+
+voc_bucket_leaf AS (
+    SELECT
+        ticket_id,
+        SPLIT_PART(review, '-', 1) AS bucket,
+        SPLIT_PART(review, '-', 2) AS leaf
+    FROM ticket_voc_tag
 )
 
 SELECT
@@ -1038,10 +1091,14 @@ SELECT
     ca.csat_val,
     ad.agent_group,
     ad.agent_name,
+    vbl.bucket,
+    vbl.leaf,
     CASE
         WHEN MAX(fl.agent_reply_num) OVER (PARTITION BY fl.ticket_id) = 1 THEN 1
         ELSE 0
-    END AS is_fcr
+    END AS is_fcr,
+    directive_adopted,
+    directive_neglected
 FROM final_log fl
     LEFT JOIN tickets_attr ta ON ta.ticket_id = fl.ticket_id
     LEFT JOIN csat_attr ca ON ca.ticket_id = fl.ticket_id
@@ -1049,4 +1106,5 @@ FROM final_log fl
                          AND fl.created_at = ca.created_at
     LEFT JOIN agents_dict ad ON ad.agent_id = fl.author_id
     LEFT JOIN tech_team ON fl.ticket_id = tech_team.ticket_id
+    LEFT JOIN voc_bucket_leaf vbl ON vbl.ticket_id = fl.ticket_id
 ORDER BY ticket_id, created_at, COALESCE(msg_created_at, assign_created_at)

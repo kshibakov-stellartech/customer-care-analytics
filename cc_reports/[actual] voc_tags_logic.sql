@@ -16,163 +16,86 @@ excluded_tag_patterns AS (
 
 tickets_to_exclude AS (
     SELECT
-        za.ticket_id AS ticket_to_exclude_id
+        za.ticket_id AS ticket_to_exclude_id,
+        MIN(CAST(za.created_at AS DATE)) AS created_date
     FROM data_bronze_zendesk_prod.zendesk_audit za
     JOIN excluded_tag_patterns etp
       ON za.events__field_name = 'tags'
      AND za.events__value LIKE etp.pattern
-    WHERE 1=1
-      AND za.created_at >= DATE '2025-11-01'
+    WHERE za.created_at >= DATE '2025-11-01'
     GROUP BY 1
 ),
 
--- =========================
--- 1) Zendesk: вытаскиваем VOC tag на тикет
--- =========================
-tag_rows AS (
+tickets AS (
     SELECT
-        ticket_id,
-        CAST(created_at AS DATE) AS dt,
-        LOWER(TRIM(tag)) AS tag_raw
-    FROM data_bronze_zendesk_prod.zendesk_audit
-    CROSS JOIN UNNEST(SPLIT(events__value, ',')) AS u(tag)
-    WHERE 1=1
+        za.ticket_id,
+        MIN(za.created_at) AS ticket_created_at,
+        CAST(MAX(za.events__value) AS BIGINT) AS requester_id
+    FROM data_bronze_zendesk_prod.zendesk_audit za
+    WHERE za.events__type = 'Create'
+      AND za.events__field_name = 'requester_id'
       AND NOT EXISTS (
           SELECT 1
           FROM tickets_to_exclude te
-          WHERE te.ticket_to_exclude_id = ticket_id
+          WHERE te.ticket_to_exclude_id = za.ticket_id
       )
-      AND created_at >= DATE '2026-04-01'
-      AND events__field_name = 'tags'
-),
-
-ticket_users AS (
-    SELECT
-        ticket_id,
-        MAX(events__value) as user_id
-    FROM data_bronze_zendesk_prod.zendesk_audit
-    WHERE 1=1
-      AND NOT EXISTS (
-          SELECT 1
-          FROM tickets_to_exclude te
-          WHERE te.ticket_to_exclude_id = ticket_id
-      )
-      AND created_at >= DATE '2026-04-01'
-      AND events__field_name IN (
-                                 '32351109113361', /* backoffice */
-                                 '40831328206865', /* app_user_id */
-                                 '32351085497873' /* supabase */
-                                )
     GROUP BY 1
+    HAVING MIN(CAST(za.created_at AS DATE)) >= DATE '2025-11-01'
+       AND MIN(CAST(za.created_at AS DATE)) < current_date
 ),
 
-normalized AS (
-    SELECT
-        ticket_id,
-        dt,
-        tag_raw,
-        REGEXP_REPLACE(tag_raw, '^voc_', '') AS base_tag,
-        CASE
-            WHEN REGEXP_LIKE(tag_raw, '^voc_') THEN 1
-            ELSE 0
-        END AS voc_flag
-    FROM tag_rows
-),
-
-voc_dict_auto AS (
-    SELECT DISTINCT base_tag
-    FROM normalized
-    WHERE voc_flag = 1
-),
-
-ticket_voc_candidates AS (
-    SELECT
-        n.ticket_id,
-        n.dt,
-        n.base_tag
-    FROM normalized n
-    JOIN voc_dict_auto d
-      ON n.base_tag = d.base_tag
-),
-
-ticket_voc_tag AS (
-    SELECT
-        ticket_id,
-        MIN(dt) AS dt,
-        MIN(base_tag) AS review
-    FROM ticket_voc_candidates
+users AS (
+    SELECT za.ticket_id,
+           MAX(
+            CASE
+                WHEN za.events__field_name IN ('32351109113361', '40831328206865', '32351085497873')
+                THEN za.events__value
+            END) AS user_id,
+            MAX(
+            CASE
+                WHEN events__type = 'Create' AND events__field_name = 'brand_id' THEN
+                    CASE
+                        WHEN events__value = '26467992035601' THEN 'MindScape'
+                        WHEN events__value = '27810244289553' THEN 'Neurolift'
+                        WHEN events__value = '26468032413713' THEN 'SmartyMe'
+                        WHEN events__value = '26222456156689' THEN 'StellarTech Limited'
+                        WHEN events__value = '43023476289553' THEN 'Nexera'
+                        ELSE 'Unknown'
+                    END
+            END) AS ticket_brand
+    FROM data_bronze_zendesk_prod.zendesk_audit za
+        JOIN tickets t ON za.ticket_id = t.ticket_id
     GROUP BY 1
 ),
 
 -- =========================
--- 🔥 ДОБАВИЛИ: подтягиваем description
+-- 1) Zendesk: ONLY tickets source
+-- audit используем только для excluded
 -- =========================
-zendesk_enriched AS (
-    SELECT
-        t.ticket_id,
-        t.dt,
-        t.review,
-        z.description,
-        u.user_id
-    FROM ticket_voc_tag t
-    LEFT JOIN data_bronze_zendesk_prod.zendesk_tickets z
-        ON t.ticket_id = z.ticket_id
-    LEFT JOIN ticket_users u ON t.ticket_id = u.ticket_id
-),
-
-zendesk_source_from_audit AS (
-    SELECT
-        dt AS date,
-        'zendesk' AS source,
-        description AS text,
-        review,
-        CAST(ticket_id AS VARCHAR) AS source_id,
-        user_id
-    FROM zendesk_enriched
-),
-
-zendesk_tickets_voc_tag AS (
-    SELECT
-        z.ticket_id,
-        MIN(CAST(z.created_at AS DATE)) AS dt,
-        MIN(REGEXP_REPLACE(LOWER(TRIM(z.voc_category)), '^voc_', '')) AS review,
-        MAX(z.description) AS description
-    FROM data_bronze_zendesk_prod.zendesk_tickets z
-    WHERE 1=1
-      AND NOT EXISTS (
-          SELECT 1
-          FROM tickets_to_exclude te
-          WHERE te.ticket_to_exclude_id = z.ticket_id
-      )
-      AND CAST(z.created_at AS DATE) >= DATE '2025-11-01'
-      AND CAST(z.created_at AS DATE) < DATE '2026-04-01'
-      AND z.voc_category IS NOT NULL
-      AND TRIM(z.voc_category) <> ''
-    GROUP BY 1
-),
-
-zendesk_source_from_tickets AS (
-    SELECT
-        t.dt AS date,
-        'zendesk' AS source,
-        t.description AS text,
-        t.review,
-        CAST(t.ticket_id AS VARCHAR) AS source_id,
-        u.user_id
-    FROM zendesk_tickets_voc_tag t
-    LEFT JOIN ticket_users u
-        ON t.ticket_id = u.ticket_id
-    LEFT JOIN ticket_voc_tag a
-        ON t.ticket_id = a.ticket_id
-    WHERE a.ticket_id IS NULL
-),
-
 zendesk_source AS (
-    SELECT * FROM zendesk_source_from_audit
-    UNION ALL
-    SELECT * FROM zendesk_source_from_tickets
-),
+    SELECT
+        CAST(z.created_at AS DATE) AS date,
+        'zendesk' AS source,
+        z.description AS text,
 
+        CASE
+            WHEN z.voc_category IS NULL
+              OR TRIM(z.voc_category) = ''
+                THEN NULL
+            ELSE REGEXP_REPLACE(LOWER(TRIM(z.voc_category)), '^voc_', '')
+        END AS review,
+
+        CAST(z.ticket_id AS VARCHAR) AS source_id,
+
+        -- user_id раньше доставался из audit custom fields.
+        -- Сейчас Zendesk source = tickets only, поэтому ставим NULL.
+        u.user_id AS user_id,
+        ticket_brand as brand
+    FROM data_bronze_zendesk_prod.zendesk_tickets z
+        JOIN tickets t ON z.ticket_id = t.ticket_id
+        LEFT JOIN users u ON t.ticket_id = u.ticket_id
+    WHERE 1=1
+),
 -- =========================
 -- 2) AppFollow
 -- =========================
@@ -183,7 +106,8 @@ appfollow_source AS (
         content AS text,
         LOWER(TRIM(voc_category)) AS review,
         CAST(review_id AS VARCHAR) AS source_id,
-        null AS user_id
+        null AS user_id,
+        null AS brand
     FROM data_silver_appfollow_prod.appfollow_reviews
     WHERE voc_category IS NOT NULL
 ),
@@ -198,7 +122,8 @@ trustpilot_source AS (
         text,
         LOWER(TRIM(voc_category)) AS review,
         CAST(review_id AS VARCHAR) AS source_id,
-        null AS user_id
+        null AS user_id,
+        null AS brand
     FROM data_silver_trustpilot_prod.trustpilot_reviews
     WHERE voc_category IS NOT NULL
 ),
@@ -383,7 +308,8 @@ SELECT dt AS date,
        ticket_comment as text,
        LOWER(TRIM(voc_category)) AS review,
        event_id AS source_id,
-       user_id
+       user_id,
+       null AS brand
 FROM final_msg
 ),
 
@@ -411,6 +337,7 @@ base AS (
         review,
         source_id,
         user_id,
+        brand,
         SPLIT_PART(review, '-', 1) AS bucket,
         SPLIT_PART(review, '-', 2) AS leaf
     FROM all_sources
@@ -423,6 +350,7 @@ SELECT
     review,
     source_id,
     user_id,
+    brand,
     bucket,
     leaf,
     CASE
@@ -505,4 +433,4 @@ FROM tags_categorized_complete tcc
     LEFT JOIN user_meta um ON tcc.user_id = um.user_id
 WHERE 1=1
   AND date >= DATE '2025-11-01'
-;
+  AND source = 'zendesk'
