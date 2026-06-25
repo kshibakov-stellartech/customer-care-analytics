@@ -2,12 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "AWS: Login (aws-login)",
+      "label": "AWS: Login",
       "type": "shell",
       "command": "zsh",
       "args": [
         "-lic",
-        "if command -v aws-login >/dev/null 2>&1; then aws-login; else aws sso login --profile ${input:awsProfile}; fi"
+        "aws sso login --profile ${input:awsProfile}"
       ],
       "problemMatcher": []
     }
@@ -15,9 +15,13 @@
   "inputs": [
     {
       "id": "awsProfile",
-      "type": "promptString",
-      "description": "AWS profile",
-      "default": "cc-analytics"
+      "type": "pickString",
+      "description": "Select AWS profile to login",
+      "options": [
+        "cc-team",
+        "cc-analytics"
+      ],
+      "default": "cc-team"
     }
   ]
 }
