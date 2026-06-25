@@ -1,0 +1,455 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "dispute_id"
+                    },
+                    {
+                        "VarCharValue": "index"
+                    },
+                    {
+                        "VarCharValue": "custom"
+                    },
+                    {
+                        "VarCharValue": "gross_symbol"
+                    },
+                    {
+                        "VarCharValue": "buyer_name"
+                    },
+                    {
+                        "VarCharValue": "create_time"
+                    },
+                    {
+                        "VarCharValue": "transaction_status"
+                    },
+                    {
+                        "VarCharValue": "seller_email"
+                    },
+                    {
+                        "VarCharValue": "gross_amount"
+                    },
+                    {
+                        "VarCharValue": "seller_merchant_id"
+                    },
+                    {
+                        "VarCharValue": "invoice_number"
+                    },
+                    {
+                        "VarCharValue": "gross_currency_code"
+                    },
+                    {
+                        "VarCharValue": "reference_id"
+                    },
+                    {
+                        "VarCharValue": "gross_quantity"
+                    },
+                    {
+                        "VarCharValue": "seller_name"
+                    },
+                    {
+                        "VarCharValue": "seller_transaction_id"
+                    },
+                    {
+                        "VarCharValue": "buyer_transaction_id"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_deleted"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_synced"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "tiffani garabedian"
+                    },
+                    {
+                        "VarCharValue": "2025-09-18 17:31:37.000000 UTC"
+                    },
+                    {
+                        "VarCharValue": "COMPLETED"
+                    },
+                    {
+                        "VarCharValue": "payments@stellarlab.tech"
+                    },
+                    {
+                        "VarCharValue": "24.98"
+                    },
+                    {
+                        "VarCharValue": "2M7FL85CTL2GA"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "STELLARTECH LIMITED"
+                    },
+                    {
+                        "VarCharValue": "3LX69638HK409580A"
+                    },
+                    {
+                        "VarCharValue": "1AS64523E6842393H"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.670000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-NOA-596248579"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "Blanca Corona"
+                    },
+                    {
+                        "VarCharValue": "2025-09-13 18:45:09.000000 UTC"
+                    },
+                    {
+                        "VarCharValue": "REFUNDED"
+                    },
+                    {
+                        "VarCharValue": "payments@stellarlab.tech"
+                    },
+                    {
+                        "VarCharValue": "9.99"
+                    },
+                    {
+                        "VarCharValue": "2M7FL85CTL2GA"
+                    },
+                    {
+                        "VarCharValue": "f1a6a4cd-8e40-48b6-931c-5af0809446cb"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "STELLARTECH LIMITED"
+                    },
+                    {
+                        "VarCharValue": "25E820220M531594K"
+                    },
+                    {
+                        "VarCharValue": "0EY69693NL9380718"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-01 15:08:00.711000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-UPU-596345837"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "Maria Kamberos"
+                    },
+                    {
+                        "VarCharValue": "2025-09-25 16:09:19.000000 UTC"
+                    },
+                    {
+                        "VarCharValue": "REFUNDED"
+                    },
+                    {
+                        "VarCharValue": "payments@stellarlab.tech"
+                    },
+                    {
+                        "VarCharValue": "40.8"
+                    },
+                    {
+                        "VarCharValue": "2M7FL85CTL2GA"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "STELLARTECH LIMITED"
+                    },
+                    {
+                        "VarCharValue": "9M230236W8361701R"
+                    },
+                    {
+                        "VarCharValue": "16490431T6046620S"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-28 18:03:45.758000 UTC"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "dispute_id",
+                    "Label": "dispute_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "index",
+                    "Label": "index",
+                    "Type": "integer",
+                    "Precision": 10,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom",
+                    "Label": "custom",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "gross_symbol",
+                    "Label": "gross_symbol",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "buyer_name",
+                    "Label": "buyer_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "create_time",
+                    "Label": "create_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "transaction_status",
+                    "Label": "transaction_status",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "seller_email",
+                    "Label": "seller_email",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "gross_amount",
+                    "Label": "gross_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "seller_merchant_id",
+                    "Label": "seller_merchant_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "invoice_number",
+                    "Label": "invoice_number",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "gross_currency_code",
+                    "Label": "gross_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "reference_id",
+                    "Label": "reference_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "gross_quantity",
+                    "Label": "gross_quantity",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "seller_name",
+                    "Label": "seller_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "seller_transaction_id",
+                    "Label": "seller_transaction_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "buyer_transaction_id",
+                    "Label": "buyer_transaction_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_deleted",
+                    "Label": "_fivetran_deleted",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_synced",
+                    "Label": "_fivetran_synced",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

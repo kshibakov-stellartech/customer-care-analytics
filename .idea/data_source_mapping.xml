@@ -1,26 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/cc_reports/[actual] cc report - overall.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/[actual] voc_tags_logic.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/community_new.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/dispute_data.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/dispute_inv_table [final].sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/dispute_inv_table [stripe].sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/dispute_investigation_table.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/duplicates.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/tech_support_tasks_dataset.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/users_scopes.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/cc_reports/voc_adoption_rate.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/asana_task_attributes_project/sql/01_task_attrs.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/asana_task_attributes_project/sql/02_history_attrs.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/asana_task_attributes_project/sql/03_task_attrs_wide.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/asana_task_attributes_project/sql/03_task_attrs_wide_task_1212082488015300.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/asana_task_attributes_project/sql/04_processing_periods.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/asana_task_attributes_project/sql/05_task_processing_summary.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/community_old.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/disputes/sql_collected/sandbox/disputes/sql_collected/sandbox/other/dispute_data.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
-    <file url="file://$PROJECT_DIR$/sandbox/stripe_disputes_project/sql/01_stripe_disputes_with_user_email.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/ed651681-5b2e-4fdd-a1b3-d64c680965aa/console.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/ed651681-5b2e-4fdd-a1b3-d64c680965aa/console_1.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/ed651681-5b2e-4fdd-a1b3-d64c680965aa/console_2.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/ed651681-5b2e-4fdd-a1b3-d64c680965aa/console_3.sql" value="ed651681-5b2e-4fdd-a1b3-d64c680965aa" />
   </component>
 </project>

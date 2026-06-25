@@ -1,0 +1,447 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "dispute_id"
+                    },
+                    {
+                        "VarCharValue": "index"
+                    },
+                    {
+                        "VarCharValue": "initiated_time"
+                    },
+                    {
+                        "VarCharValue": "currency_code"
+                    },
+                    {
+                        "VarCharValue": "quantity"
+                    },
+                    {
+                        "VarCharValue": "symbol"
+                    },
+                    {
+                        "VarCharValue": "type"
+                    },
+                    {
+                        "VarCharValue": "amount"
+                    },
+                    {
+                        "VarCharValue": "reason"
+                    },
+                    {
+                        "VarCharValue": "affected_party"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_deleted"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_synced"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {
+                        "VarCharValue": "2025-10-10 22:57:41.651000 UTC"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "DEBIT"
+                    },
+                    {
+                        "VarCharValue": "24.98"
+                    },
+                    {
+                        "VarCharValue": "DISPUTE_SETTLEMENT"
+                    },
+                    {
+                        "VarCharValue": "SELLER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.670000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {
+                        "VarCharValue": "1"
+                    },
+                    {
+                        "VarCharValue": "2025-10-10 22:57:41.651000 UTC"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "DEBIT"
+                    },
+                    {
+                        "VarCharValue": "1.4"
+                    },
+                    {
+                        "VarCharValue": "DISPUTE_SETTLEMENT_FEE"
+                    },
+                    {
+                        "VarCharValue": "SELLER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.671000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {
+                        "VarCharValue": "2"
+                    },
+                    {
+                        "VarCharValue": "2025-12-31 06:27:38.532000 UTC"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "CREDIT"
+                    },
+                    {
+                        "VarCharValue": "24.98"
+                    },
+                    {
+                        "VarCharValue": "DISPUTE_SETTLEMENT"
+                    },
+                    {
+                        "VarCharValue": "SELLER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.671000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-NOA-596248579"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {
+                        "VarCharValue": "2025-10-03 16:49:53.766000 UTC"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "CREDIT"
+                    },
+                    {
+                        "VarCharValue": "9.99"
+                    },
+                    {
+                        "VarCharValue": "DISPUTE_SETTLEMENT"
+                    },
+                    {
+                        "VarCharValue": "BUYER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-01 15:08:00.711000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-NOA-596248579"
+                    },
+                    {
+                        "VarCharValue": "1"
+                    },
+                    {
+                        "VarCharValue": "2025-10-03 16:49:53.766000 UTC"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "DEBIT"
+                    },
+                    {
+                        "VarCharValue": "9.99"
+                    },
+                    {
+                        "VarCharValue": "DISPUTE_SETTLEMENT"
+                    },
+                    {
+                        "VarCharValue": "SELLER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-01 15:08:00.711000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-UPU-596345837"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {
+                        "VarCharValue": "2025-10-05 11:00:05.881000 UTC"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "DEBIT"
+                    },
+                    {
+                        "VarCharValue": "40.8"
+                    },
+                    {
+                        "VarCharValue": "DISPUTE_SETTLEMENT"
+                    },
+                    {
+                        "VarCharValue": "SELLER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-28 18:03:45.762000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-UPU-596345837"
+                    },
+                    {
+                        "VarCharValue": "1"
+                    },
+                    {
+                        "VarCharValue": "2025-10-05 11:00:05.881000 UTC"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "CREDIT"
+                    },
+                    {
+                        "VarCharValue": "40.8"
+                    },
+                    {
+                        "VarCharValue": "DISPUTE_SETTLEMENT"
+                    },
+                    {
+                        "VarCharValue": "BUYER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-28 18:03:45.762000 UTC"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "dispute_id",
+                    "Label": "dispute_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "index",
+                    "Label": "index",
+                    "Type": "integer",
+                    "Precision": 10,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "initiated_time",
+                    "Label": "initiated_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "currency_code",
+                    "Label": "currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "quantity",
+                    "Label": "quantity",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "symbol",
+                    "Label": "symbol",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "type",
+                    "Label": "type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "amount",
+                    "Label": "amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "reason",
+                    "Label": "reason",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "affected_party",
+                    "Label": "affected_party",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_deleted",
+                    "Label": "_fivetran_deleted",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_synced",
+                    "Label": "_fivetran_synced",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

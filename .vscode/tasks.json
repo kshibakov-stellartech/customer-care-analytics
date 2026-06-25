@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Tableau: Publish datasource from template",
+      "type": "shell",
+      "command": "if [[ -f cc_tableau/.env ]]; then set -a; source cc_tableau/.env; set +a; else echo '[warn] cc_tableau/.env not found, using current shell env only'; fi; python3 cc_tableau/scripts/publish_datasource.py",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "/bin/zsh",
+          "args": [
+            "-lc"
+          ]
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

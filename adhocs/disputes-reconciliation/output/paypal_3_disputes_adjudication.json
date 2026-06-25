@@ -1,0 +1,191 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "dispute_id"
+                    },
+                    {
+                        "VarCharValue": "index"
+                    },
+                    {
+                        "VarCharValue": "adjudication_time"
+                    },
+                    {
+                        "VarCharValue": "dispute_life_cycle_stage"
+                    },
+                    {
+                        "VarCharValue": "reason"
+                    },
+                    {
+                        "VarCharValue": "type"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_deleted"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_synced"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {
+                        "VarCharValue": "2025-10-10 22:52:29.650000 UTC"
+                    },
+                    {
+                        "VarCharValue": "CHARGEBACK"
+                    },
+                    {
+                        "VarCharValue": "INELIGIBLE_SELLER_PROTECTION_POLICY"
+                    },
+                    {
+                        "VarCharValue": "RECOVER_FROM_SELLER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.671000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {
+                        "VarCharValue": "1"
+                    },
+                    {
+                        "VarCharValue": "2025-10-17 05:05:23.104000 UTC"
+                    },
+                    {
+                        "VarCharValue": "PRE_ARBITRATION"
+                    },
+                    {
+                        "VarCharValue": "INELIGIBLE_SELLER_PROTECTION_POLICY"
+                    },
+                    {
+                        "VarCharValue": "RECOVER_FROM_SELLER"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.671000 UTC"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "dispute_id",
+                    "Label": "dispute_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "index",
+                    "Label": "index",
+                    "Type": "integer",
+                    "Precision": 10,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "adjudication_time",
+                    "Label": "adjudication_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "dispute_life_cycle_stage",
+                    "Label": "dispute_life_cycle_stage",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "reason",
+                    "Label": "reason",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "type",
+                    "Label": "type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_deleted",
+                    "Label": "_fivetran_deleted",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_synced",
+                    "Label": "_fivetran_synced",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

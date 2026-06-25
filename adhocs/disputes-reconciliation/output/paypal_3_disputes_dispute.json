@@ -1,0 +1,2089 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "id"
+                    },
+                    {
+                        "VarCharValue": "outcome_refunded_amount"
+                    },
+                    {
+                        "VarCharValue": "outcome_refunded_currency_code"
+                    },
+                    {
+                        "VarCharValue": "offer_buyer_requested_amount"
+                    },
+                    {
+                        "VarCharValue": "currency_code"
+                    },
+                    {
+                        "VarCharValue": "create_time"
+                    },
+                    {
+                        "VarCharValue": "outcome_asset_refunded_symbol"
+                    },
+                    {
+                        "VarCharValue": "asset_quantity"
+                    },
+                    {
+                        "VarCharValue": "email"
+                    },
+                    {
+                        "VarCharValue": "note"
+                    },
+                    {
+                        "VarCharValue": "update_time"
+                    },
+                    {
+                        "VarCharValue": "buyer_response_due_date"
+                    },
+                    {
+                        "VarCharValue": "offer_type"
+                    },
+                    {
+                        "VarCharValue": "status"
+                    },
+                    {
+                        "VarCharValue": "offer_seller_offered_currency_code"
+                    },
+                    {
+                        "VarCharValue": "time_posted"
+                    },
+                    {
+                        "VarCharValue": "offer_buyer_requested_currency_code"
+                    },
+                    {
+                        "VarCharValue": "refund_details_allowed_refund_amount"
+                    },
+                    {
+                        "VarCharValue": "outcome_code"
+                    },
+                    {
+                        "VarCharValue": "amount"
+                    },
+                    {
+                        "VarCharValue": "offer_seller_offered_amount"
+                    },
+                    {
+                        "VarCharValue": "reason"
+                    },
+                    {
+                        "VarCharValue": "external_reason_code"
+                    },
+                    {
+                        "VarCharValue": "life_cycle_stage"
+                    },
+                    {
+                        "VarCharValue": "channel"
+                    },
+                    {
+                        "VarCharValue": "outcome_asset_refunded_quantity"
+                    },
+                    {
+                        "VarCharValue": "asset_symbol"
+                    },
+                    {
+                        "VarCharValue": "refund_details_allowed_refund_currency_code"
+                    },
+                    {
+                        "VarCharValue": "seller_response_due_date"
+                    },
+                    {
+                        "VarCharValue": "buyer_contacted_channel"
+                    },
+                    {
+                        "VarCharValue": "buyer_contacted_time"
+                    },
+                    {
+                        "VarCharValue": "merchant_contacted"
+                    },
+                    {
+                        "VarCharValue": "merchant_contacted_mode"
+                    },
+                    {
+                        "VarCharValue": "merchant_contacted_outcome"
+                    },
+                    {
+                        "VarCharValue": "merchant_contacted_time"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_issue_type"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_amount"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_currency_code"
+                    },
+                    {
+                        "VarCharValue": "duplicate_transaction_original_buyer_transaction_id"
+                    },
+                    {
+                        "VarCharValue": "duplicate_transaction_original_seller_transaction_id"
+                    },
+                    {
+                        "VarCharValue": "issue_type"
+                    },
+                    {
+                        "VarCharValue": "duplicate_transaction_received_duplicate"
+                    },
+                    {
+                        "VarCharValue": "canceled_recurring_billing_cancellation_details_cancellation_number"
+                    },
+                    {
+                        "VarCharValue": "canceled_recurring_billing_cancellation_details_cancelled"
+                    },
+                    {
+                        "VarCharValue": "canceled_recurring_billing_cancellation_details_cancellation_mode"
+                    },
+                    {
+                        "VarCharValue": "canceled_recurring_billing_cancellation_details_cancellation_date"
+                    },
+                    {
+                        "VarCharValue": "canceled_recurring_billing_expected_refund_amount"
+                    },
+                    {
+                        "VarCharValue": "canceled_recurring_billing_expected_refund_currency_code"
+                    },
+                    {
+                        "VarCharValue": "cancellation_details_cancellation_number"
+                    },
+                    {
+                        "VarCharValue": "cancellation_details_cancelled"
+                    },
+                    {
+                        "VarCharValue": "cancellation_details_cancellation_mode"
+                    },
+                    {
+                        "VarCharValue": "cancellation_details_cancellation_date"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_agreed_refund_details_merchant_agreed_refund"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_agreed_refund_details_merchant_agreed_refund_time"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_cancellation_details_cancellation_number"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_cancellation_details_cancelled"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_cancellation_details_cancellation_mode"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_cancellation_details_cancellation_date"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_description"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_product_received"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_expected_delivery_date"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_purchase_url"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_product_received_time"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_returned"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_return_details_mode"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_return_details_receipt"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_return_details_return_confirmation_number"
+                    },
+                    {
+                        "VarCharValue": "credit_not_processed_product_details_return_details_return_time"
+                    },
+                    {
+                        "VarCharValue": "service_details_description"
+                    },
+                    {
+                        "VarCharValue": "service_details_service_started"
+                    },
+                    {
+                        "VarCharValue": "service_details_note"
+                    },
+                    {
+                        "VarCharValue": "service_details_purchase_url"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_address_line_2"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_postal_code"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_admin_area_4"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_country_code"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_address_line_3"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_admin_area_1"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_address_line_1"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_admin_area_3"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_admin_area_2"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_details_street_number"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_details_street_name"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_details_street_type"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_details_delivery_service"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_details_building_name"
+                    },
+                    {
+                        "VarCharValue": "return_shipping_address_details_sub_building"
+                    },
+                    {
+                        "VarCharValue": "product_details_return_details_mode"
+                    },
+                    {
+                        "VarCharValue": "product_details_return_details_receipt"
+                    },
+                    {
+                        "VarCharValue": "product_details_return_details_return_confirmation_number"
+                    },
+                    {
+                        "VarCharValue": "product_details_return_details_return_time"
+                    },
+                    {
+                        "VarCharValue": "product_details_description"
+                    },
+                    {
+                        "VarCharValue": "product_details_product_received"
+                    },
+                    {
+                        "VarCharValue": "product_details_purchase_url"
+                    },
+                    {
+                        "VarCharValue": "product_details_product_received_time"
+                    },
+                    {
+                        "VarCharValue": "product_details_expected_delivery_date"
+                    },
+                    {
+                        "VarCharValue": "product_details_returned"
+                    },
+                    {
+                        "VarCharValue": "payment_by_other_means_charge_different_from_original"
+                    },
+                    {
+                        "VarCharValue": "payment_by_other_means_received_duplicate"
+                    },
+                    {
+                        "VarCharValue": "payment_by_other_means_payment_method"
+                    },
+                    {
+                        "VarCharValue": "payment_by_other_means_payment_instrument_suffix"
+                    },
+                    {
+                        "VarCharValue": "incorrect_transaction_amount_correct_transaction_asset_quantity"
+                    },
+                    {
+                        "VarCharValue": "incorrect_transaction_amount_correct_transaction_asset_symbol"
+                    },
+                    {
+                        "VarCharValue": "incorrect_transaction_amount_correct_transaction_amount"
+                    },
+                    {
+                        "VarCharValue": "incorrect_transaction_amount_correct_transaction_currency_code"
+                    },
+                    {
+                        "VarCharValue": "incorrect_transaction_amount_correct_transaction_time"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_deleted"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_synced"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "24.98"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "2025-10-01 05:03:29.184000 UTC"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "2025-12-31 06:28:50.376000 UTC"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "RESOLVED"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "24.98"
+                    },
+                    {
+                        "VarCharValue": "RESOLVED_SELLER_FAVOUR"
+                    },
+                    {
+                        "VarCharValue": "24.98"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED"
+                    },
+                    {
+                        "VarCharValue": "13.5"
+                    },
+                    {
+                        "VarCharValue": "PRE_ARBITRATION"
+                    },
+                    {
+                        "VarCharValue": "EXTERNAL"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "2025-09-29 00:00:00.000000 UTC"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.670000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-NOA-596248579"
+                    },
+                    {
+                        "VarCharValue": "9.99"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "9.99"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "2025-10-02 16:26:51.667000 UTC"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "2025-10-03 16:53:16.866000 UTC"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "RESOLVED"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "9.99"
+                    },
+                    {
+                        "VarCharValue": "RESOLVED_BUYER_FAVOUR"
+                    },
+                    {
+                        "VarCharValue": "9.99"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "MERCHANDISE_OR_SERVICE_NOT_RECEIVED"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "INQUIRY"
+                    },
+                    {
+                        "VarCharValue": "INTERNAL"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "2025-10-02 16:26:50.665000 UTC"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "SERVICE"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-01 15:08:00.710000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-UPU-596345837"
+                    },
+                    {
+                        "VarCharValue": "40.8"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "40.8"
+                    },
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "2025-10-03 09:04:12.522000 UTC"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "2025-12-27 12:30:40.298000 UTC"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "RESOLVED"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {
+                        "VarCharValue": "40.8"
+                    },
+                    {
+                        "VarCharValue": "RESOLVED_BUYER_FAVOUR"
+                    },
+                    {
+                        "VarCharValue": "40.8"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "UNAUTHORISED"
+                    },
+                    {
+                        "VarCharValue": "4837"
+                    },
+                    {
+                        "VarCharValue": "CHARGEBACK"
+                    },
+                    {
+                        "VarCharValue": "EXTERNAL"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "USD"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "2025-10-08 07:00:00.000000 UTC"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-28 18:03:45.757000 UTC"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "id",
+                    "Label": "id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "outcome_refunded_amount",
+                    "Label": "outcome_refunded_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "outcome_refunded_currency_code",
+                    "Label": "outcome_refunded_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "offer_buyer_requested_amount",
+                    "Label": "offer_buyer_requested_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "currency_code",
+                    "Label": "currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "create_time",
+                    "Label": "create_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "outcome_asset_refunded_symbol",
+                    "Label": "outcome_asset_refunded_symbol",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "asset_quantity",
+                    "Label": "asset_quantity",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "email",
+                    "Label": "email",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "note",
+                    "Label": "note",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "update_time",
+                    "Label": "update_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "buyer_response_due_date",
+                    "Label": "buyer_response_due_date",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "offer_type",
+                    "Label": "offer_type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "status",
+                    "Label": "status",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "offer_seller_offered_currency_code",
+                    "Label": "offer_seller_offered_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "time_posted",
+                    "Label": "time_posted",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "offer_buyer_requested_currency_code",
+                    "Label": "offer_buyer_requested_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "refund_details_allowed_refund_amount",
+                    "Label": "refund_details_allowed_refund_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "outcome_code",
+                    "Label": "outcome_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "amount",
+                    "Label": "amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "offer_seller_offered_amount",
+                    "Label": "offer_seller_offered_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "reason",
+                    "Label": "reason",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "external_reason_code",
+                    "Label": "external_reason_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "life_cycle_stage",
+                    "Label": "life_cycle_stage",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "channel",
+                    "Label": "channel",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "outcome_asset_refunded_quantity",
+                    "Label": "outcome_asset_refunded_quantity",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "asset_symbol",
+                    "Label": "asset_symbol",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "refund_details_allowed_refund_currency_code",
+                    "Label": "refund_details_allowed_refund_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "seller_response_due_date",
+                    "Label": "seller_response_due_date",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "buyer_contacted_channel",
+                    "Label": "buyer_contacted_channel",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "buyer_contacted_time",
+                    "Label": "buyer_contacted_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "merchant_contacted",
+                    "Label": "merchant_contacted",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "merchant_contacted_mode",
+                    "Label": "merchant_contacted_mode",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "merchant_contacted_outcome",
+                    "Label": "merchant_contacted_outcome",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "merchant_contacted_time",
+                    "Label": "merchant_contacted_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_issue_type",
+                    "Label": "credit_not_processed_issue_type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_amount",
+                    "Label": "credit_not_processed_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_currency_code",
+                    "Label": "credit_not_processed_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "duplicate_transaction_original_buyer_transaction_id",
+                    "Label": "duplicate_transaction_original_buyer_transaction_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "duplicate_transaction_original_seller_transaction_id",
+                    "Label": "duplicate_transaction_original_seller_transaction_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "issue_type",
+                    "Label": "issue_type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "duplicate_transaction_received_duplicate",
+                    "Label": "duplicate_transaction_received_duplicate",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "canceled_recurring_billing_cancellation_details_cancellation_number",
+                    "Label": "canceled_recurring_billing_cancellation_details_cancellation_number",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "canceled_recurring_billing_cancellation_details_cancelled",
+                    "Label": "canceled_recurring_billing_cancellation_details_cancelled",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "canceled_recurring_billing_cancellation_details_cancellation_mode",
+                    "Label": "canceled_recurring_billing_cancellation_details_cancellation_mode",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "canceled_recurring_billing_cancellation_details_cancellation_date",
+                    "Label": "canceled_recurring_billing_cancellation_details_cancellation_date",
+                    "Type": "date",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "canceled_recurring_billing_expected_refund_amount",
+                    "Label": "canceled_recurring_billing_expected_refund_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "canceled_recurring_billing_expected_refund_currency_code",
+                    "Label": "canceled_recurring_billing_expected_refund_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "cancellation_details_cancellation_number",
+                    "Label": "cancellation_details_cancellation_number",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "cancellation_details_cancelled",
+                    "Label": "cancellation_details_cancelled",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "cancellation_details_cancellation_mode",
+                    "Label": "cancellation_details_cancellation_mode",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "cancellation_details_cancellation_date",
+                    "Label": "cancellation_details_cancellation_date",
+                    "Type": "date",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_agreed_refund_details_merchant_agreed_refund",
+                    "Label": "credit_not_processed_agreed_refund_details_merchant_agreed_refund",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_agreed_refund_details_merchant_agreed_refund_time",
+                    "Label": "credit_not_processed_agreed_refund_details_merchant_agreed_refund_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_cancellation_details_cancellation_number",
+                    "Label": "credit_not_processed_cancellation_details_cancellation_number",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_cancellation_details_cancelled",
+                    "Label": "credit_not_processed_cancellation_details_cancelled",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_cancellation_details_cancellation_mode",
+                    "Label": "credit_not_processed_cancellation_details_cancellation_mode",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_cancellation_details_cancellation_date",
+                    "Label": "credit_not_processed_cancellation_details_cancellation_date",
+                    "Type": "date",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_description",
+                    "Label": "credit_not_processed_product_details_description",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_product_received",
+                    "Label": "credit_not_processed_product_details_product_received",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_expected_delivery_date",
+                    "Label": "credit_not_processed_product_details_expected_delivery_date",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_purchase_url",
+                    "Label": "credit_not_processed_product_details_purchase_url",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_product_received_time",
+                    "Label": "credit_not_processed_product_details_product_received_time",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_returned",
+                    "Label": "credit_not_processed_product_details_returned",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_return_details_mode",
+                    "Label": "credit_not_processed_product_details_return_details_mode",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_return_details_receipt",
+                    "Label": "credit_not_processed_product_details_return_details_receipt",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_return_details_return_confirmation_number",
+                    "Label": "credit_not_processed_product_details_return_details_return_confirmation_number",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "credit_not_processed_product_details_return_details_return_time",
+                    "Label": "credit_not_processed_product_details_return_details_return_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "service_details_description",
+                    "Label": "service_details_description",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "service_details_service_started",
+                    "Label": "service_details_service_started",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "service_details_note",
+                    "Label": "service_details_note",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "service_details_purchase_url",
+                    "Label": "service_details_purchase_url",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_address_line_2",
+                    "Label": "return_shipping_address_address_line_2",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_postal_code",
+                    "Label": "return_shipping_address_postal_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_admin_area_4",
+                    "Label": "return_shipping_address_admin_area_4",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_country_code",
+                    "Label": "return_shipping_address_country_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_address_line_3",
+                    "Label": "return_shipping_address_address_line_3",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_admin_area_1",
+                    "Label": "return_shipping_address_admin_area_1",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_address_line_1",
+                    "Label": "return_shipping_address_address_line_1",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_admin_area_3",
+                    "Label": "return_shipping_address_admin_area_3",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_admin_area_2",
+                    "Label": "return_shipping_address_admin_area_2",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_details_street_number",
+                    "Label": "return_shipping_address_details_street_number",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_details_street_name",
+                    "Label": "return_shipping_address_details_street_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_details_street_type",
+                    "Label": "return_shipping_address_details_street_type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_details_delivery_service",
+                    "Label": "return_shipping_address_details_delivery_service",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_details_building_name",
+                    "Label": "return_shipping_address_details_building_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "return_shipping_address_details_sub_building",
+                    "Label": "return_shipping_address_details_sub_building",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_return_details_mode",
+                    "Label": "product_details_return_details_mode",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_return_details_receipt",
+                    "Label": "product_details_return_details_receipt",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_return_details_return_confirmation_number",
+                    "Label": "product_details_return_details_return_confirmation_number",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_return_details_return_time",
+                    "Label": "product_details_return_details_return_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_description",
+                    "Label": "product_details_description",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_product_received",
+                    "Label": "product_details_product_received",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_purchase_url",
+                    "Label": "product_details_purchase_url",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_product_received_time",
+                    "Label": "product_details_product_received_time",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_expected_delivery_date",
+                    "Label": "product_details_expected_delivery_date",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "product_details_returned",
+                    "Label": "product_details_returned",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "payment_by_other_means_charge_different_from_original",
+                    "Label": "payment_by_other_means_charge_different_from_original",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "payment_by_other_means_received_duplicate",
+                    "Label": "payment_by_other_means_received_duplicate",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "payment_by_other_means_payment_method",
+                    "Label": "payment_by_other_means_payment_method",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "payment_by_other_means_payment_instrument_suffix",
+                    "Label": "payment_by_other_means_payment_instrument_suffix",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "incorrect_transaction_amount_correct_transaction_asset_quantity",
+                    "Label": "incorrect_transaction_amount_correct_transaction_asset_quantity",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "incorrect_transaction_amount_correct_transaction_asset_symbol",
+                    "Label": "incorrect_transaction_amount_correct_transaction_asset_symbol",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "incorrect_transaction_amount_correct_transaction_amount",
+                    "Label": "incorrect_transaction_amount_correct_transaction_amount",
+                    "Type": "float",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "incorrect_transaction_amount_correct_transaction_currency_code",
+                    "Label": "incorrect_transaction_amount_correct_transaction_currency_code",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "incorrect_transaction_amount_correct_transaction_time",
+                    "Label": "incorrect_transaction_amount_correct_transaction_time",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_deleted",
+                    "Label": "_fivetran_deleted",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_synced",
+                    "Label": "_fivetran_synced",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

@@ -1,0 +1,379 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "dispute_id"
+                    },
+                    {
+                        "VarCharValue": "index"
+                    },
+                    {
+                        "VarCharValue": "dispute_life_cycle_stage"
+                    },
+                    {
+                        "VarCharValue": "action_info_mandatory"
+                    },
+                    {
+                        "VarCharValue": "action_info_response_option"
+                    },
+                    {
+                        "VarCharValue": "item_id"
+                    },
+                    {
+                        "VarCharValue": "item_type"
+                    },
+                    {
+                        "VarCharValue": "action_info_action"
+                    },
+                    {
+                        "VarCharValue": "source"
+                    },
+                    {
+                        "VarCharValue": "date"
+                    },
+                    {
+                        "VarCharValue": "evidence_type"
+                    },
+                    {
+                        "VarCharValue": "notes"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_deleted"
+                    },
+                    {
+                        "VarCharValue": "_fivetran_synced"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-AYO-596018258"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {
+                        "VarCharValue": "CHARGEBACK"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "PROVIDE_EVIDENCE"
+                    },
+                    {
+                        "VarCharValue": "SUBMITTED_BY_SELLER"
+                    },
+                    {
+                        "VarCharValue": "2025-10-10"
+                    },
+                    {
+                        "VarCharValue": "PROOF_OF_FULFILLMENT"
+                    },
+                    {
+                        "VarCharValue": "Analytics for Tiffani Garabedian"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-01-01 12:03:46.671000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-NOA-596248579"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {
+                        "VarCharValue": "INQUIRY"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "SUBMITTED_BY_BUYER"
+                    },
+                    {
+                        "VarCharValue": "2025-10-02"
+                    },
+                    {
+                        "VarCharValue": "CREATE"
+                    },
+                    {
+                        "VarCharValue": "I want a refund."
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-01 15:08:00.711000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-NOA-596248579"
+                    },
+                    {
+                        "VarCharValue": "1"
+                    },
+                    {
+                        "VarCharValue": "INQUIRY"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "REFUND"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "ACCEPT_CLAIM"
+                    },
+                    {
+                        "VarCharValue": "SUBMITTED_BY_SELLER"
+                    },
+                    {
+                        "VarCharValue": "2025-10-03"
+                    },
+                    {
+                        "VarCharValue": "OTHER"
+                    },
+                    {
+                        "VarCharValue": "Hello there,\nWe're really sorry to hear you ran into an issue with your transaction. We understand how frustrating that can be, and we're here to help. We've issued a refund for this transaction, so you should see it reflected shortly.\nIf you have any questions or need any further assistance, please feel free to reach out to our support team at xxxx - we're always happy to help.\nAnd if you ever decide to subscribe again in the future, please do get in touch with us first. We'd love to make your experience as smooth and enjoyable as possible!"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-01 15:08:00.711000 UTC"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "PP-R-UPU-596345837"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {
+                        "VarCharValue": "CHARGEBACK"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "REFUND"
+                    },
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "ACCEPT_CLAIM"
+                    },
+                    {
+                        "VarCharValue": "SUBMITTED_BY_SELLER"
+                    },
+                    {
+                        "VarCharValue": "2025-10-05"
+                    },
+                    {
+                        "VarCharValue": "OTHER"
+                    },
+                    {
+                        "VarCharValue": "Hello, Maria,\nWe're really sorry to hear you ran into an issue with your transaction. We understand how frustrating that can be, and we're here to help. We've issued a refund for this transaction, so you should see it reflected shortly.\nIf you have any questions or need any further assistance, please feel free to reach out to our support team at xxxx - we're always happy to help.\nAnd if you ever decide to subscribe again in the future, please do get in touch with us first. We'd love to make your experience as smooth and enjoyable as possible!\n"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2025-12-28 18:03:45.762000 UTC"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "dispute_id",
+                    "Label": "dispute_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "index",
+                    "Label": "index",
+                    "Type": "integer",
+                    "Precision": 10,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "dispute_life_cycle_stage",
+                    "Label": "dispute_life_cycle_stage",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "action_info_mandatory",
+                    "Label": "action_info_mandatory",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "action_info_response_option",
+                    "Label": "action_info_response_option",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "item_id",
+                    "Label": "item_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "item_type",
+                    "Label": "item_type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "action_info_action",
+                    "Label": "action_info_action",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "source",
+                    "Label": "source",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "date",
+                    "Label": "date",
+                    "Type": "date",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "evidence_type",
+                    "Label": "evidence_type",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "notes",
+                    "Label": "notes",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_deleted",
+                    "Label": "_fivetran_deleted",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "_fivetran_synced",
+                    "Label": "_fivetran_synced",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

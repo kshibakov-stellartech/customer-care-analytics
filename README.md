@@ -1,4 +1,27 @@
-# Personal Workspace
+# Customer Care Analytics
 
-Personal folder for work-related analytical tasks.  
-Contains ad-hoc queries, drafts, experiments, and temporary files.
+Личное рабочее пространство для аналитики поддержки SmartyMe.
+
+## Структура
+
+```
+cc_reports/          — продакшн-запросы (Tableau, регулярные отчёты)
+sandbox/
+  ├── csat_val_diagnostics_2026-04-23/  — расследование CSAT-данных (завершено)
+  ├── stripe_disputes_project/           — матчинг email → Stripe disputes (завершено)
+  ├── asana_task_attributes_project/    — анализ Asana-задач проекта 1211305108470489 (завершено)
+  ├── asana_research/                   — разведочные запросы Asana
+  ├── disputes/                         — итоговые отчёты по диспутам
+  └── other/                            — черновики и разные старые запросы
+archive/             — старые версии продакшн-запросов (до марта 2026)
+files/               — CSV-данные (экспорты, данные расследований)
+cc_tableau/          — Tableau-специфичное
+content/             — диаграммы, схемы
+```
+
+## Как открывать в Cowork
+
+Открывай конкретную подпапку как рабочую директорию Cowork.
+Каждая папка-проект содержит `CONTEXT.md` — Claude прочтёт его и сразу поймёт контекст.
+
+Пример: для работы с продакшн-запросами открой `cc_reports/` → Claude увидит CONTEXT.md и список файлов.

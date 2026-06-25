@@ -1,0 +1,1121 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "project_id"
+                    },
+                    {
+                        "VarCharValue": "project_name"
+                    },
+                    {
+                        "VarCharValue": "project_task_synced_at"
+                    },
+                    {
+                        "VarCharValue": "task_id"
+                    },
+                    {
+                        "VarCharValue": "task_name"
+                    },
+                    {
+                        "VarCharValue": "task_notes"
+                    },
+                    {
+                        "VarCharValue": "ticket_id"
+                    },
+                    {
+                        "VarCharValue": "task_resource_subtype"
+                    },
+                    {
+                        "VarCharValue": "parent_task_id"
+                    },
+                    {
+                        "VarCharValue": "workspace_id"
+                    },
+                    {
+                        "VarCharValue": "created_at"
+                    },
+                    {
+                        "VarCharValue": "created_date"
+                    },
+                    {
+                        "VarCharValue": "created_week"
+                    },
+                    {
+                        "VarCharValue": "start_on"
+                    },
+                    {
+                        "VarCharValue": "due_on"
+                    },
+                    {
+                        "VarCharValue": "due_at"
+                    },
+                    {
+                        "VarCharValue": "completed"
+                    },
+                    {
+                        "VarCharValue": "completed_at"
+                    },
+                    {
+                        "VarCharValue": "completed_date"
+                    },
+                    {
+                        "VarCharValue": "modified_at"
+                    },
+                    {
+                        "VarCharValue": "liked"
+                    },
+                    {
+                        "VarCharValue": "num_likes"
+                    },
+                    {
+                        "VarCharValue": "actual_time_minutes"
+                    },
+                    {
+                        "VarCharValue": "task_deleted"
+                    },
+                    {
+                        "VarCharValue": "task_synced_at"
+                    },
+                    {
+                        "VarCharValue": "assignee_id"
+                    },
+                    {
+                        "VarCharValue": "assignee_name"
+                    },
+                    {
+                        "VarCharValue": "assignee_email"
+                    },
+                    {
+                        "VarCharValue": "created_by_id"
+                    },
+                    {
+                        "VarCharValue": "created_by_name"
+                    },
+                    {
+                        "VarCharValue": "created_by_email"
+                    },
+                    {
+                        "VarCharValue": "completed_by_id"
+                    },
+                    {
+                        "VarCharValue": "completed_by_name"
+                    },
+                    {
+                        "VarCharValue": "completed_by_email"
+                    },
+                    {
+                        "VarCharValue": "section_id"
+                    },
+                    {
+                        "VarCharValue": "section_name"
+                    },
+                    {
+                        "VarCharValue": "section_created_at"
+                    },
+                    {
+                        "VarCharValue": "section_assignment_synced_at"
+                    },
+                    {
+                        "VarCharValue": "task_section_synced_at"
+                    },
+                    {
+                        "VarCharValue": "custom_requester"
+                    },
+                    {
+                        "VarCharValue": "custom_team"
+                    },
+                    {
+                        "VarCharValue": "custom_priority"
+                    },
+                    {
+                        "VarCharValue": "custom_task_status"
+                    },
+                    {
+                        "VarCharValue": "custom_category"
+                    },
+                    {
+                        "VarCharValue": "custom_task_category"
+                    },
+                    {
+                        "VarCharValue": "custom_creation_date"
+                    },
+                    {
+                        "VarCharValue": "completion_period_days"
+                    },
+                    {
+                        "VarCharValue": "prev_section"
+                    },
+                    {
+                        "VarCharValue": "curr_section"
+                    },
+                    {
+                        "VarCharValue": "prev_task_progress"
+                    },
+                    {
+                        "VarCharValue": "curr_task_progress"
+                    },
+                    {
+                        "VarCharValue": "prev_assignee"
+                    },
+                    {
+                        "VarCharValue": "curr_assignee"
+                    },
+                    {
+                        "VarCharValue": "prev_due_date"
+                    },
+                    {
+                        "VarCharValue": "curr_due_date"
+                    },
+                    {
+                        "VarCharValue": "prev_completed_date"
+                    },
+                    {
+                        "VarCharValue": "curr_completed_date"
+                    },
+                    {
+                        "VarCharValue": "prev_completion_status"
+                    },
+                    {
+                        "VarCharValue": "curr_completion_status"
+                    },
+                    {
+                        "VarCharValue": "last_history_event_at"
+                    },
+                    {
+                        "VarCharValue": "avg_resolution_time_min"
+                    },
+                    {
+                        "VarCharValue": "avg_resolution_time_hours"
+                    },
+                    {
+                        "VarCharValue": "processing_periods_cnt"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "1211305108470489"
+                    },
+                    {
+                        "VarCharValue": "CC-Tech-Requests"
+                    },
+                    {
+                        "VarCharValue": "2026-04-27 09:39:20.290000 UTC"
+                    },
+                    {
+                        "VarCharValue": "1212082488015300"
+                    },
+                    {
+                        "VarCharValue": "Can't locate the annual sub (adapty)"
+                    },
+                    {
+                        "VarCharValue": "Email address:\nhanna.dereka@stellarlab.tech\n\nEmail or live chat:\nEmail\n\nZendesk ticket link:\nhttps://stellartechlimited.zendesk.com/agent/tickets/591686\n\nDescribe the request:\nCan't locate the annual sub (adapty)\n\nProvide details about the user (email, BO profile, etc.):\nmarielsca@gmail.com\n\n———————————————\nThis task was submitted through CC-Tech-Requests\nhttps://form.asana.com/?k=xVZEzCDjEr6JaGwe2QhxQA&d=1206371557234276"
+                    },
+                    {
+                        "VarCharValue": "591686"
+                    },
+                    {
+                        "VarCharValue": "default_task"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "1206371557234276"
+                    },
+                    {
+                        "VarCharValue": "2025-11-25 00:12:11.676000 UTC"
+                    },
+                    {
+                        "VarCharValue": "2025-11-25"
+                    },
+                    {
+                        "VarCharValue": "2025-11-24 00:00:00.000000 UTC"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "2025-11-27 00:00:00.000000 UTC"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "true"
+                    },
+                    {
+                        "VarCharValue": "2026-03-24 13:08:31.458000 UTC"
+                    },
+                    {
+                        "VarCharValue": "2026-03-24"
+                    },
+                    {
+                        "VarCharValue": "2026-04-23 11:07:24.431000 UTC"
+                    },
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "0"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "false"
+                    },
+                    {
+                        "VarCharValue": "2026-04-27 09:39:20.290000 UTC"
+                    },
+                    {
+                        "VarCharValue": "1209557945491187"
+                    },
+                    {
+                        "VarCharValue": "Vladyslav Yavorskyi"
+                    },
+                    {
+                        "VarCharValue": "vladyslav.yavorskyi@stellarlab.tech"
+                    },
+                    {
+                        "VarCharValue": "1210856342715480"
+                    },
+                    {
+                        "VarCharValue": "Hanna H"
+                    },
+                    {
+                        "VarCharValue": "hanna.dereka@stellarlab.tech"
+                    },
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "1211305108470499"
+                    },
+                    {
+                        "VarCharValue": "Done"
+                    },
+                    {
+                        "VarCharValue": "2025-09-09 15:05:12.252000 UTC"
+                    },
+                    {
+                        "VarCharValue": "2026-04-27 09:39:20.290000 UTC"
+                    },
+                    {
+                        "VarCharValue": "2026-04-27 09:39:20.290000 UTC"
+                    },
+                    {
+                        "VarCharValue": "[]"
+                    },
+                    {},
+                    {},
+                    {},
+                    {},
+                    {},
+                    {
+                        "VarCharValue": "2025-11-25 00:00:00.000000 UTC"
+                    },
+                    {
+                        "VarCharValue": "119"
+                    },
+                    {
+                        "VarCharValue": "1-Time Problem requests"
+                    },
+                    {
+                        "VarCharValue": "Completed"
+                    },
+                    {
+                        "VarCharValue": "To Do"
+                    },
+                    {
+                        "VarCharValue": "Do to Done"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "Vladyslav Yavorskyi"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "Nov 27, 2025"
+                    },
+                    {},
+                    {
+                        "VarCharValue": "\"Nov 26, 2025\""
+                    },
+                    {},
+                    {
+                        "VarCharValue": "complete"
+                    },
+                    {
+                        "VarCharValue": "2026-04-23 11:07:23.020000 UTC"
+                    },
+                    {
+                        "VarCharValue": "2078.0"
+                    },
+                    {
+                        "VarCharValue": "34.63333333333333"
+                    },
+                    {
+                        "VarCharValue": "1"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "project_id",
+                    "Label": "project_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "project_name",
+                    "Label": "project_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "project_task_synced_at",
+                    "Label": "project_task_synced_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "task_id",
+                    "Label": "task_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "task_name",
+                    "Label": "task_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "task_notes",
+                    "Label": "task_notes",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "ticket_id",
+                    "Label": "ticket_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "task_resource_subtype",
+                    "Label": "task_resource_subtype",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "parent_task_id",
+                    "Label": "parent_task_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "workspace_id",
+                    "Label": "workspace_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "created_at",
+                    "Label": "created_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "created_date",
+                    "Label": "created_date",
+                    "Type": "date",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "created_week",
+                    "Label": "created_week",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "start_on",
+                    "Label": "start_on",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "due_on",
+                    "Label": "due_on",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "due_at",
+                    "Label": "due_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "completed",
+                    "Label": "completed",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "completed_at",
+                    "Label": "completed_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "completed_date",
+                    "Label": "completed_date",
+                    "Type": "date",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "modified_at",
+                    "Label": "modified_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "liked",
+                    "Label": "liked",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "num_likes",
+                    "Label": "num_likes",
+                    "Type": "integer",
+                    "Precision": 10,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "actual_time_minutes",
+                    "Label": "actual_time_minutes",
+                    "Type": "integer",
+                    "Precision": 10,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "task_deleted",
+                    "Label": "task_deleted",
+                    "Type": "boolean",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "task_synced_at",
+                    "Label": "task_synced_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "assignee_id",
+                    "Label": "assignee_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "assignee_name",
+                    "Label": "assignee_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "assignee_email",
+                    "Label": "assignee_email",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "created_by_id",
+                    "Label": "created_by_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "created_by_name",
+                    "Label": "created_by_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "created_by_email",
+                    "Label": "created_by_email",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "completed_by_id",
+                    "Label": "completed_by_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "completed_by_name",
+                    "Label": "completed_by_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "completed_by_email",
+                    "Label": "completed_by_email",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "section_id",
+                    "Label": "section_id",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "section_name",
+                    "Label": "section_name",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "section_created_at",
+                    "Label": "section_created_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "section_assignment_synced_at",
+                    "Label": "section_assignment_synced_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "task_section_synced_at",
+                    "Label": "task_section_synced_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom_requester",
+                    "Label": "custom_requester",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom_team",
+                    "Label": "custom_team",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom_priority",
+                    "Label": "custom_priority",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom_task_status",
+                    "Label": "custom_task_status",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom_category",
+                    "Label": "custom_category",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom_task_category",
+                    "Label": "custom_task_category",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "custom_creation_date",
+                    "Label": "custom_creation_date",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "completion_period_days",
+                    "Label": "completion_period_days",
+                    "Type": "bigint",
+                    "Precision": 19,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "prev_section",
+                    "Label": "prev_section",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "curr_section",
+                    "Label": "curr_section",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "prev_task_progress",
+                    "Label": "prev_task_progress",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "curr_task_progress",
+                    "Label": "curr_task_progress",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "prev_assignee",
+                    "Label": "prev_assignee",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "curr_assignee",
+                    "Label": "curr_assignee",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "prev_due_date",
+                    "Label": "prev_due_date",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "curr_due_date",
+                    "Label": "curr_due_date",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "prev_completed_date",
+                    "Label": "prev_completed_date",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "curr_completed_date",
+                    "Label": "curr_completed_date",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "prev_completion_status",
+                    "Label": "prev_completion_status",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "curr_completion_status",
+                    "Label": "curr_completion_status",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "last_history_event_at",
+                    "Label": "last_history_event_at",
+                    "Type": "timestamp with time zone",
+                    "Precision": 3,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "avg_resolution_time_min",
+                    "Label": "avg_resolution_time_min",
+                    "Type": "double",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "avg_resolution_time_hours",
+                    "Label": "avg_resolution_time_hours",
+                    "Type": "double",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "processing_periods_cnt",
+                    "Label": "processing_periods_cnt",
+                    "Type": "bigint",
+                    "Precision": 19,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

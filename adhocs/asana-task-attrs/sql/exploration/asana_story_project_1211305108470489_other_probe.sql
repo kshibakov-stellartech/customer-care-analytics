@@ -1,0 +1,30 @@
+WITH base AS (
+  SELECT s.text
+  FROM fivetran_asana.story s
+  JOIN fivetran_asana.project_task pt
+    ON pt.task_id = s.target_id
+  WHERE pt.project_id = '1211305108470489'
+), classified AS (
+  SELECT
+    CASE
+      WHEN trim(coalesce(text, '')) = '' THEN 'empty_text'
+      WHEN regexp_like(lower(text), 'moved this task from ".*" to ".*"') THEN 'section_move_moved_from_to'
+      WHEN regexp_like(lower(text), 'changed section from .* to .*') THEN 'section_move_changed_from_to'
+      WHEN regexp_like(lower(text), 'changed section to .*') THEN 'section_set_to'
+      WHEN regexp_like(lower(text), 'added this task to .*') THEN 'project_add'
+      WHEN regexp_like(lower(text), 'added .* as a collaborator|removed .* as a collaborator') THEN 'collaborator_change'
+      WHEN regexp_like(lower(text), 'changed the due date|removed the due date') THEN 'due_date_change'
+      WHEN regexp_like(lower(text), 'changed completed date') THEN 'completed_date_changed'
+      WHEN regexp_like(lower(text), 'marked this task complete') THEN 'task_completed'
+      WHEN regexp_like(lower(text), 'changed task progress') THEN 'task_progress_changed'
+      ELSE 'other'
+    END AS action_type,
+    text
+  FROM base
+)
+SELECT text, count(*) AS cnt
+FROM classified
+WHERE action_type = 'other'
+GROUP BY 1
+ORDER BY cnt DESC, text
+LIMIT 200;

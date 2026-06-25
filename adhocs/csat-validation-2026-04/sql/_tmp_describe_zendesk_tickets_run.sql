@@ -1,0 +1,1 @@
+DESCRIBE data_bronze_zendesk_prod.zendesk_tickets;
