@@ -18,10 +18,10 @@
       "type": "pickString",
       "description": "Select AWS profile to login",
       "options": [
-        "cc-team",
-        "cc-analytics"
+        "CustomerCareTeamAccess",
+        "AnalyticsAccess"
       ],
-      "default": "cc-team"
+      "default": "CustomerCareTeamAccess"
     }
   ]
 }
